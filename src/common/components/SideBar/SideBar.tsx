@@ -1,13 +1,13 @@
 import { useState } from "react";
 import SideBarIcon from "./SideBarIcon";
 import { theme } from "../../../core/config/theme";
-import logo from "../../../assets/logo.png";
-import homeIcon from "../../../assets/home.png";
-import bagIcon from "../../../assets/bag-icon.png";
-import exerciseIcon from "../../../assets/exercise.png";
-import statisticsIcon from "../../../assets/statistics.png";
-import userIcon from "../../../assets/user-circle.png";
-import settingsIcon from "../../../assets/settings.png";
+import logo from "../../../assets/images/logo.png";
+import homeIcon from "../../../assets/images/home.png";
+import bagIcon from "../../../assets/images/bag-icon.png";
+import exerciseIcon from "../../../assets/images/exercise.png";
+import statisticsIcon from "../../../assets/images/statistics.png";
+import userIcon from "../../../assets/images/user-circle.png";
+import settingsIcon from "../../../assets/images/settings.png";
 
 function SideBar() {
   const navigationItems = [
@@ -32,14 +32,14 @@ function SideBar() {
     <div
       className={`fixed left-5 top-4 bottom-4 z-50 text-white transition-all duration-300 ease-in-out  ${
         isCollapsed ? "w-18" : "w-64"
-      } flex flex-col shadow-xl rounded-xl`}
+      } flex flex-col shadow-2xl rounded-xl`}
       style={{ background: theme.colors.primary.pink }}
     >
       {/* Header/Logo */}
       <div className="flex justify-center pt-4 pb-18">
         <button
           onClick={() => setIsCollapsed((prev) => !prev)}
-          className="p-2 rounded-lg hover:bg-pink-400/30 transition-colors"
+          className="p-2 rounded-lg hover:bg-pink-400/30 transition-colors hover:cursor-pointer"
         >
           <SideBarIcon
             altText="logo"
@@ -55,7 +55,7 @@ function SideBar() {
         {navigationItems.map((item, index) => (
           <button
             key={index}
-            className={`w-full flex items-center space-x-3 p-3 rounded-lg transition-all duration-200 ${
+            className={`w-full flex items-center space-x-3 p-3 rounded-lg transition-all duration-200 hover:cursor-pointer ${
               item.active
                 ? "bg-white/20 text-white shadow-lg"
                 : "hover:bg-white/10 text-pink-100 hover:text-white"

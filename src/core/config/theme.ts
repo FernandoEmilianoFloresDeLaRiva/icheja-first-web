@@ -2,8 +2,9 @@ export const theme = {
   colors: {
     primary: {
       pink: "#C90166",
-      dark: "#A0014D",
-      light: "#E91E7A",
+      dark: "#FFF",
+      light: "#000",
+      turquoise : "#009887"
     },
   },
   gradients: {
