@@ -41,7 +41,7 @@ export default function ExerciseContent() {
           {/* Imagen */}
           <div className="bg-[#EEE] shadow-2xs shadow-gray-300 rounded-xl p-8 mb-6 max-h-72 flex justify-center items-center">
             <img
-              src={`/src/assets/stub_images/${exercise.img}`}
+              src={`/stub_images/${exercise.img}`}
               alt="dummy image"
               className="h-64 object-cover rounded-xl"
             />
