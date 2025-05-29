@@ -1,9 +1,9 @@
-import divider from "../../../assets/divider.png";
-import secondaryLogo from "../../../assets/secondary-logo.png";
+import divider from "../../../assets/images/divider.png";
+import secondaryLogo from "../../../assets/images/secondary-logo.png";
 
 export default function HeaderLogo() {
   return (
-    <div className="flex justify-between h-40">
+    <div className="flex justify-between h-39">
       <img src={divider} alt="Icon divider" className="h-10 w-250 mt-10" />
       <img
         src={secondaryLogo}

@@ -8,7 +8,7 @@ interface AppLayoutProps {
 
 function AppLayout({ children }: AppLayoutProps) {
   return (
-    <main className="flex h-screen bg-gray-50 py-4 px-5">
+    <main className="flex max-w-screen h-screen bg-gray-50 py-4 px-5">
       <SideBar />
       <div className="w-full ml-32 rounded-xl pr-12">
         <HeaderLogo />
