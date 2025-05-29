@@ -9,7 +9,7 @@ export default function HeaderLogo() {
           justifyContent: "space-between",
           alignItems: "center",
           marginTop: "15px",
-          marginBottom: "15px"
+          marginBottom: "75px"
         }}>
         <Grid size={{ xs: 12, sm: 8, md: 8, lg : 10 }}>
           <img src={divider} 
