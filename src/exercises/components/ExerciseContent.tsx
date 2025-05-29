@@ -74,7 +74,7 @@ export default function ExerciseContent() {
               className="font-semibold text-2xl"
               style={{ color: theme.colors.primary.pink }}
             >
-              Revisa y Felicítalos por el avance
+              ¡Estás haciendo un gran trabajo!
             </span>
           </div>
         </Grid>
