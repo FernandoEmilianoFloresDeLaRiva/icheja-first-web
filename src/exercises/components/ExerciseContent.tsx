@@ -4,6 +4,7 @@ import ExerciseHeader from "./ExerciseHeader/ExerciseHeader";
 import ExerciseInstructions from "./ExerciseInstructions/ExerciseInstructions";
 import { useExercises } from "../hooks/useExercises";
 import { motion, AnimatePresence } from "framer-motion";
+import Grid from '@mui/material/Grid';
 
 export default function ExerciseContent() {
   const {
@@ -50,39 +51,59 @@ export default function ExerciseContent() {
       </AnimatePresence>
 
       {/* Footer con botones de navegación */}
-      <div className="flex justify-between items-center pt-2">
-        <div className="flex items-center gap-1">
-          <span className="text-3xl">🎉</span>
-          <span
-            className="font-semibold text-2xl"
-            style={{ color: theme.colors.primary.pink }}
-          >
-            Revisa y Felicítalos por el avance
-          </span>
-        </div>
 
-        <div className="flex gap-3">
-          <button className="bg-[#C90104] hover:bg-red-600 hover:cursor-pointer text-white px-6 py-2 rounded-2xl font-semibold transition-colors">
-            Terminar
-          </button>
-          <button
-            className="hover:bg-teal-700 hover:cursor-pointer disabled:opacity-80 disabled:cursor-not-allowed text-white px-6 py-2 rounded-2xl font-semibold flex items-center gap-2 transition-colors bg-[#009887]"
-            disabled={isFirstExercise}
-            onClick={previousExercise}
-          >
-            <ChevronLeft size={20} />
-            Anterior
-          </button>
-          <button
-            className=" hover:bg-teal-700 hover:cursor-pointer disabled:opacity-80 disabled:cursor-not-allowed text-white px-6 py-2 rounded-2xl font-semibold flex items-center gap-2 transition-colors bg-[#009887]"
-            disabled={isLastExercise}
-            onClick={nextExercise}
-          >
-            Siguiente
-            <ChevronRight size={20} />
-          </button>
-        </div>
-      </div>
+      <Grid container spacing={2} direction={{ xs: 'column', sm: 'row' }}
+        sx={{
+          justifyContent: "space-evenly",
+          alignItems: "center",
+          marginTop: "15px",
+          marginBottom: "15px"
+        }}>
+          <Grid size={{ xs: 12, sm: 12, md: 6, lg : 6 }}>
+            <div className="flex items-center gap-1">
+              <span className="text-3xl">🎉</span>
+              <span
+                className="font-semibold text-2xl"
+                style={{ color: theme.colors.primary.pink }}
+              >
+                Revisa y Felicítalos por el avance
+              </span>
+          </div>
+          </Grid>
+          <Grid container spacing={2} size={{ xs: 12, sm: 12, md: 6, lg : 4 }}
+            sx={{
+            justifyContent: "flex-start",
+            alignItems: "center",
+            marginTop: "15px",
+            marginBottom: "15px"
+            }}>
+            <Grid size={{ xs: 6, sm: 6, md: 6, lg : 6 }}>
+                <button
+                className="w-full hover:bg-teal-700 hover:cursor-pointer disabled:opacity-80 disabled:cursor-not-allowed text-white px-6 py-2 rounded-2xl font-semibold flex items-center gap-2 transition-colors bg-[#009887]"
+                disabled={isFirstExercise}
+                onClick={previousExercise}
+                >
+                <ChevronLeft size={20} />
+                Anterior
+                </button>
+            </Grid>
+            <Grid size={{ xs: 6, sm: 6, md: 6, lg : 6 }}>
+                <button
+                className="w-full hover:bg-teal-700 hover:cursor-pointer disabled:opacity-80 disabled:cursor-not-allowed text-white px-6 py-2 rounded-2xl font-semibold flex items-center gap-2 transition-colors bg-[#009887] justify-end"
+                disabled={isLastExercise}
+                onClick={nextExercise}
+                >
+                Siguiente
+                <ChevronRight size={20} />
+                </button>
+            </Grid>
+          </Grid>
+          <Grid size={{ xs: 12, sm: 12, md: 12, lg : 2 }}>
+            <button className="w-full bg-[#C90104] hover:bg-red-600 hover:cursor-pointer text-white px-6 py-2 rounded-2xl font-semibold transition-colors">
+              Terminar
+            </button>
+          </Grid>
+      </Grid>
     </div>
   );
 }
