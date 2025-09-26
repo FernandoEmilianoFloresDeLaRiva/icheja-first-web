@@ -1,119 +1,163 @@
 [
   {
     "chapter": "Cuadernillo 1",
-    "subject": "Ejercicios caligráficos",
-    "exercise": [
+    "content": [
       {
-        "title": "Ejercicio Diagnóstico",
-        "content": {
-          "subtitle": "Instrucciones",
-          "content": "Mira bien los dibujos antes de empezar a colorearlos. Escoge los colores que más te gusten para hacerlos bonitos. Verás que hay líneas con puntitos - esas te van a ayudar mientras trabajas."
-        },
-        "img": "C1_S1_ED.png"
+        "subject": "Chiapas puede",
+        "exercise": [
+          {
+            "title": "Ejercicio Diagnóstico",
+            "content": {
+              "subtitle": "Instrucciones",
+              "content": "Mira bien los dibujos antes de empezar a colorearlos. Escoge los colores que más te gusten para hacerlos bonitos. Verás que hay líneas con puntitos - esas te van a ayudar mientras trabajas."
+            },
+            "img": "C1_S1_ED.png"
+          },
+          {
+            "title": "Ejercicio 1",
+            "content": {
+              "subtitle": "Instrucciones",
+              "content": "Completa las figuras siguiendo las líneas de puntitos. Fíjate en las flechitas porque te muestran hacia dónde tienes que dibujar."
+            },
+            "img": "C1_S1_E1.png"
+          },
+          {
+            "title": "Ejercicio 2",
+            "content": {
+              "subtitle": "Instrucciones",
+              "content": "Completa las figuras siguiendo las líneas de puntitos. Fíjate en las flechitas porque te muestran hacia dónde tienes que dibujar."
+            },
+            "img": "C1_S1_E2.jpg"
+          },
+          {
+            "title": "Ejercicio 3",
+            "content": {
+              "subtitle": "Instrucciones",
+              "content": "Completa las figuras siguiendo las líneas de puntitos. Fíjate en las flechitas porque te muestran hacia dónde tienes que dibujar."
+            },
+            "img": "C1_S1_E3.jpg"
+          },
+          {
+            "title": "Ejercicio 4",
+            "content": {
+              "subtitle": "Instrucciones",
+              "content": "Completa las figuras siguiendo las líneas de puntitos. Fíjate en las flechitas porque te muestran hacia dónde tienes que dibujar."
+            },
+            "img": "C1_S1_E4.jpg"
+          },
+          {
+            "title": "Ejercicio 5",
+            "content": {
+              "subtitle": "Instrucciones",
+              "content": "Sigue la línea que ya está empezada, dibujando en la misma dirección y apretando igual para que se vea parejo."
+            },
+            "img": "C1_S1_E5.jpg"
+          },
+          {
+            "title": "Ejercicio 6",
+            "content": {
+              "subtitle": "Instrucciones",
+              "content": "Completa las figuras siguiendo las líneas de puntitos. Fíjate en las flechitas porque te muestran hacia dónde tienes que dibujar."
+            },
+            "img": "C1_S1_E6.jpg"
+          },
+          {
+            "title": "Ejercicio 7",
+            "content": {
+              "subtitle": "Instrucciones",
+              "content": "Practica hacer círculos muchas veces. Trata de que queden bien redonditos y del mismo tamaño. Mueve tu mano sin parar mientras haces cada círculo."
+            },
+            "img": "C1_S1_E7.jpg"
+          },
+          {
+            "title": "Ejercicio 8",
+            "content": {
+              "subtitle": "Instrucciones",
+              "content": "Observa bien las formas y repasa las partes grises con cuidado para que se vean mejor. Aprieta el lápiz igual todo el tiempo para que quede bonito."
+            },
+            "img": "C1_S1_E8.jpg"
+          },
+          {
+            "title": "Ejercicio 9",
+            "content": {
+              "subtitle": "Instrucciones",
+              "content": "Sigue la línea que ya está empezada, dibujando en la misma dirección y apretando igual para que se vea parejo."
+            },
+            "img": "C1_S1_E9.jpg"
+          },
+          {
+            "title": "Ejercicio 10",
+            "content": {
+              "subtitle": "Instrucciones",
+              "content": "Practica hacer círculos muchas veces. Trata de que queden bien redonditos y del mismo tamaño. Mueve tu mano sin parar mientras haces cada círculo."
+            },
+            "img": "C1_S1_E10.jpg"
+          },
+          {
+            "title": "Ejercicio 11",
+            "content": {
+              "subtitle": "Instrucciones",
+              "content": "Mira las líneas negras que ya están hechas. Después, repasa las líneas grises para que se vean mejor y más claras, dibujando de la misma manera."
+            },
+            "img": "C1_S1_E11.jpg"
+          },
+          {
+            "title": "Ejercicio 12",
+            "content": {
+              "subtitle": "Instrucciones",
+              "content": "Sigue la línea que ya está empezada, dibujando en la misma dirección y apretando igual para que se vea parejo."
+            },
+            "img": "C1_S1_E12.jpg"
+          },
+          {
+            "title": "Ejercicio 13",
+            "content": {
+              "subtitle": "Instrucciones",
+              "content": "Observa bien las formas y repasa las partes grises con cuidado para que se vean mejor. Aprieta el lápiz igual todo el tiempo para que quede bonito."
+            },
+            "img": "C1_S1_E13.jpg"
+          }
+        ]
       },
       {
-        "title": "Ejercicio 1",
-        "content": {
-          "subtitle": "Instrucciones",
-          "content": "Completa las figuras siguiendo las líneas de puntitos. Fíjate en las flechitas porque te muestran hacia dónde tienes que dibujar."
-        },
-        "img": "C1_S1_E1.png"
+        "subject": "Ejercicios caligráficos",
+        "exercise": []
       },
       {
-        "title": "Ejercicio 2",
-        "content": {
-          "subtitle": "Instrucciones",
-          "content": "Completa las figuras siguiendo las líneas de puntitos. Fíjate en las flechitas porque te muestran hacia dónde tienes que dibujar."
-        },
-        "img": "C1_S1_E2.jpg"
+        "subject": "Mi nombre",
+        "exercise": []
       },
       {
-        "title": "Ejercicio 3",
-        "content": {
-          "subtitle": "Instrucciones",
-          "content": "Completa las figuras siguiendo las líneas de puntitos. Fíjate en las flechitas porque te muestran hacia dónde tienes que dibujar."
-        },
-        "img": "C1_S1_E3.jpg"
+        "subject": "Mi familia",
+        "exercise": []
       },
       {
-        "title": "Ejercicio 4",
-        "content": {
-          "subtitle": "Instrucciones",
-          "content": "Completa las figuras siguiendo las líneas de puntitos. Fíjate en las flechitas porque te muestran hacia dónde tienes que dibujar."
-        },
-        "img": "C1_S1_E4.jpg"
+        "subject": "Letra A-a",
+        "exercise": []
       },
       {
-        "title": "Ejercicio 5",
-        "content": {
-          "subtitle": "Instrucciones",
-          "content": "Sigue la línea que ya está empezada, dibujando en la misma dirección y apretando igual para que se vea parejo."
-        },
-        "img": "C1_S1_E5.jpg"
+        "subject": "Letra E-e",
+        "exercise": []
       },
       {
-        "title": "Ejercicio 6",
-        "content": {
-          "subtitle": "Instrucciones",
-          "content": "Completa las figuras siguiendo las líneas de puntitos. Fíjate en las flechitas porque te muestran hacia dónde tienes que dibujar."
-        },
-        "img": "C1_S1_E6.jpg"
+        "subject": "Letra I-i",
+        "exercise": []
       },
       {
-        "title": "Ejercicio 7",
-        "content": {
-          "subtitle": "Instrucciones",
-          "content": "Practica hacer círculos muchas veces. Trata de que queden bien redonditos y del mismo tamaño. Mueve tu mano sin parar mientras haces cada círculo."
-        },
-        "img": "C1_S1_E7.jpg"
+        "subject": "Letra O-o",
+        "exercise": []
       },
       {
-        "title": "Ejercicio 8",
-        "content": {
-          "subtitle": "Instrucciones",
-          "content": "Observa bien las formas y repasa las partes grises con cuidado para que se vean mejor. Aprieta el lápiz igual todo el tiempo para que quede bonito."
-        },
-        "img": "C1_S1_E8.jpg"
+        "subject": "Letra U-u",
+        "exercise": []
       },
       {
-        "title": "Ejercicio 9",
-        "content": {
-          "subtitle": "Instrucciones",
-          "content": "Sigue la línea que ya está empezada, dibujando en la misma dirección y apretando igual para que se vea parejo."
-        },
-        "img": "C1_S1_E9.jpg"
+        "subject": "Repaso de vocales",
+        "exercise": []
       },
       {
-        "title": "Ejercicio 10",
-        "content": {
-          "subtitle": "Instrucciones",
-          "content": "Practica hacer círculos muchas veces. Trata de que queden bien redonditos y del mismo tamaño. Mueve tu mano sin parar mientras haces cada círculo."
-        },
-        "img": "C1_S1_E10.jpg"
-      },
-      {
-        "title": "Ejercicio 11",
-        "content": {
-          "subtitle": "Instrucciones",
-          "content": "Mira las líneas negras que ya están hechas. Después, repasa las líneas grises para que se vean mejor y más claras, dibujando de la misma manera."
-        },
-        "img": "C1_S1_E11.jpg"
-      },
-      {
-        "title": "Ejercicio 12",
-        "content": {
-          "subtitle": "Instrucciones",
-          "content": "Sigue la línea que ya está empezada, dibujando en la misma dirección y apretando igual para que se vea parejo."
-        },
-        "img": "C1_S1_E12.jpg"
-      },
-      {
-        "title": "Ejercicio 13",
-        "content": {
-          "subtitle": "Instrucciones",
-          "content": "Observa bien las formas y repasa las partes grises con cuidado para que se vean mejor. Aprieta el lápiz igual todo el tiempo para que quede bonito."
-        },
-        "img": "C1_S1_E13.jpg"
+        "subject": "Mapa territorial",
+        "exercise": []
       }
     ]
   }

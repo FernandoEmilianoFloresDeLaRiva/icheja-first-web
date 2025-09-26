@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
 import exercises from "../../../exercises.json";
 
-export const useExercises = () => {
-  const exerciseList = exercises[0].exercise;
-  const [exercise, setExercise] = useState(exerciseList[0]);
+export const useExercises = (subjectIdx = 0) => {
+  const exerciseList = exercises[0].content[subjectIdx].exercise;
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [exercise, setExercise] = useState(exerciseList[currentIndex]);
   const [isLastExercise, setIsLastExercise] = useState(false);
   const [isFirstExercise, setIsFirstExercise] = useState(true);
 
@@ -34,7 +34,7 @@ export const useExercises = () => {
 
   return {
     chapter: exercises[0].chapter,
-    subject: exercises[0].subject,
+    subject: exercises[0].content[0].subject,
     exercise,
     previousExercise,
     nextExercise,
