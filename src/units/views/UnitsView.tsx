@@ -1,8 +1,10 @@
 import { BookOpen } from "lucide-react";
 import AppLayout from "../../common/layouts/AppLayout/AppLayout";
 import { useUnits } from "../hooks/useUnits";
+import { useLocation } from "wouter";
 
 export default function UnitsView() {
+  const [_, setLocation] = useLocation();
   const { units } = useUnits();
   return (
     <AppLayout>
@@ -15,6 +17,7 @@ export default function UnitsView() {
             <div
               key={unit.id}
               className=" bg-white rounded-xl shadow-md hover:shadow-lg transition-shadow p-6 border border-gray-100 cursor-pointer"
+              onClick={() => setLocation(`/exercise/${unit.id}`)}
             >
               <div className="flex items-center gap-4 mb-4">
                 <div className="p-3 bg-[#009887]/10 rounded-lg">

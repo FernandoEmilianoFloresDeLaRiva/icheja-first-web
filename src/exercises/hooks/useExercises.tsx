@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import exercises from "../../../exercises.json";
 
 export const useExercises = (subjectIdx = 0) => {
-  const exerciseList = exercises[0].content[subjectIdx].exercise;
+  const exerciseList = exercises[0].content[subjectIdx]?.exercise;
   const [currentIndex, setCurrentIndex] = useState(0);
   const [exercise, setExercise] = useState(exerciseList[currentIndex]);
   const [isLastExercise, setIsLastExercise] = useState(false);
@@ -33,8 +33,8 @@ export const useExercises = (subjectIdx = 0) => {
   };
 
   return {
-    chapter: exercises[0].chapter,
-    subject: exercises[0].content[0].subject,
+    chapter: exercises[0]?.chapter,
+    subject: exercises[0]?.content[subjectIdx]?.subject,
     exercise,
     previousExercise,
     nextExercise,

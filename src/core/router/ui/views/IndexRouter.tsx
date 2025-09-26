@@ -1,11 +1,12 @@
-import { Route, Router, Switch } from "wouter";
+import { Route, Switch } from "wouter";
 import { ROUTER_CONFIG } from "../../ui/config/router.config";
+import { AnimatePresence } from "framer-motion";
 
 const routes = ROUTER_CONFIG.routes;
 
 function IndexRouter() {
   return (
-    <Router>
+    <AnimatePresence mode="wait">
       <Switch>
         {routes.map((route) => (
           <Route
@@ -15,7 +16,7 @@ function IndexRouter() {
           />
         ))}
       </Switch>
-    </Router>
+    </AnimatePresence>
   );
 }
 

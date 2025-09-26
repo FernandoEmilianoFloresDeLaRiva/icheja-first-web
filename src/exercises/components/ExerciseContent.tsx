@@ -7,7 +7,11 @@ import { motion, AnimatePresence } from "framer-motion";
 import Grid from "@mui/material/Grid";
 import { parseTitleExercises } from "../utils/parseTitleExercise";
 
-export default function ExerciseContent() {
+interface ExerciseContentProps {
+  unitId: number;
+}
+
+export default function ExerciseContent({ unitId }: ExerciseContentProps) {
   const {
     exercise,
     nextExercise,
@@ -16,7 +20,7 @@ export default function ExerciseContent() {
     isLastExercise,
     chapter,
     subject,
-  } = useExercises();
+  } = useExercises(unitId);
   const { parsedTitle, number } = parseTitleExercises(exercise.title);
   return (
     <div className="rounded-xl">
@@ -38,9 +42,9 @@ export default function ExerciseContent() {
 
           {/* Instrucciones */}
           <ExerciseInstructions
-            voiceContent={`${exercise.title}. ${exercise.content.content}`}
-            subtitle={exercise.content.subtitle}
-            content={exercise.content.content}
+            voiceContent={`${exercise?.title}. ${exercise?.content.content}`}
+            subtitle={exercise?.content.subtitle}
+            content={exercise?.content.content}
           />
 
           {/* Imagen */}

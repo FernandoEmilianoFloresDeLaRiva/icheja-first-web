@@ -6,17 +6,27 @@ import homeIcon from "../../../../assets/images/home.png";
 import bagIcon from "../../../../assets/images/bag-icon.png";
 import exerciseIcon from "../../../../assets/images/exercise.png";
 import UnitsView from "../../../../units/views/UnitsView";
+import AppLayout from "../../../../common/layouts/AppLayout/AppLayout";
 
 export const ROUTER_CONFIG = {
   routes: [
-    new RouterItem("/", ExerciseViews),
+    new RouterItem("/", () => (
+      <AppLayout>
+        <h1>Vista de Inicio</h1>
+      </AppLayout>
+    )),
     new NavigationItem(
       "home",
       "Inicio",
       true,
       homeIcon,
       "/home",
-      ExerciseViews
+      // TODO: Crear vista de inicio
+      () => (
+        <AppLayout>
+          <h1>Vista de Inicio</h1>
+        </AppLayout>
+      )
     ),
     new NavigationItem(
       "units",
@@ -32,8 +42,14 @@ export const ROUTER_CONFIG = {
       false,
       bagIcon,
       "/results",
-      ExerciseViews
+      // TODO: Crear vista de resultados, o resultados guardados
+      () => (
+        <AppLayout>
+          <h1>Vista de Resultados</h1>
+        </AppLayout>
+      )
     ),
+    new RouterItem("/exercise/:unitId", ExerciseViews),
     new RouterItem("*", () => <Redirect to="/" />),
   ],
 };
