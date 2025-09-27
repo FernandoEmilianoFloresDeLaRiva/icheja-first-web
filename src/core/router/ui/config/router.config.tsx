@@ -8,6 +8,7 @@ import exerciseIcon from "../../../../assets/images/exercise.png";
 import UnitsView from "../../../../units/views/UnitsView";
 import AppLayout from "../../../../common/layouts/AppLayout/AppLayout";
 import HomeView from "../../../../home/views/HomeView";
+import ResultsView from "../../../../results/views/ResultsView";
 
 export const ROUTER_CONFIG = {
   routes: [
@@ -39,10 +40,9 @@ export const ROUTER_CONFIG = {
       false,
       bagIcon,
       "/results",
-      // TODO: Crear vista de resultados, o resultados guardados
       () => (
         <AppLayout>
-          <h1>Vista de Resultados</h1>
+          <ResultsView />
         </AppLayout>
       )
     ),

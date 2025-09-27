@@ -1,4 +1,4 @@
-import { ChevronLeft, ChevronRight } from "lucide-react";
+import { ChevronLeft, ChevronRight, Edit3 } from "lucide-react";
 import { theme } from "../../core/config/theme";
 import ExerciseHeader from "./ExerciseHeader/ExerciseHeader";
 import ExerciseInstructions from "./ExerciseInstructions/ExerciseInstructions";
@@ -6,6 +6,8 @@ import { useExercises } from "../hooks/useExercises";
 import { motion, AnimatePresence } from "framer-motion";
 import Grid from "@mui/material/Grid";
 import { parseTitleExercises } from "../utils/parseTitleExercise";
+import DrawingCanvas from "./DrawingCanvas/DrawingCanvas";
+import { useState } from "react";
 
 interface ExerciseContentProps {
   unitId: number;
@@ -22,6 +24,14 @@ export default function ExerciseContent({ unitId }: ExerciseContentProps) {
     subject,
   } = useExercises(unitId);
   const { parsedTitle, number } = parseTitleExercises(exercise?.title);
+
+  // Estado para el canvas de dibujo
+  const [isDrawingMode, setIsDrawingMode] = useState(false);
+
+  const handleSaveDrawing = (imageData: string) => {
+    console.log("Dibujo guardado:", imageData);
+    // Aquí podrías implementar lógica adicional como enviar al servidor
+  };
   return (
     <div className="rounded-xl">
       <AnimatePresence mode="wait">
@@ -36,7 +46,7 @@ export default function ExerciseContent({ unitId }: ExerciseContentProps) {
           <ExerciseHeader
             chapter={chapter}
             subject={subject}
-            title={parsedTitle || ''}
+            title={parsedTitle || ""}
             number={number}
           />
 
@@ -47,13 +57,40 @@ export default function ExerciseContent({ unitId }: ExerciseContentProps) {
             content={exercise?.content.content}
           />
 
-          {/* Imagen */}
-          <div className="bg-[#EEE] shadow-2xs shadow-gray-300 rounded-xl p-8 mb-6 max-h-72 flex justify-center items-center">
+          {/* Imagen con canvas de dibujo */}
+          <div className="relative bg-[#EEE] shadow-2xs shadow-gray-300 rounded-xl p-8 mb-6 max-h-72 flex justify-center items-center">
             <img
               src={`/stub_images/${exercise?.img}`}
-              alt="dummy image"
+              alt="ejercicio"
               className="h-64 w-full object-contain rounded-xl"
             />
+
+            {/* Canvas de dibujo superpuesto */}
+            <DrawingCanvas
+              isActive={isDrawingMode}
+              backgroundImage={`/stub_images/${exercise?.img}`}
+              exerciseId={exercise?.title || ""}
+              exerciseTitle={parsedTitle || ""}
+              chapter={chapter}
+              subject={subject}
+              exerciseNumber={number || undefined}
+              onSave={handleSaveDrawing}
+            />
+
+            {/* Botón para activar/desactivar modo dibujo */}
+            <button
+              onClick={() => setIsDrawingMode(!isDrawingMode)}
+              className={`absolute top-2 left-2 p-2 rounded-full transition-all ${
+                isDrawingMode
+                  ? "bg-red-500 text-white shadow-lg"
+                  : "bg-white text-gray-600 hover:bg-gray-100"
+              }`}
+              title={
+                isDrawingMode ? "Desactivar modo dibujo" : "Activar modo dibujo"
+              }
+            >
+              <Edit3 size={20} />
+            </button>
           </div>
         </motion.div>
       </AnimatePresence>
