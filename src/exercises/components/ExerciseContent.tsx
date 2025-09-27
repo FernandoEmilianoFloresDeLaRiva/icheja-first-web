@@ -21,12 +21,12 @@ export default function ExerciseContent({ unitId }: ExerciseContentProps) {
     chapter,
     subject,
   } = useExercises(unitId);
-  const { parsedTitle, number } = parseTitleExercises(exercise.title);
+  const { parsedTitle, number } = parseTitleExercises(exercise?.title);
   return (
     <div className="rounded-xl">
       <AnimatePresence mode="wait">
         <motion.div
-          key={exercise.title}
+          key={exercise?.title}
           initial={{ opacity: 0, x: 20 }}
           animate={{ opacity: 1, x: 0 }}
           exit={{ opacity: 0, x: -20 }}
@@ -36,7 +36,7 @@ export default function ExerciseContent({ unitId }: ExerciseContentProps) {
           <ExerciseHeader
             chapter={chapter}
             subject={subject}
-            title={parsedTitle}
+            title={parsedTitle || ''}
             number={number}
           />
 
@@ -50,7 +50,7 @@ export default function ExerciseContent({ unitId }: ExerciseContentProps) {
           {/* Imagen */}
           <div className="bg-[#EEE] shadow-2xs shadow-gray-300 rounded-xl p-8 mb-6 max-h-72 flex justify-center items-center">
             <img
-              src={`/stub_images/${exercise.img}`}
+              src={`/stub_images/${exercise?.img}`}
               alt="dummy image"
               className="h-64 w-full object-contain rounded-xl"
             />

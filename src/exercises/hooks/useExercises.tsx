@@ -5,7 +5,7 @@ export const useExercises = (subjectIdx = 0) => {
   const exerciseList = exercises[0].content[subjectIdx]?.exercise;
   const [currentIndex, setCurrentIndex] = useState(0);
   const [exercise, setExercise] = useState(exerciseList[currentIndex]);
-  const [isLastExercise, setIsLastExercise] = useState(false);
+  const [isLastExercise, setIsLastExercise] = useState(exerciseList.length <= 1);
   const [isFirstExercise, setIsFirstExercise] = useState(true);
 
   useEffect(() => {
