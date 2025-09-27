@@ -7,14 +7,11 @@ import bagIcon from "../../../../assets/images/bag-icon.png";
 import exerciseIcon from "../../../../assets/images/exercise.png";
 import UnitsView from "../../../../units/views/UnitsView";
 import AppLayout from "../../../../common/layouts/AppLayout/AppLayout";
+import HomeView from "../../../../home/views/HomeView";
 
 export const ROUTER_CONFIG = {
   routes: [
-    new RouterItem("/", () => (
-      <AppLayout>
-        <h1>Vista de Inicio</h1>
-      </AppLayout>
-    )),
+    new RouterItem("/", () => <HomeView />),
     new NavigationItem(
       "home",
       "Inicio",

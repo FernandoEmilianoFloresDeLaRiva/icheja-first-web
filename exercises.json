@@ -6,7 +6,7 @@
         "subject": "Chiapas puede",
         "exercise": [
           {
-            "title": "Ejercicio Diagnóstico",
+            "title": "Ejercicio 1",
             "content": {
               "subtitle": "Instrucciones",
               "content": "Mira bien los dibujos antes de empezar a colorearlos. Escoge los colores que más te gusten para hacerlos bonitos. Verás que hay líneas con puntitos - esas te van a ayudar mientras trabajas."
@@ -14,7 +14,7 @@
             "img": "C1_S1_ED.png"
           },
           {
-            "title": "Ejercicio 1",
+            "title": "Ejercicio 2",
             "content": {
               "subtitle": "Instrucciones",
               "content": "Completa las figuras siguiendo las líneas de puntitos. Fíjate en las flechitas porque te muestran hacia dónde tienes que dibujar."
@@ -22,7 +22,7 @@
             "img": "C1_S1_E1.png"
           },
           {
-            "title": "Ejercicio 2",
+            "title": "Ejercicio 3",
             "content": {
               "subtitle": "Instrucciones",
               "content": "Completa las figuras siguiendo las líneas de puntitos. Fíjate en las flechitas porque te muestran hacia dónde tienes que dibujar."
@@ -30,47 +30,20 @@
             "img": "C1_S1_E2.jpg"
           },
           {
-            "title": "Ejercicio 3",
-            "content": {
-              "subtitle": "Instrucciones",
-              "content": "Completa las figuras siguiendo las líneas de puntitos. Fíjate en las flechitas porque te muestran hacia dónde tienes que dibujar."
-            },
-            "img": "C1_S1_E3.jpg"
-          },
-          {
             "title": "Ejercicio 4",
             "content": {
               "subtitle": "Instrucciones",
               "content": "Completa las figuras siguiendo las líneas de puntitos. Fíjate en las flechitas porque te muestran hacia dónde tienes que dibujar."
             },
-            "img": "C1_S1_E4.jpg"
-          },
+            "img": "C1_S1_E3.jpg"
+          }
+        ]
+      },
+      {
+        "subject": "Ejercicios caligráficos",
+        "exercise": [
           {
             "title": "Ejercicio 5",
-            "content": {
-              "subtitle": "Instrucciones",
-              "content": "Sigue la línea que ya está empezada, dibujando en la misma dirección y apretando igual para que se vea parejo."
-            },
-            "img": "C1_S1_E5.jpg"
-          },
-          {
-            "title": "Ejercicio 6",
-            "content": {
-              "subtitle": "Instrucciones",
-              "content": "Completa las figuras siguiendo las líneas de puntitos. Fíjate en las flechitas porque te muestran hacia dónde tienes que dibujar."
-            },
-            "img": "C1_S1_E6.jpg"
-          },
-          {
-            "title": "Ejercicio 7",
-            "content": {
-              "subtitle": "Instrucciones",
-              "content": "Practica hacer círculos muchas veces. Trata de que queden bien redonditos y del mismo tamaño. Mueve tu mano sin parar mientras haces cada círculo."
-            },
-            "img": "C1_S1_E7.jpg"
-          },
-          {
-            "title": "Ejercicio 8",
             "content": {
               "subtitle": "Instrucciones",
               "content": "Observa bien las formas y repasa las partes grises con cuidado para que se vean mejor. Aprieta el lápiz igual todo el tiempo para que quede bonito."
@@ -78,12 +51,36 @@
             "img": "C1_S1_E8.jpg"
           },
           {
+            "title": "Ejercicio 6",
+            "content": {
+              "subtitle": "Instrucciones",
+              "content": "Mira las líneas negras que ya están hechas. Después, repasa las líneas grises para que se vean mejor y más claras, dibujando de la misma manera."
+            },
+            "img": "C1_S1_E11.jpg"
+          },
+          {
+            "title": "Ejercicio 7",
+            "content": {
+              "subtitle": "Instrucciones",
+              "content": "Completa las figuras siguiendo las líneas de puntitos. Fíjate en las flechitas porque te muestran hacia dónde tienes que dibujar."
+            },
+            "img": "C1_S1_E6.jpg"
+          },
+          {
+            "title": "Ejercicio 8",
+            "content": {
+              "subtitle": "Instrucciones",
+              "content": "Completa las figuras siguiendo las líneas de puntitos. Fíjate en las flechitas porque te muestran hacia dónde tienes que dibujar."
+            },
+            "img": "C1_S1_E6.jpg"
+          },
+          {
             "title": "Ejercicio 9",
             "content": {
               "subtitle": "Instrucciones",
-              "content": "Sigue la línea que ya está empezada, dibujando en la misma dirección y apretando igual para que se vea parejo."
+              "content": "Completa las figuras siguiendo las líneas de puntitos. Fíjate en las flechitas porque te muestran hacia dónde tienes que dibujar."
             },
-            "img": "C1_S1_E9.jpg"
+            "img": "C1_S1_E4.jpg"
           },
           {
             "title": "Ejercicio 10",
@@ -97,12 +94,36 @@
             "title": "Ejercicio 11",
             "content": {
               "subtitle": "Instrucciones",
-              "content": "Mira las líneas negras que ya están hechas. Después, repasa las líneas grises para que se vean mejor y más claras, dibujando de la misma manera."
+              "content": "Practica hacer círculos muchas veces. Trata de que queden bien redonditos y del mismo tamaño. Mueve tu mano sin parar mientras haces cada círculo."
             },
-            "img": "C1_S1_E11.jpg"
+            "img": "C1_S1_E14.png"
           },
           {
             "title": "Ejercicio 12",
+            "content": {
+              "subtitle": "Instrucciones",
+              "content": "Practica hacer círculos muchas veces. Trata de que queden bien redonditos y del mismo tamaño. Mueve tu mano sin parar mientras haces cada círculo."
+            },
+            "img": "C1_S1_E7.jpg"
+          },
+          {
+            "title": "Ejercicio 13",
+            "content": {
+              "subtitle": "Instrucciones",
+              "content": "Sigue la línea que ya está empezada, dibujando en la misma dirección y apretando igual para que se vea parejo."
+            },
+            "img": "C1_S1_E5.jpg"
+          },
+          {
+            "title": "Ejercicio 14",
+            "content": {
+              "subtitle": "Instrucciones",
+              "content": "Sigue la línea que ya está empezada, dibujando en la misma dirección y apretando igual para que se vea parejo."
+            },
+            "img": "C1_S1_E9.jpg"
+          },
+          {
+            "title": "Ejercicio 15",
             "content": {
               "subtitle": "Instrucciones",
               "content": "Sigue la línea que ya está empezada, dibujando en la misma dirección y apretando igual para que se vea parejo."
@@ -110,18 +131,38 @@
             "img": "C1_S1_E12.jpg"
           },
           {
-            "title": "Ejercicio 13",
+            "title": "Ejercicio 16",
             "content": {
               "subtitle": "Instrucciones",
               "content": "Observa bien las formas y repasa las partes grises con cuidado para que se vean mejor. Aprieta el lápiz igual todo el tiempo para que quede bonito."
             },
             "img": "C1_S1_E13.jpg"
+          },
+          {
+            "title": "Ejercicio 17",
+            "content": {
+              "subtitle": "Instrucciones",
+              "content": "Haz los trazos que has aprendido siguiendo las líneas con cuidado. Fíjate en las flechitas porque te muestran hacia dónde tienes que dibujar cada trazo. Hazlo despacio para que quede bonito."
+            },
+            "img": "C1_S1_E15.png"
+          },
+          {
+            "title": "Ejercicio 18",
+            "content": {
+              "subtitle": "Instrucciones",
+              "content": "Haz los trazos que has aprendido siguiendo las líneas con cuidado. Fíjate en las flechitas porque te muestran hacia dónde tienes que dibujar cada trazo. Hazlo despacio para que quede bonito."
+            },
+            "img": "C1_S1_E16.png"
+          },
+          {
+            "title": "Ejercicio 19",
+            "content": {
+              "subtitle": "Instrucciones",
+              "content": "Haz los trazos que has aprendido siguiendo las líneas con cuidado. Fíjate en las flechitas porque te muestran hacia dónde tienes que dibujar cada trazo. Hazlo despacio para que quede bonito."
+            },
+            "img": "C1_S1_E17.png"
           }
         ]
-      },
-      {
-        "subject": "Ejercicios caligráficos",
-        "exercise": []
       },
       {
         "subject": "Mi nombre",
@@ -129,15 +170,114 @@
       },
       {
         "subject": "Mi familia",
-        "exercise": []
+        "exercise": [
+          {
+            "title": "Ejercicio 20",
+            "content": {
+              "subtitle": "Instrucciones",
+              "content": "Vamos a escribir los nombres de tu familia. Mira el dibujo del árbol familiar y escribe el nombre de cada persona donde corresponda. Tu maestro te mostrará cómo se escriben los nombres para que puedas copiarlos. Esto te ayudará más adelante cuando quieras escribirles un recadito a tus familiares."
+            },
+            "img": "C1_S1_E18.png"
+          }
+        ]
       },
       {
         "subject": "Letra A-a",
-        "exercise": []
+        "exercise": [
+          {
+            "title": "Ejercicio 21",
+            "content": {
+              "subtitle": "Instrucciones",
+              "content": "¡Hoy vamos a aprender la letra A! Mira con atención las letras rojas 'A' y 'a'. Primero escucha cómo suena cuando tu maestro la pronuncia. Ahora, sigue las flechitas para dibujar la letra usando tu lápiz rojo y di su sonido mientras la escribes. Recuerda hacer los trazos con cuidado, siguiendo el camino que marcan las flechas."
+            },
+            "img": "C1_S1_E19.png"
+          },
+          {
+            "title": "Ejercicio 22",
+            "content": {
+              "subtitle": "Instrucciones",
+              "content": "Busca tu lápiz o crayola roja. Ahora, con mucho cuidado, colorea todas las letras 'A' y 'a' que encuentres en el dibujo. Pinta despacio para no salirte de las líneas y que queden muy bonitas."
+            },
+            "img": "C1_S1_E20.png"
+          },
+          {
+            "title": "Ejercicio 23",
+            "content": {
+              "subtitle": "Instrucciones",
+              "content": "Toma tu lápiz o crayola roja. Busca todas las letras 'A' y 'a' que aparecen en el dibujo. Cuando encuentres una, dibuja un círculo alrededor de ella. Hazlo con cuidado para que los círculos queden redonditos y bonitos."
+            },
+            "img": "C1_S1_E21.png"
+          },
+          {
+            "title": "Ejercicio 24",
+            "content": {
+              "subtitle": "Instrucciones",
+              "content": "Mira cada dibujo y su palabra. Algunas letras se escondieron y necesitan tu ayuda. Escribe las letras que faltan en los espacios vacíos para completar cada palabra. Si no estás seguro, puedes decir la palabra en voz alta para escuchar qué letra falta."
+            },
+            "img": "C1_S1_E22.png"
+          },
+          {
+            "title": "Ejercicio 25",
+            "content": {
+              "subtitle": "Instrucciones",
+              "content": "Mira cada dibujo y su palabra. Algunas letras se escondieron y necesitan tu ayuda. Escribe las letras que faltan en los espacios vacíos para completar cada palabra. Si no estás seguro, puedes decir la palabra en voz alta para escuchar qué letra falta."
+            },
+            "img": "C1_S1_E23.png"
+          },
+          {
+            "title": "Ejercicio 26",
+            "content": {
+              "subtitle": "Instrucciones",
+              "content": "Mira cada dibujo y su palabra. Algunas letras se escondieron y necesitan tu ayuda. Escribe las letras que faltan en los espacios vacíos para completar cada palabra. Si no estás seguro, puedes decir la palabra en voz alta para escuchar qué letra falta."
+            },
+            "img": "C1_S1_E24.png"
+          }
+        ]
       },
       {
         "subject": "Letra E-e",
-        "exercise": []
+        "exercise": [
+          {
+            "title": "Ejercicio 27",
+            "content": {
+              "subtitle": "Instrucciones",
+              "content": "¡Ahora vamos a aprender la letra E! Mira con atención las letras azules 'E' y 'e'. Primero escucha cómo suena cuando tu maestro la pronuncia. Ahora, sigue las flechitas para dibujar la letra usando tu lápiz azul y di su sonido mientras la escribes. Recuerda hacer los trazos con cuidado, siguiendo el camino que marcan las flechas."
+            },
+            "img": "C1_S1_E25.png"
+          },
+          {
+            "title": "Ejercicio 28",
+            "content": {
+              "subtitle": "Instrucciones",
+              "content": "Busca tu lápiz o crayola azul. Ahora, con mucho cuidado, colorea todas las letras 'E' y 'e' que encuentres en el dibujo. Pinta despacio para no salirte de las líneas y que queden muy bonitas."
+            },
+            "img": "C1_S1_E26.png"
+          },
+          {
+            "title": "Ejercicio 29",
+            "content": {
+              "subtitle": "Instrucciones",
+              "content": "Toma tu lápiz o crayola azul. Busca todas las letras 'E' y 'e' que aparecen en el dibujo. Cuando encuentres una, dibuja un círculo alrededor de ella. Hazlo con cuidado para que los círculos queden redonditos y bonitos."
+            },
+            "img": "C1_S1_E27.png"
+          },
+          {
+            "title": "Ejercicio 30",
+            "content": {
+              "subtitle": "Instrucciones",
+              "content": "Mira cada dibujo y su palabra. Algunas letras se escondieron y necesitan tu ayuda. Escribe las letras que faltan en los espacios vacíos para completar cada palabra. Si no estás seguro, puedes decir la palabra en voz alta para escuchar qué letra falta."
+            },
+            "img": "C1_S1_E28.png"
+          },
+          {
+            "title": "Ejercicio 31",
+            "content": {
+              "subtitle": "Instrucciones",
+              "content": "Toma tu lápiz o crayola azul. Lee cada palabra con atención y busca las letras 'E' y 'e'. Cuando encuentres una, dibuja una línea por debajo de ella. Hazlo con cuidado para que las líneas queden derechitas y bonitas."
+            },
+            "img": "C1_S1_E29.png"
+          }
+        ]
       },
       {
         "subject": "Letra I-i",

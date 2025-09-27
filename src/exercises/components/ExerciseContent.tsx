@@ -52,7 +52,7 @@ export default function ExerciseContent({ unitId }: ExerciseContentProps) {
             <img
               src={`/stub_images/${exercise.img}`}
               alt="dummy image"
-              className="h-64 object-cover rounded-xl"
+              className="h-64 w-full object-contain rounded-xl"
             />
           </div>
         </motion.div>
@@ -100,7 +100,7 @@ export default function ExerciseContent({ unitId }: ExerciseContentProps) {
           </Grid>
           <Grid size={{ xs: 6, sm: 6, md: 6, lg: 3 }}>
             <button
-              className="w-36 hover:bg-teal-700 hover:cursor-pointer disabled:opacity-80 disabled:cursor-not-allowed text-white px-6 py-2 rounded-2xl font-semibold flex items-center gap-2 transition-colors bg-[#009887]"
+              className="w-full hover:bg-teal-700 hover:cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed text-white px-6 py-2 rounded-2xl font-semibold flex items-center gap-2 transition-colors bg-[#009887]"
               disabled={isFirstExercise}
               onClick={previousExercise}
             >
@@ -110,7 +110,7 @@ export default function ExerciseContent({ unitId }: ExerciseContentProps) {
           </Grid>
           <Grid size={{ xs: 6, sm: 6, md: 6, lg: 3 }}>
             <button
-              className="w-40 hover:bg-teal-700 hover:cursor-pointer disabled:opacity-80 disabled:cursor-not-allowed text-white px-6 py-2 rounded-2xl font-semibold flex items-center gap-2 transition-colors bg-[#009887] justify-end"
+              className="w-full hover:bg-teal-700 hover:cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed text-white px-6 py-2 rounded-2xl font-semibold flex items-center gap-2 transition-colors bg-[#009887] justify-end"
               disabled={isLastExercise}
               onClick={nextExercise}
             >
