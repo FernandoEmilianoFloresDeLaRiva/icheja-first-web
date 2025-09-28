@@ -211,7 +211,7 @@ export default function DrawingCanvas({
     return () => window.removeEventListener('resize', handleResize);
   }, [isActive, calculateImageDimensions]);
 
-  // Funciones de dibujo
+  // Funciones de dibujo - Mouse
   const startDrawing = (e: React.MouseEvent) => {
     setIsDrawing(true);
     draw(e);
@@ -228,6 +228,34 @@ export default function DrawingCanvas({
     const x = e.clientX - rect.left;
     const y = e.clientY - rect.top;
 
+    drawAtPosition(ctx, x, y);
+  };
+
+  // Funciones de dibujo - Touch
+  const startDrawingTouch = (e: React.TouchEvent) => {
+    e.preventDefault(); // Evitar scroll en móviles
+    setIsDrawing(true);
+    drawTouch(e);
+  };
+
+  const drawTouch = (e: React.TouchEvent) => {
+    e.preventDefault();
+    if (!isDrawing || !canvasRef.current) return;
+
+    const canvas = canvasRef.current;
+    const ctx = canvas.getContext('2d');
+    if (!ctx) return;
+
+    const rect = canvas.getBoundingClientRect();
+    const touch = e.touches[0];
+    const x = touch.clientX - rect.left;
+    const y = touch.clientY - rect.top;
+
+    drawAtPosition(ctx, x, y);
+  };
+
+  // Función unificada para dibujar en una posición
+  const drawAtPosition = (ctx: CanvasRenderingContext2D, x: number, y: number) => {
     ctx.lineWidth = brushSize;
     ctx.lineCap = 'round';
     ctx.lineJoin = 'round';
@@ -416,21 +444,28 @@ export default function DrawingCanvas({
       <canvas
         ref={canvasRef}
         className="absolute cursor-crosshair"
+        // Eventos de mouse
         onMouseDown={startDrawing}
         onMouseMove={draw}
         onMouseUp={stopDrawing}
         onMouseLeave={stopDrawing}
+        // Eventos táctiles para móviles
+        onTouchStart={startDrawingTouch}
+        onTouchMove={drawTouch}
+        onTouchEnd={stopDrawing}
+        onTouchCancel={stopDrawing}
         style={{
           left: `${imageRect.x}px`,
           top: `${imageRect.y}px`,
           width: `${imageRect.width}px`,
           height: `${imageRect.height}px`,
-          background: 'transparent'
+          background: 'transparent',
+          touchAction: 'none' // Prevenir scroll y zoom en dispositivos móviles
         }}
       />
 
       {/* Herramientas de dibujo */}
-      <div className="absolute top-4 right-4 bg-white rounded-lg shadow-lg p-3 space-y-3">
+      <div className="absolute -top-4 right-4 bg-white rounded-lg shadow-lg p-3 space-y-3">
         {/* Selector de colores */}
         <div className="relative">
           <button
@@ -452,7 +487,7 @@ export default function DrawingCanvas({
                     setIsErasing(false);
                     setShowColorPicker(false);
                   }}
-                  className="w-8 h-8 rounded-full border-2 border-gray-300 hover:scale-110 transition-transform"
+                  className="w-10 h-10 sm:w-8 sm:h-8 rounded-full border-2 border-gray-300 hover:scale-110 transition-transform touch-manipulation"
                   style={{ backgroundColor: colorOption.color }}
                   title={colorOption.name}
                 />
@@ -467,7 +502,7 @@ export default function DrawingCanvas({
           <select
             value={brushSize}
             onChange={(e) => setBrushSize(Number(e.target.value))}
-            className="w-full text-xs p-1 rounded border"
+            className="w-full text-xs sm:text-xs p-2 sm:p-1 rounded border touch-manipulation"
           >
             {BRUSH_SIZES.map(size => (
               <option key={size} value={size}>{size}px</option>
@@ -481,46 +516,51 @@ export default function DrawingCanvas({
             onClick={() => {
               setIsErasing(!isErasing);
             }}
-            className={`p-2 rounded ${
+            className={`p-3 sm:p-2 rounded touch-manipulation ${
               isErasing 
                 ? 'bg-red-500 text-white' 
                 : 'bg-gray-100 hover:bg-gray-200'
             }`}
             title="Borrador"
           >
-            <Eraser size={16} />
+            <Eraser size={20} className="sm:hidden" />
+            <Eraser size={16} className="hidden sm:block" />
           </button>
 
           <button
             onClick={saveDrawing}
-            className="p-2 rounded bg-green-500 text-white hover:bg-green-600"
+            className="p-3 sm:p-2 rounded bg-green-500 text-white hover:bg-green-600 touch-manipulation"
             title="Guardar dibujo"
           >
-            <Save size={16} />
+            <Save size={20} className="sm:hidden" />
+            <Save size={16} className="hidden sm:block" />
           </button>
 
           <button
             onClick={() => reloadDrawing()}
-            className="p-2 rounded bg-blue-500 text-white hover:bg-blue-600"
+            className="p-3 sm:p-2 rounded bg-blue-500 text-white hover:bg-blue-600 touch-manipulation"
             title="Recargar último guardado"
           >
-            <RotateCcw size={16} />
+            <RotateCcw size={20} className="sm:hidden" />
+            <RotateCcw size={16} className="hidden sm:block" />
           </button>
 
           <button
             onClick={() => downloadDrawing(exerciseId, `ejercicio_${exerciseId}.png`)}
-            className="p-2 rounded bg-purple-500 text-white hover:bg-purple-600"
+            className="p-3 sm:p-2 rounded bg-purple-500 text-white hover:bg-purple-600 touch-manipulation"
             title="Descargar imagen completa"
           >
-            <Download size={16} />
+            <Download size={20} className="sm:hidden" />
+            <Download size={16} className="hidden sm:block" />
           </button>
 
           <button
             onClick={clearCanvas}
-            className="p-2 rounded bg-red-500 text-white hover:bg-red-600"
+            className="p-3 sm:p-2 rounded bg-red-500 text-white hover:bg-red-600 touch-manipulation"
             title="Limpiar todo"
           >
-            <Trash2 size={16} />
+            <Trash2 size={20} className="sm:hidden" />
+            <Trash2 size={16} className="hidden sm:block" />
           </button>
         </div>
       </div>

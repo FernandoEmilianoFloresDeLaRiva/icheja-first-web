@@ -1,6 +1,5 @@
-import { Calendar, Download, Trash2, Eye } from "lucide-react";
+import { Calendar, Download, Trash2 } from "lucide-react";
 import { motion } from "framer-motion";
-import { theme } from "../../../core/config/theme";
 
 interface DrawingResult {
   exerciseId: string;

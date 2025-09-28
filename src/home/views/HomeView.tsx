@@ -9,6 +9,7 @@ import { useLocation } from "wouter";
 import { useSpeech } from "../../exercises/hooks/useSpeech";
 import { Square, Volume2 } from "lucide-react";
 import { UI_CONSTANTS } from "../../common/constants/UI_CONSTANTS";
+import { useEffect } from "react";
 
 export default function HomeView() {
   const [_, setLocation] = useLocation();
@@ -18,9 +19,25 @@ export default function HomeView() {
     if (isSpeaking) {
       cancel();
     } else {
+      console.log("hablando");
       speak(UI_CONSTANTS.welcomeText);
     }
   };
+
+  useEffect(() => {
+    console.log("Speech Synthesis disponible:", !!window.speechSynthesis);
+
+    const timer = setTimeout(() => {
+      console.log("Ejecutando reproducción automática...");
+      const result = speak(UI_CONSTANTS.welcomeText);
+      console.log("Resultado de speak():", result);
+    }, 1000);
+
+    return () => {
+      console.log("Limpiando timer...");
+      clearTimeout(timer);
+    };
+  }, [speak]);
 
   return (
     <div className="h-full w-full flex flex-col bg-white">
@@ -104,14 +121,14 @@ export default function HomeView() {
               <img
                 src={AlfiImg}
                 alt="Alfi"
-                className="w-100 h-100 scale-150 object-contain"
+                className="w-100 h-100 scale-140 object-contain"
               />
             </div>
 
             {/* Botón de iniciar */}
             <button
               onClick={() => setLocation("/units")}
-              className="w-72 mt-5 px-16 py-4 text-white text-2xl font-bold rounded-4xl shadow-lg transition-all duration-200 hover:opacity-90 hover:scale-105 hover:cursor-pointer"
+              className="w-72 mt-6 px-16 py-4 text-white text-2xl font-bold rounded-4xl shadow-lg transition-all duration-200 animate-bounce hover:opacity-90 hover:scale-105 hover:cursor-pointer"
               style={{ backgroundColor: theme.colors.primary.pink }}
             >
               Iniciar

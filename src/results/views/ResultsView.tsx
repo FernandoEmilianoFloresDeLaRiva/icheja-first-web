@@ -114,7 +114,7 @@ export default function ResultsView() {
   }
 
   return (
-    <div className="p-6 min-h-screen bg-gradient-to-br from-pink-50 to-blue-50">
+    <div className="p-6 min-h-screen">
       {/* Header */}
       <motion.div
         initial={{ opacity: 0, y: -20 }}
