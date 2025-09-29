@@ -1,7 +1,19 @@
-import React, { useRef, useEffect, useState, useCallback } from 'react';
-import { Palette, Save, Eraser, Trash2, RotateCcw, Download } from 'lucide-react';
-import { drawingStorage, canvasToBlob, blobToDataURL, downloadDrawing } from '../../utils/drawingStorage';
-import type { ExerciseMetadata } from '../../utils/drawingStorage';
+import React, { useRef, useEffect, useState, useCallback } from "react";
+import {
+  Palette,
+  Save,
+  Eraser,
+  Trash2,
+  RotateCcw,
+  Download,
+} from "lucide-react";
+import {
+  drawingStorage,
+  canvasToBlob,
+  blobToDataURL,
+  downloadDrawing,
+} from "../../utils/drawingStorage";
+import type { ExerciseMetadata } from "../../utils/drawingStorage";
 
 interface DrawingCanvasProps {
   isActive: boolean;
@@ -15,25 +27,25 @@ interface DrawingCanvasProps {
 }
 
 const DRAWING_COLORS = [
-  { name: 'A - Rojo', color: '#DC2626', id: 'red' },      // A-a
-  { name: 'E - Azul', color: '#2563EB', id: 'blue' },     // E-e  
-  { name: 'I - Naranja', color: '#EA580C', id: 'orange' }, // I-i
-  { name: 'O - Café', color: '#92400E', id: 'brown' },     // O-o
-  { name: 'U - Verde', color: '#16A34A', id: 'green' },    // U-u
-  { name: 'Negro', color: '#000000', id: 'black' },
+  { name: "A - Rojo", color: "#DC2626", id: "red" }, // A-a
+  { name: "E - Azul", color: "#2563EB", id: "blue" }, // E-e
+  { name: "I - Naranja", color: "#EA580C", id: "orange" }, // I-i
+  { name: "O - Café", color: "#92400E", id: "brown" }, // O-o
+  { name: "U - Verde", color: "#16A34A", id: "green" }, // U-u
+  { name: "Negro", color: "#000000", id: "black" },
 ];
 
 const BRUSH_SIZES = [2, 4, 6, 8, 12, 16];
 
-export default function DrawingCanvas({ 
-  isActive, 
-  backgroundImage, 
-  exerciseId, 
-  exerciseTitle, 
-  chapter, 
-  subject, 
-  exerciseNumber, 
-  onSave 
+export default function DrawingCanvas({
+  isActive,
+  backgroundImage,
+  exerciseId,
+  exerciseTitle,
+  chapter,
+  subject,
+  exerciseNumber,
+  onSave,
 }: DrawingCanvasProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [isDrawing, setIsDrawing] = useState(false);
@@ -41,7 +53,12 @@ export default function DrawingCanvas({
   const [brushSize, setBrushSize] = useState(4);
   const [isErasing, setIsErasing] = useState(false);
   const [showColorPicker, setShowColorPicker] = useState(false);
-  const [imageRect, setImageRect] = useState({ x: 0, y: 0, width: 0, height: 0 });
+  const [imageRect, setImageRect] = useState({
+    x: 0,
+    y: 0,
+    width: 0,
+    height: 0,
+  });
 
   // Referencia para la imagen de fondo
   const backgroundImageRef = useRef<HTMLImageElement | null>(null);
@@ -54,17 +71,17 @@ export default function DrawingCanvas({
     const container = containerRef.current;
     const containerRect = container.getBoundingClientRect();
     const img = backgroundImageRef.current;
-    
+
     // Obtener dimensiones del contenedor
     const containerWidth = containerRect.width;
     const containerHeight = containerRect.height;
-    
+
     // Calcular dimensiones de la imagen manteniendo aspect ratio (object-contain)
     const imgAspectRatio = img.naturalWidth / img.naturalHeight;
     const containerAspectRatio = containerWidth / containerHeight;
-    
+
     let imageWidth, imageHeight, imageX, imageY;
-    
+
     if (imgAspectRatio > containerAspectRatio) {
       // La imagen es más ancha proporcionalmente
       imageWidth = containerWidth;
@@ -78,8 +95,13 @@ export default function DrawingCanvas({
       imageX = (containerWidth - imageWidth) / 2;
       imageY = 0;
     }
-    
-    setImageRect({ x: imageX, y: imageY, width: imageWidth, height: imageHeight });
+
+    setImageRect({
+      x: imageX,
+      y: imageY,
+      width: imageWidth,
+      height: imageHeight,
+    });
   }, []);
 
   // Cargar imagen de fondo
@@ -105,69 +127,96 @@ export default function DrawingCanvas({
   useEffect(() => {
     if (isActive && canvasRef.current && imageRect.width > 0) {
       const canvas = canvasRef.current;
-      
+
       // Ajustar el canvas al tamaño exacto de la imagen
       canvas.width = imageRect.width;
       canvas.height = imageRect.height;
     }
   }, [isActive, exerciseId, imageRect]);
 
-  // Cargar datos guardados cuando el canvas esté listo  
+  // Cargar datos guardados cuando el canvas esté listo
   useEffect(() => {
-    if (isActive && canvasRef.current && imageRect.width > 0 && backgroundImageRef.current) {
+    if (
+      isActive &&
+      canvasRef.current &&
+      imageRect.width > 0 &&
+      backgroundImageRef.current
+    ) {
       // Cargar desde IndexedDB
       const loadFromIndexedDB = async () => {
         try {
           const imageBlob = await drawingStorage.loadDrawing(exerciseId);
-          if (!imageBlob || !canvasRef.current || !backgroundImageRef.current) return;
+          if (!imageBlob || !canvasRef.current || !backgroundImageRef.current)
+            return;
 
           const canvas = canvasRef.current;
-          const ctx = canvas.getContext('2d');
+          const ctx = canvas.getContext("2d");
           if (!ctx) return;
 
           // Convertir Blob a data URL
           const dataURL = await blobToDataURL(imageBlob);
-          
+
           const img = new Image();
           img.onload = () => {
             // Limpiar canvas actual
             ctx.clearRect(0, 0, canvas.width, canvas.height);
-            
+
             // Dibujar la imagen completa guardada, escalada al tamaño del canvas actual
             ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
-            
+
             // Extraer solo los trazos para poder seguir editando
-            const tempCanvas = document.createElement('canvas');
-            const tempCtx = tempCanvas.getContext('2d');
+            const tempCanvas = document.createElement("canvas");
+            const tempCtx = tempCanvas.getContext("2d");
             if (!tempCtx) return;
-            
+
             tempCanvas.width = canvas.width;
             tempCanvas.height = canvas.height;
-            
+
             // Dibujar la imagen original
-            tempCtx.drawImage(backgroundImageRef.current!, 0, 0, canvas.width, canvas.height);
-            
+            tempCtx.drawImage(
+              backgroundImageRef.current!,
+              0,
+              0,
+              canvas.width,
+              canvas.height
+            );
+
             // Usar diferencia para extraer solo los trazos
-            const originalImageData = tempCtx.getImageData(0, 0, canvas.width, canvas.height);
-            const completeImageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
-            
+            const originalImageData = tempCtx.getImageData(
+              0,
+              0,
+              canvas.width,
+              canvas.height
+            );
+            const completeImageData = ctx.getImageData(
+              0,
+              0,
+              canvas.width,
+              canvas.height
+            );
+
             // Crear nueva imagen solo con los trazos
-            const tracesOnlyData = ctx.createImageData(canvas.width, canvas.height);
-            
+            const tracesOnlyData = ctx.createImageData(
+              canvas.width,
+              canvas.height
+            );
+
             for (let i = 0; i < completeImageData.data.length; i += 4) {
               const originalR = originalImageData.data[i];
               const originalG = originalImageData.data[i + 1];
               const originalB = originalImageData.data[i + 2];
-              
+
               const completeR = completeImageData.data[i];
               const completeG = completeImageData.data[i + 1];
               const completeB = completeImageData.data[i + 2];
               const completeA = completeImageData.data[i + 3];
-              
+
               // Si el pixel es diferente de la imagen original, es un trazo
-              if (Math.abs(originalR - completeR) > 10 || 
-                  Math.abs(originalG - completeG) > 10 || 
-                  Math.abs(originalB - completeB) > 10) {
+              if (
+                Math.abs(originalR - completeR) > 10 ||
+                Math.abs(originalG - completeG) > 10 ||
+                Math.abs(originalB - completeB) > 10
+              ) {
                 tracesOnlyData.data[i] = completeR;
                 tracesOnlyData.data[i + 1] = completeG;
                 tracesOnlyData.data[i + 2] = completeB;
@@ -180,16 +229,16 @@ export default function DrawingCanvas({
                 tracesOnlyData.data[i + 3] = 0;
               }
             }
-            
+
             // Limpiar canvas y dibujar solo los trazos
             ctx.clearRect(0, 0, canvas.width, canvas.height);
             ctx.putImageData(tracesOnlyData, 0, 0);
-            
-            console.log('✅ Dibujo cargado desde IndexedDB');
+
+            console.log("✅ Dibujo cargado desde IndexedDB");
           };
           img.src = dataURL;
         } catch (error) {
-          console.error('❌ Error cargando desde IndexedDB:', error);
+          console.error("❌ Error cargando desde IndexedDB:", error);
         }
       };
 
@@ -207,8 +256,8 @@ export default function DrawingCanvas({
       }
     };
 
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
   }, [isActive, calculateImageDimensions]);
 
   // Funciones de dibujo - Mouse
@@ -221,7 +270,7 @@ export default function DrawingCanvas({
     if (!isDrawing || !canvasRef.current) return;
 
     const canvas = canvasRef.current;
-    const ctx = canvas.getContext('2d');
+    const ctx = canvas.getContext("2d");
     if (!ctx) return;
 
     const rect = canvas.getBoundingClientRect();
@@ -243,7 +292,7 @@ export default function DrawingCanvas({
     if (!isDrawing || !canvasRef.current) return;
 
     const canvas = canvasRef.current;
-    const ctx = canvas.getContext('2d');
+    const ctx = canvas.getContext("2d");
     if (!ctx) return;
 
     const rect = canvas.getBoundingClientRect();
@@ -255,15 +304,19 @@ export default function DrawingCanvas({
   };
 
   // Función unificada para dibujar en una posición
-  const drawAtPosition = (ctx: CanvasRenderingContext2D, x: number, y: number) => {
+  const drawAtPosition = (
+    ctx: CanvasRenderingContext2D,
+    x: number,
+    y: number
+  ) => {
     ctx.lineWidth = brushSize;
-    ctx.lineCap = 'round';
-    ctx.lineJoin = 'round';
+    ctx.lineCap = "round";
+    ctx.lineJoin = "round";
 
     if (isErasing) {
-      ctx.globalCompositeOperation = 'destination-out';
+      ctx.globalCompositeOperation = "destination-out";
     } else {
-      ctx.globalCompositeOperation = 'source-over';
+      ctx.globalCompositeOperation = "source-over";
       ctx.strokeStyle = currentColor;
     }
 
@@ -276,15 +329,15 @@ export default function DrawingCanvas({
   const stopDrawing = () => {
     if (!isDrawing) return;
     setIsDrawing(false);
-    
+
     const canvas = canvasRef.current;
     if (!canvas) return;
-    
-    const ctx = canvas.getContext('2d');
+
+    const ctx = canvas.getContext("2d");
     if (!ctx) return;
-    
+
     ctx.beginPath();
-    
+
     // Auto-guardar después de dibujar
     saveDrawing();
   };
@@ -296,8 +349,8 @@ export default function DrawingCanvas({
 
     try {
       // Crear canvas temporal con el tamaño ORIGINAL de la imagen
-      const tempCanvas = document.createElement('canvas');
-      const tempCtx = tempCanvas.getContext('2d');
+      const tempCanvas = document.createElement("canvas");
+      const tempCtx = tempCanvas.getContext("2d");
       if (!tempCtx) return;
 
       const originalImg = backgroundImageRef.current;
@@ -305,12 +358,18 @@ export default function DrawingCanvas({
       tempCanvas.height = originalImg.naturalHeight;
 
       // Dibujar la imagen original a tamaño completo
-      tempCtx.drawImage(originalImg, 0, 0, originalImg.naturalWidth, originalImg.naturalHeight);
+      tempCtx.drawImage(
+        originalImg,
+        0,
+        0,
+        originalImg.naturalWidth,
+        originalImg.naturalHeight
+      );
 
       // Escalar y dibujar los trazos del canvas actual sobre la imagen original
       const scaleX = originalImg.naturalWidth / canvas.width;
       const scaleY = originalImg.naturalHeight / canvas.height;
-      
+
       tempCtx.save();
       tempCtx.scale(scaleX, scaleY);
       tempCtx.drawImage(canvas, 0, 0);
@@ -322,32 +381,32 @@ export default function DrawingCanvas({
         title: exerciseTitle,
         chapter: chapter,
         subject: subject,
-        exerciseNumber: exerciseNumber
+        exerciseNumber: exerciseNumber,
       };
       await drawingStorage.saveDrawing(exerciseId, imageBlob, metadata);
 
       // Convertir a data URL para callback
       const dataURL = await blobToDataURL(imageBlob);
       onSave?.(dataURL);
-      
-      console.log('✅ Dibujo guardado en IndexedDB');
+
+      console.log("✅ Dibujo guardado en IndexedDB");
     } catch (error) {
-      console.error('❌ Error guardando en IndexedDB:', error);
+      console.error("❌ Error guardando en IndexedDB:", error);
     }
   };
 
   const reloadDrawing = async () => {
     if (!canvasRef.current || !backgroundImageRef.current) return;
-    
+
     try {
       const imageBlob = await drawingStorage.loadDrawing(exerciseId);
       if (!imageBlob) {
-        console.log('No hay dibujo guardado para recargar');
+        console.log("No hay dibujo guardado para recargar");
         return;
       }
-      
+
       const canvas = canvasRef.current;
-      const ctx = canvas.getContext('2d');
+      const ctx = canvas.getContext("2d");
       if (!ctx) return;
 
       // Convertir Blob a data URL
@@ -357,42 +416,60 @@ export default function DrawingCanvas({
       img.onload = () => {
         // Limpiar canvas actual
         ctx.clearRect(0, 0, canvas.width, canvas.height);
-        
+
         // Dibujar la imagen completa guardada, escalada al tamaño del canvas actual
         ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
-        
+
         // Extraer solo los trazos para poder seguir editando
-        const tempCanvas = document.createElement('canvas');
-        const tempCtx = tempCanvas.getContext('2d');
+        const tempCanvas = document.createElement("canvas");
+        const tempCtx = tempCanvas.getContext("2d");
         if (!tempCtx) return;
-        
+
         tempCanvas.width = canvas.width;
         tempCanvas.height = canvas.height;
-        
+
         // Dibujar la imagen original
-        tempCtx.drawImage(backgroundImageRef.current!, 0, 0, canvas.width, canvas.height);
-        
+        tempCtx.drawImage(
+          backgroundImageRef.current!,
+          0,
+          0,
+          canvas.width,
+          canvas.height
+        );
+
         // Usar diferencia para extraer solo los trazos
-        const originalImageData = tempCtx.getImageData(0, 0, canvas.width, canvas.height);
-        const completeImageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
-        
+        const originalImageData = tempCtx.getImageData(
+          0,
+          0,
+          canvas.width,
+          canvas.height
+        );
+        const completeImageData = ctx.getImageData(
+          0,
+          0,
+          canvas.width,
+          canvas.height
+        );
+
         // Crear nueva imagen solo con los trazos
         const tracesOnlyData = ctx.createImageData(canvas.width, canvas.height);
-        
+
         for (let i = 0; i < completeImageData.data.length; i += 4) {
           const originalR = originalImageData.data[i];
           const originalG = originalImageData.data[i + 1];
           const originalB = originalImageData.data[i + 2];
-          
+
           const completeR = completeImageData.data[i];
           const completeG = completeImageData.data[i + 1];
           const completeB = completeImageData.data[i + 2];
           const completeA = completeImageData.data[i + 3];
-          
+
           // Si el pixel es diferente de la imagen original, es un trazo
-          if (Math.abs(originalR - completeR) > 10 || 
-              Math.abs(originalG - completeG) > 10 || 
-              Math.abs(originalB - completeB) > 10) {
+          if (
+            Math.abs(originalR - completeR) > 10 ||
+            Math.abs(originalG - completeG) > 10 ||
+            Math.abs(originalB - completeB) > 10
+          ) {
             tracesOnlyData.data[i] = completeR;
             tracesOnlyData.data[i + 1] = completeG;
             tracesOnlyData.data[i + 2] = completeB;
@@ -405,165 +482,179 @@ export default function DrawingCanvas({
             tracesOnlyData.data[i + 3] = 0;
           }
         }
-        
+
         // Limpiar canvas y dibujar solo los trazos
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         ctx.putImageData(tracesOnlyData, 0, 0);
-        
-        console.log('✅ Dibujo recargado desde IndexedDB');
+
+        console.log("✅ Dibujo recargado desde IndexedDB");
       };
       img.src = dataURL;
     } catch (error) {
-      console.error('❌ Error recargando desde IndexedDB:', error);
+      console.error("❌ Error recargando desde IndexedDB:", error);
     }
   };
 
   const clearCanvas = async () => {
     const canvas = canvasRef.current;
     if (!canvas) return;
-    
-    const ctx = canvas.getContext('2d');
+
+    const ctx = canvas.getContext("2d");
     if (!ctx) return;
-    
+
     ctx.clearRect(0, 0, canvas.width, canvas.height);
-    
+
     try {
       // Eliminar de IndexedDB
       await drawingStorage.deleteDrawing(exerciseId);
-      console.log('✅ Dibujo eliminado de IndexedDB');
+      console.log("✅ Dibujo eliminado de IndexedDB");
     } catch (error) {
-      console.error('❌ Error eliminando de IndexedDB:', error);
+      console.error("❌ Error eliminando de IndexedDB:", error);
     }
   };
 
   if (!isActive) return null;
 
   return (
-    <div ref={containerRef} className="absolute inset-0 z-10">
+    <div
+      ref={containerRef}
+      className={`absolute inset-0 ${
+        isActive ? "z-10" : "z-0 pointer-events-none"
+      }`}
+    >
       {/* Canvas de dibujo posicionado exactamente sobre la imagen */}
       <canvas
         ref={canvasRef}
-        className="absolute cursor-crosshair"
-        // Eventos de mouse
-        onMouseDown={startDrawing}
-        onMouseMove={draw}
-        onMouseUp={stopDrawing}
-        onMouseLeave={stopDrawing}
-        // Eventos táctiles para móviles
-        onTouchStart={startDrawingTouch}
-        onTouchMove={drawTouch}
-        onTouchEnd={stopDrawing}
-        onTouchCancel={stopDrawing}
+        className={`absolute ${
+          isActive ? "cursor-crosshair" : "pointer-events-none"
+        }`}
+        // Eventos de mouse - solo activos cuando isActive es true
+        onMouseDown={isActive ? startDrawing : undefined}
+        onMouseMove={isActive ? draw : undefined}
+        onMouseUp={isActive ? stopDrawing : undefined}
+        onMouseLeave={isActive ? stopDrawing : undefined}
+        // Eventos táctiles para móviles - solo activos cuando isActive es true
+        onTouchStart={isActive ? startDrawingTouch : undefined}
+        onTouchMove={isActive ? drawTouch : undefined}
+        onTouchEnd={isActive ? stopDrawing : undefined}
+        onTouchCancel={isActive ? stopDrawing : undefined}
         style={{
           left: `${imageRect.x}px`,
           top: `${imageRect.y}px`,
           width: `${imageRect.width}px`,
           height: `${imageRect.height}px`,
-          background: 'transparent',
-          touchAction: 'none' // Prevenir scroll y zoom en dispositivos móviles
+          background: "transparent",
+          touchAction: isActive ? "none" : "auto", // Prevenir scroll y zoom en dispositivos móviles solo cuando está activo
+          pointerEvents: isActive ? "auto" : "none", // Asegurar que no capture eventos cuando no está activo
         }}
       />
 
-      {/* Herramientas de dibujo */}
-      <div className="absolute -top-4 right-4 bg-white rounded-lg shadow-lg p-3 space-y-3">
-        {/* Selector de colores */}
-        <div className="relative">
-          <button
-            onClick={() => setShowColorPicker(!showColorPicker)}
-            className="w-8 h-8 rounded-full border-2 border-gray-300 flex items-center justify-center"
-            style={{ backgroundColor: currentColor }}
-            title="Seleccionar color"
-          >
-            <Palette size={16} className="text-white" />
-          </button>
-          
-          {showColorPicker && (
-            <div className="absolute top-10 right-0 bg-white rounded-lg shadow-lg p-2 grid grid-cols-2 gap-2 z-20">
-              {DRAWING_COLORS.map((colorOption) => (
-                <button
-                  key={colorOption.id}
-                  onClick={() => {
-                    setCurrentColor(colorOption.color);
-                    setIsErasing(false);
-                    setShowColorPicker(false);
-                  }}
-                  className="w-10 h-10 sm:w-8 sm:h-8 rounded-full border-2 border-gray-300 hover:scale-110 transition-transform touch-manipulation"
-                  style={{ backgroundColor: colorOption.color }}
-                  title={colorOption.name}
-                />
+      {/* Herramientas de dibujo - solo mostrar cuando está activo */}
+      {isActive && (
+        <div className="absolute -top-4 right-4 bg-white rounded-lg shadow-lg p-3 space-y-3">
+          {/* Selector de colores */}
+          <div className="relative">
+            <button
+              onClick={() => setShowColorPicker(!showColorPicker)}
+              className="w-8 h-8 rounded-full border-2 border-gray-300 flex items-center justify-center"
+              style={{ backgroundColor: currentColor }}
+              title="Seleccionar color"
+            >
+              <Palette size={16} className="text-white" />
+            </button>
+
+            {showColorPicker && (
+              <div className="absolute top-10 right-0 bg-white rounded-lg shadow-lg p-2 grid grid-cols-2 gap-2 z-20">
+                {DRAWING_COLORS.map((colorOption) => (
+                  <button
+                    key={colorOption.id}
+                    onClick={() => {
+                      setCurrentColor(colorOption.color);
+                      setIsErasing(false);
+                      setShowColorPicker(false);
+                    }}
+                    className="w-10 h-10 sm:w-8 sm:h-8 rounded-full border-2 border-gray-300 hover:scale-110 transition-transform touch-manipulation"
+                    style={{ backgroundColor: colorOption.color }}
+                    title={colorOption.name}
+                  />
+                ))}
+              </div>
+            )}
+          </div>
+
+          {/* Tamaño de pincel */}
+          <div className="space-y-1">
+            <div className="text-xs text-gray-600 text-center">Tamaño</div>
+            <select
+              value={brushSize}
+              onChange={(e) => setBrushSize(Number(e.target.value))}
+              className="w-full text-xs sm:text-xs p-2 sm:p-1 rounded border touch-manipulation"
+            >
+              {BRUSH_SIZES.map((size) => (
+                <option key={size} value={size}>
+                  {size}px
+                </option>
               ))}
-            </div>
-          )}
+            </select>
+          </div>
+
+          {/* Herramientas */}
+          <div className="flex flex-col space-y-2">
+            <button
+              onClick={() => {
+                setIsErasing(!isErasing);
+              }}
+              className={`p-3 sm:p-2 rounded touch-manipulation ${
+                isErasing
+                  ? "bg-red-500 text-white"
+                  : "bg-gray-100 hover:bg-gray-200"
+              }`}
+              title="Borrador"
+            >
+              <Eraser size={20} className="sm:hidden" />
+              <Eraser size={16} className="hidden sm:block" />
+            </button>
+
+            <button
+              onClick={saveDrawing}
+              className="p-3 sm:p-2 rounded bg-green-500 text-white hover:bg-green-600 touch-manipulation"
+              title="Guardar dibujo"
+            >
+              <Save size={20} className="sm:hidden" />
+              <Save size={16} className="hidden sm:block" />
+            </button>
+
+            <button
+              onClick={() => reloadDrawing()}
+              className="p-3 sm:p-2 rounded bg-blue-500 text-white hover:bg-blue-600 touch-manipulation"
+              title="Recargar último guardado"
+            >
+              <RotateCcw size={20} className="sm:hidden" />
+              <RotateCcw size={16} className="hidden sm:block" />
+            </button>
+
+            <button
+              onClick={() =>
+                downloadDrawing(exerciseId, `ejercicio_${exerciseId}.png`)
+              }
+              className="p-3 sm:p-2 rounded bg-purple-500 text-white hover:bg-purple-600 touch-manipulation"
+              title="Descargar imagen completa"
+            >
+              <Download size={20} className="sm:hidden" />
+              <Download size={16} className="hidden sm:block" />
+            </button>
+
+            <button
+              onClick={clearCanvas}
+              className="p-3 sm:p-2 rounded bg-red-500 text-white hover:bg-red-600 touch-manipulation"
+              title="Limpiar todo"
+            >
+              <Trash2 size={20} className="sm:hidden" />
+              <Trash2 size={16} className="hidden sm:block" />
+            </button>
+          </div>
         </div>
-
-        {/* Tamaño de pincel */}
-        <div className="space-y-1">
-          <div className="text-xs text-gray-600 text-center">Tamaño</div>
-          <select
-            value={brushSize}
-            onChange={(e) => setBrushSize(Number(e.target.value))}
-            className="w-full text-xs sm:text-xs p-2 sm:p-1 rounded border touch-manipulation"
-          >
-            {BRUSH_SIZES.map(size => (
-              <option key={size} value={size}>{size}px</option>
-            ))}
-          </select>
-        </div>
-
-        {/* Herramientas */}
-        <div className="flex flex-col space-y-2">
-          <button
-            onClick={() => {
-              setIsErasing(!isErasing);
-            }}
-            className={`p-3 sm:p-2 rounded touch-manipulation ${
-              isErasing 
-                ? 'bg-red-500 text-white' 
-                : 'bg-gray-100 hover:bg-gray-200'
-            }`}
-            title="Borrador"
-          >
-            <Eraser size={20} className="sm:hidden" />
-            <Eraser size={16} className="hidden sm:block" />
-          </button>
-
-          <button
-            onClick={saveDrawing}
-            className="p-3 sm:p-2 rounded bg-green-500 text-white hover:bg-green-600 touch-manipulation"
-            title="Guardar dibujo"
-          >
-            <Save size={20} className="sm:hidden" />
-            <Save size={16} className="hidden sm:block" />
-          </button>
-
-          <button
-            onClick={() => reloadDrawing()}
-            className="p-3 sm:p-2 rounded bg-blue-500 text-white hover:bg-blue-600 touch-manipulation"
-            title="Recargar último guardado"
-          >
-            <RotateCcw size={20} className="sm:hidden" />
-            <RotateCcw size={16} className="hidden sm:block" />
-          </button>
-
-          <button
-            onClick={() => downloadDrawing(exerciseId, `ejercicio_${exerciseId}.png`)}
-            className="p-3 sm:p-2 rounded bg-purple-500 text-white hover:bg-purple-600 touch-manipulation"
-            title="Descargar imagen completa"
-          >
-            <Download size={20} className="sm:hidden" />
-            <Download size={16} className="hidden sm:block" />
-          </button>
-
-          <button
-            onClick={clearCanvas}
-            className="p-3 sm:p-2 rounded bg-red-500 text-white hover:bg-red-600 touch-manipulation"
-            title="Limpiar todo"
-          >
-            <Trash2 size={20} className="sm:hidden" />
-            <Trash2 size={16} className="hidden sm:block" />
-          </button>
-        </div>
-      </div>
+      )}
     </div>
   );
 }

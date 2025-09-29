@@ -531,6 +531,29 @@
             "img": "C1_S1_E57.png"
           }
         ]
+      },
+      {
+        "subject": "Mapa territorial",
+        "exercise": [
+          {
+            "title": "Ejercicio 61",
+            "content": {
+              "subtitle": "Instrucciones",
+              "content": "¡Este es tu espacio libre para practicar! Puedes continuar practicando todas las vocales aquí. Escribe las que más te gusten, dibuja palabras que empiecen con vocales, o practica los trazos que necesites mejorar. Usa los colores que aprendiste: rojo para A, azul para E, naranja para I, café para O, y verde para U. ¡Diviértete aprendiendo!"
+            },
+            "img": "C1_S1_E59.png"
+          },
+          {
+            "title": "Ejercicio 62",
+            "content": {
+              "subtitle": "Instrucciones",
+              "content": "Vamos a leer juntos palabras muy especiales. Estas son palabras transformadoras que nos ayudan a cambiar y mejorar nuestro mundo. Escucha con atención mientras el maestro lee cada palabra en voz alta. Después, repite cada palabra junto con tus compañeros. Pronuncia despacio y claro para que todos puedan escuchar bien. Estas palabras son importantes porque nos enseñan valores y nos ayudan a ser mejores personas. ¡Lee con mucho cuidado!",
+              "audioContent": "Casa. Escuela. Iglesia. Sol. Agua. Estrella. Calle. Luna. Perro. Pescado. Sartén. Fuego. Árbol. Pan. Quetzal. Jaguar. Hamaca"
+            },
+            "img": "C1_S1_E60.png",
+            "isAudioExercise": true
+          }
+        ]
       }
     ]
   }

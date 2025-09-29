@@ -1,4 +1,10 @@
-import { ChevronLeft, ChevronRight, Edit3 } from "lucide-react";
+import {
+  ChevronLeft,
+  ChevronRight,
+  Edit3,
+  Square,
+  Volume2,
+} from "lucide-react";
 import { theme } from "../../core/config/theme";
 import ExerciseHeader from "./ExerciseHeader/ExerciseHeader";
 import ExerciseInstructions from "./ExerciseInstructions/ExerciseInstructions";
@@ -8,6 +14,7 @@ import Grid from "@mui/material/Grid";
 import { parseTitleExercises } from "../utils/parseTitleExercise";
 import DrawingCanvas from "./DrawingCanvas/DrawingCanvas";
 import { useState } from "react";
+import { useSpeech } from "../hooks/useSpeech";
 
 interface ExerciseContentProps {
   unitId: number;
@@ -23,15 +30,27 @@ export default function ExerciseContent({ unitId }: ExerciseContentProps) {
     chapter,
     subject,
   } = useExercises(unitId);
+  const { speak, cancel, isSpeaking } = useSpeech();
+
   const { parsedTitle, number } = parseTitleExercises(exercise?.title);
 
-  // Estado para el canvas de dibujo
   const [isDrawingMode, setIsDrawingMode] = useState(false);
 
   const handleSaveDrawing = (imageData: string) => {
     console.log("Dibujo guardado:", imageData);
-    // Aquí podrías implementar lógica adicional como enviar al servidor
   };
+
+  const handleSpeakClick = () => {
+    if (isSpeaking) {
+      cancel();
+    } else {
+      speak(exercise?.content?.audioContent ?? "", {
+        lang: "es-MX",
+        rate: 0.9,
+      });
+    }
+  };
+
   return (
     <div className="rounded-xl">
       <AnimatePresence mode="wait">
@@ -59,38 +78,53 @@ export default function ExerciseContent({ unitId }: ExerciseContentProps) {
 
           {/* Imagen con canvas de dibujo */}
           <div className="relative bg-[#EEE] shadow-2xs shadow-gray-300 rounded-xl p-8 mb-6 max-h-72 flex justify-center items-center">
+            {/* Botón para activar/desactivar modo dibujo */}
+            {!exercise?.isAudioExercise && (
+              <button
+                onClick={() => setIsDrawingMode(!isDrawingMode)}
+                className={`absolute top-2 left-2 p-2 rounded-full transition-all z-50 ${
+                  isDrawingMode
+                    ? "bg-red-500 text-white shadow-lg"
+                    : "bg-white text-gray-600 hover:bg-gray-100"
+                } hover:cursor-pointer`}
+                title={
+                  isDrawingMode
+                    ? "Desactivar modo dibujo"
+                    : "Activar modo dibujo"
+                }
+                style={{ zIndex: 100 }}
+              >
+                <Edit3 size={20} />
+              </button>
+            )}
+
             <img
               src={`/stub_images/${exercise?.img}`}
               alt="ejercicio"
               className="h-64 w-full object-contain rounded-xl"
             />
 
-            {/* Canvas de dibujo superpuesto */}
-            <DrawingCanvas
-              isActive={isDrawingMode}
-              backgroundImage={`/stub_images/${exercise?.img}`}
-              exerciseId={exercise?.title || ""}
-              exerciseTitle={parsedTitle || ""}
-              chapter={chapter}
-              subject={subject}
-              exerciseNumber={number || undefined}
-              onSave={handleSaveDrawing}
-            />
-
-            {/* Botón para activar/desactivar modo dibujo */}
-            <button
-              onClick={() => setIsDrawingMode(!isDrawingMode)}
-              className={`absolute top-2 left-2 p-2 rounded-full transition-all ${
-                isDrawingMode
-                  ? "bg-red-500 text-white shadow-lg"
-                  : "bg-white text-gray-600 hover:bg-gray-100"
-              }`}
-              title={
-                isDrawingMode ? "Desactivar modo dibujo" : "Activar modo dibujo"
-              }
-            >
-              <Edit3 size={20} />
-            </button>
+            {!exercise?.isAudioExercise ? (
+              <DrawingCanvas
+                isActive={isDrawingMode}
+                backgroundImage={`/stub_images/${exercise?.img}`}
+                exerciseId={exercise?.title || ""}
+                exerciseTitle={parsedTitle || ""}
+                chapter={chapter}
+                subject={subject}
+                exerciseNumber={number || undefined}
+                onSave={handleSaveDrawing}
+              />
+            ) : (
+              <button
+                onClick={handleSpeakClick}
+                className="bg-white text-gray-600 hover:bg-gray-100 hover:cursor-pointer absolute top-2 left-2 p-2 rounded-full transition-all z-50"
+                title={isSpeaking ? "Detener lectura" : "Leer en voz alta"}
+                style={{ zIndex: 100 }}
+              >
+                {isSpeaking ? <Square size={24} /> : <Volume2 size={24} />}
+              </button>
+            )}
           </div>
         </motion.div>
       </AnimatePresence>
