@@ -46,7 +46,7 @@ export default function ExerciseContent({ unitId }: ExerciseContentProps) {
     } else {
       speak(exercise?.content?.audioContent ?? "", {
         lang: "es-MX",
-        rate: 0.9,
+        rate: 0.5,
       });
     }
   };
