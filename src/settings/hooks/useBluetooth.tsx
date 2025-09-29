@@ -11,7 +11,8 @@ export function useBluetooth() {
   const [activity, setActivity] = useState(false);
   const [messages, setMessages] = useState<string[]>([]);
   const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
-  const [location, setLocation] = useLocation();
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const [_, setLocation] = useLocation();
 
   // 🔹 Maneja notificaciones de características
   const handleNotifications = useCallback(
