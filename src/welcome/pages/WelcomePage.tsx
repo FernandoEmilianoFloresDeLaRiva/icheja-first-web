@@ -8,7 +8,6 @@ import {
   VolumeX,
   Maximize2,
 } from "lucide-react";
-import welcomeVideo from "../../../public/videos/welcome_video.mp4";
 import AppLayout from "../../common/layouts/AppLayout/AppLayout";
 
 export default function WelcomePage() {
@@ -28,27 +27,56 @@ export default function WelcomePage() {
     const updateDuration = () => setDuration(video.duration);
     const handlePlay = () => setIsPlaying(true);
     const handlePause = () => setIsPlaying(false);
+    const handleLoadedData = () => console.log("Video loaded successfully");
+    const handleError = (e: Event) => {
+      console.error("Video error:", e);
+      const target = e.target as HTMLVideoElement;
+      if (target.error) {
+        console.error("Video error details:", {
+          code: target.error.code,
+          message: target.error.message,
+          src: target.src
+        });
+      }
+    };
 
     video.addEventListener("timeupdate", updateTime);
     video.addEventListener("loadedmetadata", updateDuration);
+    video.addEventListener("loadeddata", handleLoadedData);
     video.addEventListener("play", handlePlay);
     video.addEventListener("pause", handlePause);
+    video.addEventListener("error", handleError);
 
     // Auto-play cuando el componente se monta
     const playVideo = async () => {
       try {
-        await video.play();
+        // Esperar a que el video esté listo
+        if (video.readyState >= 3) {
+          await video.play();
+        } else {
+          video.addEventListener("canplay", async () => {
+            try {
+              await video.play();
+            } catch (error) {
+              console.log("Auto-play was prevented after canplay:", error);
+            }
+          }, { once: true });
+        }
       } catch (error) {
         console.log("Auto-play was prevented:", error);
       }
     };
-    playVideo();
+    
+    // Pequeño delay para asegurar que el video esté montado
+    setTimeout(playVideo, 100);
 
     return () => {
       video.removeEventListener("timeupdate", updateTime);
       video.removeEventListener("loadedmetadata", updateDuration);
+      video.removeEventListener("loadeddata", handleLoadedData);
       video.removeEventListener("play", handlePlay);
       video.removeEventListener("pause", handlePause);
+      video.removeEventListener("error", handleError);
     };
   }, []);
 
@@ -136,10 +164,21 @@ export default function WelcomePage() {
             <video
               ref={videoRef}
               loop={true}
-              src={welcomeVideo}
+              src="/videos/welcome_video.mp4"
               className="w-full h-auto max-h-[70vh] object-contain"
               onClick={togglePlay}
-            />
+              controls={false}
+              preload="metadata"
+              playsInline
+            >
+              <p className="text-white text-center p-4">
+                Tu navegador no soporta la reproducción de video. 
+                <br />
+                <a href="/videos/welcome_video.mp4" className="text-pink-300 underline">
+                  Descargar video
+                </a>
+              </p>
+            </video>
 
             {/* Controles personalizados */}
             <div
