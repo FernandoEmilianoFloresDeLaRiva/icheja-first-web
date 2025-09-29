@@ -158,17 +158,17 @@ export default function ExerciseContent({ unitId }: ExerciseContentProps) {
           spacing={2}
           size={{ xs: 12, sm: 12, md: 6, lg: 6 }}
           sx={{
-            justifyContent: "space-evenly",
+            justifyContent: "end",
             alignItems: "center",
             marginTop: "15px",
             marginBottom: "15px",
           }}
         >
-          <Grid size={{ xs: 12, sm: 12, md: 12, lg: 5 }}>
+          {/* <Grid size={{ xs: 12, sm: 12, md: 12, lg: 5 }}>
             <button className="w-full bg-[#C90104] hover:bg-red-600 hover:cursor-pointer text-white px-6 py-2 rounded-2xl font-semibold transition-colors lg:mr-[55px]">
               Terminar
             </button>
-          </Grid>
+          </Grid> */}
           <Grid size={{ xs: 6, sm: 6, md: 6, lg: 3 }}>
             <button
               className="w-full hover:bg-teal-700 hover:cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed text-white px-6 py-2 rounded-2xl font-semibold flex items-center gap-2 transition-colors bg-[#009887]"
