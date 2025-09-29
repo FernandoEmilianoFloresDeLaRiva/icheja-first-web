@@ -127,7 +127,7 @@ export default function HomeView() {
 
             {/* Botón de iniciar */}
             <button
-              onClick={() => setLocation("/units")}
+              onClick={() => setLocation("/welcome")}
               className="w-72 mt-6 px-16 py-4 text-white text-2xl font-bold rounded-4xl shadow-lg transition-all duration-200 animate-bounce hover:opacity-90 hover:scale-105 hover:cursor-pointer"
               style={{ backgroundColor: theme.colors.primary.pink }}
             >
