@@ -35,7 +35,7 @@ export default function WelcomePage() {
         console.error("Video error details:", {
           code: target.error.code,
           message: target.error.message,
-          src: target.src
+          src: target.src,
         });
       }
     };
@@ -54,19 +54,23 @@ export default function WelcomePage() {
         if (video.readyState >= 3) {
           await video.play();
         } else {
-          video.addEventListener("canplay", async () => {
-            try {
-              await video.play();
-            } catch (error) {
-              console.log("Auto-play was prevented after canplay:", error);
-            }
-          }, { once: true });
+          video.addEventListener(
+            "canplay",
+            async () => {
+              try {
+                await video.play();
+              } catch (error) {
+                console.log("Auto-play was prevented after canplay:", error);
+              }
+            },
+            { once: true }
+          );
         }
       } catch (error) {
         console.log("Auto-play was prevented:", error);
       }
     };
-    
+
     // Pequeño delay para asegurar que el video esté montado
     setTimeout(playVideo, 100);
 
@@ -161,125 +165,16 @@ export default function WelcomePage() {
           onMouseLeave={() => setShowControls(false)}
         >
           <div className="relative rounded-2xl overflow-hidden bg-black shadow-xl">
-            <video
-              ref={videoRef}
-              loop={true}
-              src="/videos/welcome_video.mp4"
-              className="w-full h-auto max-h-[70vh] object-contain"
-              onClick={togglePlay}
-              controls={false}
-              preload="metadata"
-              playsInline
-            >
-              <p className="text-white text-center p-4">
-                Tu navegador no soporta la reproducción de video. 
-                <br />
-                <a href="/videos/welcome_video.mp4" className="text-pink-300 underline">
-                  Descargar video
-                </a>
-              </p>
-            </video>
-
-            {/* Controles personalizados */}
-            <div
-              className={`absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-4 transition-all duration-300 ${
-                showControls
-                  ? "opacity-100 translate-y-0"
-                  : "opacity-0 translate-y-full"
-              }`}
-            >
-              {/* Barra de progreso */}
-              <div className="mb-4">
-                <input
-                  type="range"
-                  min="0"
-                  max={duration || 0}
-                  value={currentTime}
-                  onChange={handleSeek}
-                  className="w-full h-2 bg-gray-600 rounded-lg appearance-none cursor-pointer"
-                  style={{
-                    background: `linear-gradient(to right, #ec4899 0%, #ec4899 ${
-                      (currentTime / duration) * 100
-                    }%, #4b5563 ${
-                      (currentTime / duration) * 100
-                    }%, #4b5563 100%)`,
-                  }}
-                />
-                <div className="flex justify-between text-xs text-white/80 mt-1">
-                  <span>{formatTime(currentTime)}</span>
-                  <span>{formatTime(duration)}</span>
-                </div>
-              </div>
-
-              {/* Controles principales */}
-              <div className="flex items-center justify-between">
-                <div className="flex items-center space-x-3">
-                  {/* Botón retroceder */}
-                  <button
-                    onClick={skipBackward}
-                    className="text-white hover:text-pink-300 transition-colors p-2 hover:bg-white/10 hover:cursor-pointer rounded-full"
-                    title="Retroceder 10s"
-                  >
-                    <SkipBack size={24} />
-                  </button>
-
-                  {/* Botón play/pause */}
-                  <button
-                    onClick={togglePlay}
-                    className="bg-pink-500 hover:bg-pink-600 hover:cursor-pointer text-white p-3 rounded-full transition-all transform hover:scale-105 shadow-lg"
-                    title={isPlaying ? "Pausar" : "Reproducir"}
-                  >
-                    {isPlaying ? <Pause size={28} /> : <Play size={28} />}
-                  </button>
-
-                  {/* Botón adelantar */}
-                  <button
-                    onClick={skipForward}
-                    className="text-white hover:text-pink-300 hover:cursor-pointer transition-colors p-2 hover:bg-white/10 rounded-full"
-                    title="Adelantar 10s"
-                  >
-                    <SkipForward size={24} />
-                  </button>
-                </div>
-
-                <div className="flex items-center space-x-3">
-                  {/* Control de volumen */}
-                  <button
-                    onClick={toggleMute}
-                    className="text-white hover:text-pink-300 hover:cursor-pointer transition-colors p-2 hover:bg-white/10 rounded-full"
-                    title={isMuted ? "Activar sonido" : "Silenciar"}
-                  >
-                    {isMuted ? <VolumeX size={24} /> : <Volume2 size={24} />}
-                  </button>
-
-                  <input
-                    type="range"
-                    min="0"
-                    max="1"
-                    step="0.1"
-                    value={isMuted ? 0 : volume}
-                    onChange={handleVolumeChange}
-                    className="w-20 h-2 bg-gray-600 rounded-lg appearance-none cursor-pointer"
-                    style={{
-                      background: `linear-gradient(to right, #ec4899 0%, #ec4899 ${
-                        (isMuted ? 0 : volume) * 100
-                      }%, #4b5563 ${
-                        (isMuted ? 0 : volume) * 100
-                      }%, #4b5563 100%)`,
-                    }}
-                  />
-
-                  {/* Botón pantalla completa */}
-                  <button
-                    onClick={toggleFullscreen}
-                    className="text-white hover:text-pink-300 hover:cursor-pointer transition-colors p-2 hover:bg-white/10 rounded-full"
-                    title="Pantalla completa"
-                  >
-                    <Maximize2 size={24} />
-                  </button>
-                </div>
-              </div>
-            </div>
+            <iframe
+              width="570"
+              height="315"
+              src="https://www.youtube.com/embed/kX77h7EpPOk?si=xZuBT82EbpyRCN3z"
+              title="Presentación de AprendIA"
+              frameBorder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              referrerPolicy="strict-origin-when-cross-origin"
+              allowFullScreen
+            ></iframe>
           </div>
         </div>
       </div>
