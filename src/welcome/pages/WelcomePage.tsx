@@ -8,7 +8,7 @@ import {
   VolumeX,
   Maximize2,
 } from "lucide-react";
-import welcomeVideo from "../../assets/videos/welcome_video.mp4";
+import welcomeVideo from "../../../public/videos/welcome_video.mp4";
 import AppLayout from "../../common/layouts/AppLayout/AppLayout";
 
 export default function WelcomePage() {
