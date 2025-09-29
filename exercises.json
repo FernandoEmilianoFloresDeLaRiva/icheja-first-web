@@ -166,13 +166,22 @@
       },
       {
         "subject": "Mi nombre",
-        "exercise": []
+        "exercise": [
+          {
+            "title": "Ejercicio 20",
+            "content": {
+              "subtitle": "Instrucciones",
+              "content": "Hoy vamos a aprender a escribir tu nombre. Primero, observa cómo el maestro escribe tu nombre con letras grandes en el pizarrón o en una hoja de rotafolio. Fíjate bien en la forma y el trazo de cada letra. Después, copia y escribe tu nombre varias veces en tu libreta. Hazlo despacio y con cuidado. Recuerda: cada vez que lo practiques, tus letras se verán más bonitas y tus trazos mejorarán poco a poco. ¡Tú puedes!"
+            },
+            "img": "C1_S1_E58.png"
+          }
+        ]
       },
       {
         "subject": "Mi familia",
         "exercise": [
           {
-            "title": "Ejercicio 20",
+            "title": "Ejercicio 21",
             "content": {
               "subtitle": "Instrucciones",
               "content": "Vamos a escribir los nombres de tu familia. Mira el dibujo del árbol familiar y escribe el nombre de cada persona donde corresponda. Tu maestro te mostrará cómo se escriben los nombres para que puedas copiarlos. Esto te ayudará más adelante cuando quieras escribirles un recadito a tus familiares."
@@ -185,7 +194,7 @@
         "subject": "Letra A-a",
         "exercise": [
           {
-            "title": "Ejercicio 21",
+            "title": "Ejercicio 22",
             "content": {
               "subtitle": "Instrucciones",
               "content": "¡Hoy vamos a aprender la letra A! Mira con atención las letras rojas 'A' y 'a'. Primero escucha cómo suena cuando tu maestro la pronuncia. Ahora, sigue las flechitas para dibujar la letra usando tu lápiz rojo y di su sonido mientras la escribes. Recuerda hacer los trazos con cuidado, siguiendo el camino que marcan las flechas."
@@ -193,7 +202,7 @@
             "img": "C1_S1_E19.png"
           },
           {
-            "title": "Ejercicio 22",
+            "title": "Ejercicio 23",
             "content": {
               "subtitle": "Instrucciones",
               "content": "Busca tu lápiz o crayola roja. Ahora, con mucho cuidado, colorea todas las letras 'A' y 'a' que encuentres en el dibujo. Pinta despacio para no salirte de las líneas y que queden muy bonitas."
@@ -201,7 +210,7 @@
             "img": "C1_S1_E20.png"
           },
           {
-            "title": "Ejercicio 23",
+            "title": "Ejercicio 24",
             "content": {
               "subtitle": "Instrucciones",
               "content": "Toma tu lápiz o crayola roja. Busca todas las letras 'A' y 'a' que aparecen en el dibujo. Cuando encuentres una, dibuja un círculo alrededor de ella. Hazlo con cuidado para que los círculos queden redonditos y bonitos."
@@ -209,7 +218,7 @@
             "img": "C1_S1_E21.png"
           },
           {
-            "title": "Ejercicio 24",
+            "title": "Ejercicio 25",
             "content": {
               "subtitle": "Instrucciones",
               "content": "Mira cada dibujo y su palabra. Algunas letras se escondieron y necesitan tu ayuda. Escribe las letras que faltan en los espacios vacíos para completar cada palabra. Si no estás seguro, puedes decir la palabra en voz alta para escuchar qué letra falta."
@@ -217,7 +226,7 @@
             "img": "C1_S1_E22.png"
           },
           {
-            "title": "Ejercicio 25",
+            "title": "Ejercicio 26",
             "content": {
               "subtitle": "Instrucciones",
               "content": "Mira cada dibujo y su palabra. Algunas letras se escondieron y necesitan tu ayuda. Escribe las letras que faltan en los espacios vacíos para completar cada palabra. Si no estás seguro, puedes decir la palabra en voz alta para escuchar qué letra falta."
@@ -225,7 +234,7 @@
             "img": "C1_S1_E23.png"
           },
           {
-            "title": "Ejercicio 26",
+            "title": "Ejercicio 27",
             "content": {
               "subtitle": "Instrucciones",
               "content": "Mira cada dibujo y su palabra. Algunas letras se escondieron y necesitan tu ayuda. Escribe las letras que faltan en los espacios vacíos para completar cada palabra. Si no estás seguro, puedes decir la palabra en voz alta para escuchar qué letra falta."
@@ -238,7 +247,7 @@
         "subject": "Letra E-e",
         "exercise": [
           {
-            "title": "Ejercicio 27",
+            "title": "Ejercicio 28",
             "content": {
               "subtitle": "Instrucciones",
               "content": "¡Ahora vamos a aprender la letra E! Mira con atención las letras azules 'E' y 'e'. Primero escucha cómo suena cuando tu maestro la pronuncia. Ahora, sigue las flechitas para dibujar la letra usando tu lápiz azul y di su sonido mientras la escribes. Recuerda hacer los trazos con cuidado, siguiendo el camino que marcan las flechas."
@@ -246,7 +255,7 @@
             "img": "C1_S1_E25.png"
           },
           {
-            "title": "Ejercicio 28",
+            "title": "Ejercicio 29",
             "content": {
               "subtitle": "Instrucciones",
               "content": "Busca tu lápiz o crayola azul. Ahora, con mucho cuidado, colorea todas las letras 'E' y 'e' que encuentres en el dibujo. Pinta despacio para no salirte de las líneas y que queden muy bonitas."
@@ -254,7 +263,7 @@
             "img": "C1_S1_E26.png"
           },
           {
-            "title": "Ejercicio 29",
+            "title": "Ejercicio 30",
             "content": {
               "subtitle": "Instrucciones",
               "content": "Toma tu lápiz o crayola azul. Busca todas las letras 'E' y 'e' que aparecen en el dibujo. Cuando encuentres una, dibuja un círculo alrededor de ella. Hazlo con cuidado para que los círculos queden redonditos y bonitos."
@@ -262,7 +271,7 @@
             "img": "C1_S1_E27.png"
           },
           {
-            "title": "Ejercicio 30",
+            "title": "Ejercicio 31",
             "content": {
               "subtitle": "Instrucciones",
               "content": "Mira cada dibujo y su palabra. Algunas letras se escondieron y necesitan tu ayuda. Escribe las letras que faltan en los espacios vacíos para completar cada palabra. Si no estás seguro, puedes decir la palabra en voz alta para escuchar qué letra falta."
@@ -270,7 +279,7 @@
             "img": "C1_S1_E28.png"
           },
           {
-            "title": "Ejercicio 31",
+            "title": "Ejercicio 32",
             "content": {
               "subtitle": "Instrucciones",
               "content": "Toma tu lápiz o crayola azul. Lee cada palabra con atención y busca las letras 'E' y 'e'. Cuando encuentres una, dibuja una línea por debajo de ella. Hazlo con cuidado para que las líneas queden derechitas y bonitas."
@@ -283,7 +292,7 @@
         "subject": "Letra I-i",
         "exercise": [
           {
-            "title": "Ejercicio 32",
+            "title": "Ejercicio 33",
             "content": {
               "subtitle": "Instrucciones",
               "content": "¡Ahora vamos a aprender la letra I! Mira con atención las letras naranjas 'I' e 'i'. Primero escucha cómo suena cuando tu maestro la pronuncia. Ahora, sigue las flechitas para dibujar la letra usando tu lápiz naranja y di su sonido mientras la escribes. Recuerda hacer los trazos con cuidado, siguiendo el camino que marcan las flechas."
@@ -291,7 +300,7 @@
             "img": "C1_S1_E30.png"
           },
           {
-            "title": "Ejercicio 33",
+            "title": "Ejercicio 34",
             "content": {
               "subtitle": "Instrucciones",
               "content": "Busca tu lápiz o crayola naranja. Ahora, con mucho cuidado, colorea todas las letras 'I' e 'i' que encuentres en el dibujo. Pinta despacio para no salirte de las líneas y que queden muy bonitas."
@@ -299,7 +308,7 @@
             "img": "C1_S1_E31.png"
           },
           {
-            "title": "Ejercicio 34",
+            "title": "Ejercicio 35",
             "content": {
               "subtitle": "Instrucciones",
               "content": "Toma tu lápiz o crayola naranja. Busca todas las letras 'I' e 'i' que aparecen en el dibujo. Cuando encuentres una, dibuja un círculo alrededor de ella. Hazlo con cuidado para que los círculos queden redonditos y bonitos."
@@ -307,7 +316,7 @@
             "img": "C1_S1_E32.png"
           },
           {
-            "title": "Ejercicio 35",
+            "title": "Ejercicio 36",
             "content": {
               "subtitle": "Instrucciones",
               "content": "Mira cada dibujo y su palabra. Algunas letras se escondieron y necesitan tu ayuda. Escribe las letras que faltan en los espacios vacíos para completar cada palabra. Si no estás seguro, puedes decir la palabra en voz alta para escuchar qué letra falta."
@@ -315,7 +324,7 @@
             "img": "C1_S1_E33.png"
           },
           {
-            "title": "Ejercicio 36",
+            "title": "Ejercicio 37",
             "content": {
               "subtitle": "Instrucciones",
               "content": "Toma tu lápiz naranja y busca las letras 'I' e 'i' en el dibujo. Ahora, traza un camino desde cada una de estas letras hasta llegar a la iguana. Sigue el sendero con cuidado para no perderte y di el sonido de la letra mientras haces el recorrido."
@@ -323,7 +332,7 @@
             "img": "C1_S1_E34.png"
           },
           {
-            "title": "Ejercicio 37",
+            "title": "Ejercicio 38",
             "content": {
               "subtitle": "Instrucciones",
               "content": "Toma tu lápiz naranja y busca las letras 'I' e 'i' en el dibujo. Ahora, traza un camino desde cada una de estas letras hasta llegar a la iglesia. Sigue el sendero con cuidado para no perderte y di el sonido de la letra mientras haces el recorrido."
@@ -331,7 +340,7 @@
             "img": "C1_S1_E35.png"
           },
           {
-            "title": "Ejercicio 38",
+            "title": "Ejercicio 39",
             "content": {
               "subtitle": "Instrucciones",
               "content": "Toma tu lápiz o crayola naranja. Lee cada palabra con atención y busca las letras 'I' e 'i'. Cuando encuentres una, dibuja una línea por debajo de ella para subrayarla. Hazlo con cuidado para que las líneas queden derechitas y bonitas."
@@ -344,7 +353,7 @@
         "subject": "Letra O-o",
         "exercise": [
           {
-            "title": "Ejercicio 39",
+            "title": "Ejercicio 40",
             "content": {
               "subtitle": "Instrucciones",
               "content": "¡Ahora vamos a aprender la letra O! Mira con atención las letras cafés 'O' y 'o'. Primero escucha cómo suena cuando tu maestro la pronuncia. Ahora, sigue las flechitas para dibujar la letra usando tu lápiz café y di su sonido mientras la escribes. Recuerda hacer los trazos con cuidado, siguiendo el camino que marcan las flechas."
@@ -352,7 +361,7 @@
             "img": "C1_S1_E37.png"
           },
           {
-            "title": "Ejercicio 40",
+            "title": "Ejercicio 41",
             "content": {
               "subtitle": "Instrucciones",
               "content": "Busca tu lápiz o crayola café. Ahora, con mucho cuidado, colorea todas las letras 'O' y 'o' que encuentres en el dibujo. Pinta despacio para no salirte de las líneas y que queden muy bonitas."
@@ -360,7 +369,7 @@
             "img": "C1_S1_E38.png"
           },
           {
-            "title": "Ejercicio 41",
+            "title": "Ejercicio 42",
             "content": {
               "subtitle": "Instrucciones",
               "content": "Toma tu lápiz o crayola café. Busca todas las letras 'O' y 'o' que aparecen en el dibujo. Cuando encuentres una, dibuja un círculo alrededor de ella. Hazlo con cuidado para que los círculos queden redonditos y bonitos."
@@ -368,7 +377,7 @@
             "img": "C1_S1_E39.png"
           },
           {
-            "title": "Ejercicio 42",
+            "title": "Ejercicio 43",
             "content": {
               "subtitle": "Instrucciones",
               "content": "Mira cada dibujo y su palabra. Algunas letras se escondieron y necesitan tu ayuda. Escribe las letras que faltan en los espacios vacíos para completar cada palabra. Si no estás seguro, puedes decir la palabra en voz alta para escuchar qué letra falta."
@@ -376,7 +385,7 @@
             "img": "C1_S1_E40.png"
           },
           {
-            "title": "Ejercicio 43",
+            "title": "Ejercicio 44",
             "content": {
               "subtitle": "Instrucciones",
               "content": "Toma tu lápiz o crayola café. Lee cada palabra con atención y busca las letras 'O' y 'o'. Cuando encuentres una, dibuja una línea por debajo de ella para subrayarla. Hazlo con cuidado para que las líneas queden derechitas y bonitas."
@@ -384,7 +393,7 @@
             "img": "C1_S1_E41.png"
           },
           {
-            "title": "Ejercicio 44",
+            "title": "Ejercicio 45",
             "content": {
               "subtitle": "Instrucciones",
               "content": "Busca tu lápiz o crayola café. Ahora, con mucho cuidado, colorea todas las letras 'O' y 'o' que encuentres en el dibujo. Pinta despacio para no salirte de las líneas y que queden muy bonitas."
@@ -392,7 +401,7 @@
             "img": "C1_S1_E42.png"
           },
           {
-            "title": "Ejercicio 45",
+            "title": "Ejercicio 46",
             "content": {
               "subtitle": "Instrucciones",
               "content": "Mira todos los dibujos con atención. Busca solo aquellos dibujos que representen cosas que empiecen con el sonido 'O'. Cuando encuentres uno, usa tu lápiz café para dibujar un círculo alrededor de todo el dibujo. Recuerda decir el nombre de cada cosa en voz alta para escuchar si empieza con 'O'."
@@ -400,7 +409,7 @@
             "img": "C1_S1_E43.png"
           },
           {
-            "title": "Ejercicio 46",
+            "title": "Ejercicio 47",
             "content": {
               "subtitle": "Instrucciones",
               "content": "Toma tu lápiz café y busca las letras 'O' y 'o' en el dibujo. Ahora, traza un camino desde cada una de estas letras hasta llegar a la oruga. Sigue el sendero con cuidado para no perderte y di el sonido de la letra mientras haces el recorrido."
@@ -408,7 +417,7 @@
             "img": "C1_S1_E44.png"
           },
           {
-            "title": "Ejercicio 47",
+            "title": "Ejercicio 48",
             "content": {
               "subtitle": "Instrucciones",
               "content": "Toma tu lápiz café y busca las letras 'O' y 'o' en el dibujo. Ahora, traza un camino desde cada una de estas letras hasta llegar al ojo. Sigue el sendero con cuidado para no perderte y di el sonido de la letra mientras haces el recorrido."
@@ -416,7 +425,7 @@
             "img": "C1_S1_E45.png"
           },
           {
-            "title": "Ejercicio 48",
+            "title": "Ejercicio 49",
             "content": {
               "subtitle": "Instrucciones",
               "content": "Toma tu lápiz café y busca las letras 'O' y 'o' en el dibujo. Ahora, traza un camino desde cada una de estas letras hasta llegar a la olla. Sigue el sendero con cuidado para no perderte y di el sonido de la letra mientras haces el recorrido."
@@ -424,7 +433,7 @@
             "img": "C1_S1_E46.png"
           },
           {
-            "title": "Ejercicio 49",
+            "title": "Ejercicio 50",
             "content": {
               "subtitle": "Instrucciones",
               "content": "¡Practiquemos! Mira las palabras que aparecen en el dibujo y cópialas en las líneas. Escribe cada palabra con mucho cuidado, letra por letra. Si una palabra tiene las letras 'O' u 'o', márcalas con tu lápiz café mientras las escribes."
@@ -437,7 +446,7 @@
         "subject": "Letra U-u",
         "exercise": [
           {
-            "title": "Ejercicio 50",
+            "title": "Ejercicio 51",
             "content": {
               "subtitle": "Instrucciones",
               "content": "¡Ahora vamos a aprender la letra U! Mira con atención las letras verdes 'U' y 'u'. Primero escucha cómo suena cuando tu maestro la pronuncia. Ahora, sigue las flechitas para dibujar la letra usando tu lápiz verde y di su sonido mientras la escribes. Recuerda hacer los trazos con cuidado, siguiendo el camino que marcan las flechas."
@@ -445,7 +454,7 @@
             "img": "C1_S1_E48.png"
           },
           {
-            "title": "Ejercicio 51",
+            "title": "Ejercicio 52",
             "content": {
               "subtitle": "Instrucciones",
               "content": "Busca tu lápiz o crayola verde. Ahora, con mucho cuidado, colorea todas las letras 'U' y 'u' que encuentres en el dibujo. Pinta despacio para no salirte de las líneas y que queden muy bonitas."
@@ -453,7 +462,7 @@
             "img": "C1_S1_E49.png"
           },
           {
-            "title": "Ejercicio 52",
+            "title": "Ejercicio 53",
             "content": {
               "subtitle": "Instrucciones",
               "content": "Toma tu lápiz o crayola verde. Busca todas las letras 'U' y 'u' que aparecen en el dibujo. Cuando encuentres una, dibuja un círculo alrededor de ella. Hazlo con cuidado para que los círculos queden redonditos y bonitos."
@@ -461,7 +470,7 @@
             "img": "C1_S1_E50.png"
           },
           {
-            "title": "Ejercicio 53",
+            "title": "Ejercicio 54",
             "content": {
               "subtitle": "Instrucciones",
               "content": "Mira cada dibujo y su palabra. Algunas letras se escondieron y necesitan tu ayuda. Escribe las letras que faltan en los espacios vacíos para completar cada palabra. Si no estás seguro, puedes decir la palabra en voz alta para escuchar qué letra falta."
@@ -469,7 +478,7 @@
             "img": "C1_S1_E51.png"
           },
           {
-            "title": "Ejercicio 54",
+            "title": "Ejercicio 55",
             "content": {
               "subtitle": "Instrucciones",
               "content": "Busca tu lápiz o crayola verde. Primero, colorea todas las letras 'U' mayúsculas que encuentres en el dibujo con mucho cuidado. Después, busca las letras 'u' minúsculas y remárcalas (dibuja encima de ellas) con el mismo color verde. Hazlo despacio para que queden muy bonitas."
@@ -477,7 +486,7 @@
             "img": "C1_S1_E52.png"
           },
           {
-            "title": "Ejercicio 55",
+            "title": "Ejercicio 56",
             "content": {
               "subtitle": "Instrucciones",
               "content": "Toma tu lápiz o crayola verde. Lee cada palabra con atención y busca las letras 'U' y 'u'. Cuando encuentres una, dibuja una línea por debajo de ella para subrayarla. Hazlo con cuidado para que las líneas queden derechitas y bonitas."
@@ -485,7 +494,7 @@
             "img": "C1_S1_E53.png"
           },
           {
-            "title": "Ejercicio 56",
+            "title": "Ejercicio 57",
             "content": {
               "subtitle": "Instrucciones",
               "content": "Toma tu lápiz verde y observa las letras 'U' y 'u' que aparecen en un lado del dibujo. Después mira los objetos del otro lado. Une con una línea recta cada letra con los objetos que tengan esa letra en su nombre. Por ejemplo, si ves una uva, únela con la letra 'u' porque 'uva' empieza con 'u'."
@@ -498,7 +507,7 @@
         "subject": "Repaso de vocales",
         "exercise": [
           {
-            "title": "Ejercicio 57",
+            "title": "Ejercicio 58",
             "content": {
               "subtitle": "Instrucciones",
               "content": "¡Practiquemos todas las vocales! Lee cada palabra con mucha atención. Busca todas las vocales que encuentres: A, E, I, O, U (y también a, e, i, o, u). Cuando encuentres una vocal, dibuja un círculo alrededor de ella. Usa diferentes colores si quieres: rojo para A, azul para E, naranja para I, café para O, y verde para U."
@@ -506,7 +515,7 @@
             "img": "C1_S1_E55.png"
           },
           {
-            "title": "Ejercicio 58",
+            "title": "Ejercicio 59",
             "content": {
               "subtitle": "Instrucciones",
               "content": "¡Vamos a repasar todas las vocales con sus colores! Primero, colorea cada vocal con su color especial: A con rojo, E con azul, I con naranja, O con café, y U con verde. Después, une con una línea cada vocal mayúscula con su pareja minúscula. Por ejemplo, une la A grande con la a pequeña. Hazlo con mucho cuidado."
@@ -514,7 +523,7 @@
             "img": "C1_S1_E56.png"
           },
           {
-            "title": "Ejercicio 59",
+            "title": "Ejercicio 60",
             "content": {
               "subtitle": "Instrucciones",
               "content": "¡Este es tu espacio libre para practicar! Puedes continuar practicando todas las vocales aquí. Escribe las que más te gusten, dibuja palabras que empiecen con vocales, o practica los trazos que necesites mejorar. Usa los colores que aprendiste: rojo para A, azul para E, naranja para I, café para O, y verde para U. ¡Diviértete aprendiendo!"
@@ -522,10 +531,6 @@
             "img": "C1_S1_E57.png"
           }
         ]
-      },
-      {
-        "subject": "Mapa territorial",
-        "exercise": []
       }
     ]
   }
