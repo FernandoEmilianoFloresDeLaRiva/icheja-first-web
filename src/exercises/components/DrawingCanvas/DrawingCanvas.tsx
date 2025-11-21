@@ -234,7 +234,6 @@ export default function DrawingCanvas({
             ctx.clearRect(0, 0, canvas.width, canvas.height);
             ctx.putImageData(tracesOnlyData, 0, 0);
 
-            console.log("✅ Dibujo cargado desde IndexedDB");
           };
           img.src = dataURL;
         } catch (error) {
