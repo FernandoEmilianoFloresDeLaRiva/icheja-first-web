@@ -67,10 +67,8 @@ export default defineConfig({
             },
           },
           {
-            urlPattern: ({ url }) => url.pathname.startsWith("/stub_images/"),
-
+            urlPattern: /\/stub_images\/.*/,
             handler: "StaleWhileRevalidate",
-
             options: {
               // Nombre del caché específico para estas imágenes
               cacheName: "images-cache-exercises",
