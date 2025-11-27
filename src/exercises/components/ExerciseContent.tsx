@@ -6,6 +6,7 @@ import {
   Volume2,
 } from "lucide-react";
 import ExerciseSelectImageO from "./ExcerciseSelectImageO/ExerciseSelectImageO";
+import ExerciseSelectImageU from "./ExcerciseSelectImageU/ExcerciseSelectImageU";
 import { theme } from "../../core/config/theme";
 import ExerciseHeader from "./ExerciseHeader/ExerciseHeader";
 import ExerciseInstructions from "./ExerciseInstructions/ExerciseInstructions";
@@ -17,6 +18,7 @@ import DrawingCanvas from "./DrawingCanvas/DrawingCanvas";
 import { useState } from "react";
 import { useSpeech } from "../hooks/useSpeech";
 import VowelCarouselGame from "./ExerciseTwentyFour/VowelCarouselGame";
+import LetterSelectionGame from "./Select-letter/SelectLetter";
 import LetterIdentificationGame from "./LetterIdentificationGame/LetterIdentificationGame";
 
 interface ExerciseContentProps {
@@ -101,13 +103,13 @@ export default function ExerciseContent({ unitId }: ExerciseContentProps) {
                   return <LetterIdentificationGame />;
 
                 case 27:
-                  return <h1>Caso 27 activado</h1>;
+                  return <LetterSelectionGame></LetterSelectionGame>
 
                 case 46:
                   return <ExerciseSelectImageO />;
 
                 case 47:
-                  return <h1>Caso 47 activado</h1>;
+                  return <ExerciseSelectImageU />
 
                 default:
                   return (
