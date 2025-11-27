@@ -29,7 +29,10 @@ export default function ExerciseContent({ unitId }: ExerciseContentProps) {
     isLastExercise,
     chapter,
     subject,
+    currentIndex,
   } = useExercises(unitId);
+  console.log(currentIndex);
+
   const { speak, cancel, isSpeaking } = useSpeech();
 
   const { parsedTitle, number } = parseTitleExercises(exercise?.title);
@@ -78,53 +81,86 @@ export default function ExerciseContent({ unitId }: ExerciseContentProps) {
 
           {/* Imagen con canvas de dibujo */}
           <div className="relative bg-[#EEE] shadow-2xs shadow-gray-300 rounded-xl p-8 mb-6 max-h-72 flex justify-center items-center">
-            {/* Botón para activar/desactivar modo dibujo */}
-            {!exercise?.isAudioExercise && (
-              <button
-                onClick={() => setIsDrawingMode(!isDrawingMode)}
-                className={`absolute top-2 left-2 p-2 rounded-full transition-all z-50 ${
-                  isDrawingMode
-                    ? "bg-red-500 text-white shadow-lg"
-                    : "bg-white text-gray-600 hover:bg-gray-100"
-                } hover:cursor-pointer`}
-                title={
-                  isDrawingMode
-                    ? "Desactivar modo dibujo"
-                    : "Activar modo dibujo"
-                }
-                style={{ zIndex: 100 }}
-              >
-                <Edit3 size={20} />
-              </button>
-            )}
 
-            <img
-              src={`/stub_images/${exercise?.img}`}
-              alt="ejercicio"
-              className="h-64 w-full object-contain rounded-xl"
-            />
+             {/*SWICH CASE POR EJERCICIOS COPIADOS DE LA APP MOVIL*/}
+            {(() => {
+              const caseNumber = exercise?.case ?? null;
 
-            {!exercise?.isAudioExercise ? (
-              <DrawingCanvas
-                isActive={isDrawingMode}
-                backgroundImage={`/stub_images/${exercise?.img}`}
-                exerciseId={exercise?.title || ""}
-                exerciseTitle={parsedTitle || ""}
-                chapter={chapter}
-                subject={subject}
-                exerciseNumber={number || undefined}
-                onSave={handleSaveDrawing}
-              />
-            ) : (
-              <button
-                onClick={handleSpeakClick}
-                className="bg-white text-gray-600 hover:bg-gray-100 hover:cursor-pointer absolute top-2 left-2 p-2 rounded-full transition-all z-50"
-                title={isSpeaking ? "Detener lectura" : "Leer en voz alta"}
-                style={{ zIndex: 100 }}
-              >
-                {isSpeaking ? <Square size={24} /> : <Volume2 size={24} />}
-              </button>
-            )}
+              switch (caseNumber) {
+                case 24:
+                  return <h1>Caso 24 activado</h1>;
+
+                case 25:
+                  return <h1>Caso 25 activado</h1>;
+
+                case 26:
+                  return <h1>Caso 26 activado</h1>;
+
+                case 27:
+                  return <h1>Caso 27 activado</h1>;
+
+                case 46:
+                  return <h1>Caso 46 activado</h1>;
+
+                case 47:
+                  return <h1>Caso 47 activado</h1>;
+
+                default:
+                  return (
+                    <>
+                      {/* Botón para activar/desactivar modo dibujo */}
+                      {!exercise?.isAudioExercise && (
+                        <button
+                          onClick={() => setIsDrawingMode(!isDrawingMode)}
+                          className={`absolute top-2 left-2 p-2 rounded-full transition-all z-50 ${
+                            isDrawingMode
+                              ? "bg-red-500 text-white shadow-lg"
+                              : "bg-white text-gray-600 hover:bg-gray-100"
+                          } hover:cursor-pointer`}
+                          style={{ zIndex: 100 }}
+                          title={
+                            isDrawingMode
+                              ? "Desactivar modo dibujo"
+                              : "Activar modo dibujo"
+                          }
+                        >
+                          <Edit3 size={20} />
+                        </button>
+                      )}
+
+                      <img
+                        src={`/stub_images/${exercise?.img}`}
+                        alt="ejercicio"
+                        className="h-64 w-full object-contain rounded-xl"
+                      />
+
+                      {!exercise?.isAudioExercise ? (
+                        <DrawingCanvas
+                          isActive={isDrawingMode}
+                          backgroundImage={`/stub_images/${exercise?.img}`}
+                          exerciseId={exercise?.title || ""}
+                          exerciseTitle={parsedTitle || ""}
+                          chapter={chapter}
+                          subject={subject}
+                          exerciseNumber={number || undefined}
+                          onSave={handleSaveDrawing}
+                        />
+                      ) : (
+                        <button
+                          onClick={handleSpeakClick}
+                          className="bg-white text-gray-600 hover:bg-gray-100 hover:cursor-pointer absolute top-2 left-2 p-2 rounded-full transition-all z-50"
+                        >
+                          {isSpeaking ? (
+                            <Square size={24} />
+                          ) : (
+                            <Volume2 size={24} />
+                          )}
+                        </button>
+                      )}
+                    </>
+                  );
+              }
+            })()}
           </div>
         </motion.div>
       </AnimatePresence>
