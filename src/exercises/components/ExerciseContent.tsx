@@ -16,6 +16,7 @@ import { parseTitleExercises } from "../utils/parseTitleExercise";
 import DrawingCanvas from "./DrawingCanvas/DrawingCanvas";
 import { useState } from "react";
 import { useSpeech } from "../hooks/useSpeech";
+import LetterSelectionGame from "./Select-letter/SelectLetter";
 import LetterIdentificationGame from "./LetterIdentificationGame/LetterIdentificationGame";
 
 interface ExerciseContentProps {
@@ -99,7 +100,7 @@ export default function ExerciseContent({ unitId }: ExerciseContentProps) {
                   return <LetterIdentificationGame />;
 
                 case 27:
-                  return <h1>Caso 27 activado</h1>;
+                  return <LetterSelectionGame></LetterSelectionGame>
 
                 case 46:
                   return <ExerciseSelectImageO />;
