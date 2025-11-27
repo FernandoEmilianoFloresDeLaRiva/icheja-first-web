@@ -15,6 +15,7 @@ import { parseTitleExercises } from "../utils/parseTitleExercise";
 import DrawingCanvas from "./DrawingCanvas/DrawingCanvas";
 import { useState } from "react";
 import { useSpeech } from "../hooks/useSpeech";
+import VowelCarouselGame from "./ExerciseTwentyFour/VowelCarouselGame";
 
 interface ExerciseContentProps {
   unitId: number;
@@ -81,14 +82,42 @@ export default function ExerciseContent({ unitId }: ExerciseContentProps) {
 
           {/* Imagen con canvas de dibujo */}
           <div className="relative bg-[#EEE] shadow-2xs shadow-gray-300 rounded-xl p-8 mb-6 max-h-72 flex justify-center items-center">
-
-             {/*SWICH CASE POR EJERCICIOS COPIADOS DE LA APP MOVIL*/}
+            {/*SWICH CASE POR EJERCICIOS COPIADOS DE LA APP MOVIL*/}
             {(() => {
               const caseNumber = exercise?.case ?? null;
 
               switch (caseNumber) {
                 case 24:
-                  return <h1>Caso 24 activado</h1>;
+                  return (
+                    <VowelCarouselGame
+                      words={[
+                        "agua",
+                        "ala",
+                        "ama",
+                        "alto",
+                        "avena",
+                        "aroma",
+                        "aire",
+                        "ala",
+                        "amar",
+                        "avión",
+                        "árbol",
+                        "amiga",
+                        "araña",
+                        "amar",
+                        "auto",
+                        "apodo",
+                        "alpaca",
+                        "avellana",
+                        "amparo",
+                        "alumno",
+                        "arena",
+                        "amado",
+                        "ángel",
+                        "anticucho",
+                      ]}
+                    />
+                  );
 
                 case 25:
                   return <h1>Caso 25 activado</h1>;
