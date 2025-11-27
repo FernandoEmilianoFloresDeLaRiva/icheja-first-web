@@ -215,7 +215,8 @@
               "subtitle": "Instrucciones",
               "content": "Toma tu lápiz o crayola roja. Busca todas las letras 'A' y 'a' que aparecen en el dibujo. Cuando encuentres una, dibuja un círculo alrededor de ella. Hazlo con cuidado para que los círculos queden redonditos y bonitos."
             },
-            "img": "C1_S1_E21.png"
+            "img": "C1_S1_E21.png",
+            "case": 24
           },
           {
             "title": "Ejercicio 25",
@@ -223,7 +224,8 @@
               "subtitle": "Instrucciones",
               "content": "Mira cada dibujo y su palabra. Algunas letras se escondieron y necesitan tu ayuda. Escribe las letras que faltan en los espacios vacíos para completar cada palabra. Si no estás seguro, puedes decir la palabra en voz alta para escuchar qué letra falta."
             },
-            "img": "C1_S1_E22.png"
+            "img": "C1_S1_E22.png",
+            "case": 25
           },
           {
             "title": "Ejercicio 26",
@@ -231,7 +233,8 @@
               "subtitle": "Instrucciones",
               "content": "Mira cada dibujo y su palabra. Algunas letras se escondieron y necesitan tu ayuda. Escribe las letras que faltan en los espacios vacíos para completar cada palabra. Si no estás seguro, puedes decir la palabra en voz alta para escuchar qué letra falta."
             },
-            "img": "C1_S1_E23.png"
+            "img": "C1_S1_E23.png",
+            "case": 26
           },
           {
             "title": "Ejercicio 27",
@@ -239,7 +242,8 @@
               "subtitle": "Instrucciones",
               "content": "Mira cada dibujo y su palabra. Algunas letras se escondieron y necesitan tu ayuda. Escribe las letras que faltan en los espacios vacíos para completar cada palabra. Si no estás seguro, puedes decir la palabra en voz alta para escuchar qué letra falta."
             },
-            "img": "C1_S1_E24.png"
+            "img": "C1_S1_E24.png",
+            "case": 27
           }
         ]
       },
@@ -403,10 +407,11 @@
           {
             "title": "Ejercicio 46",
             "content": {
-              "subtitle": "Instrucciones",
-              "content": "Mira todos los dibujos con atención. Busca solo aquellos dibujos que representen cosas que empiecen con el sonido 'O'. Cuando encuentres uno, usa tu lápiz café para dibujar un círculo alrededor de todo el dibujo. Recuerda decir el nombre de cada cosa en voz alta para escuchar si empieza con 'O'."
+              "subtitle": "Encuentra las palabras que empiezan con 'O'",
+              "content": "Mira todas las imágenes con atención. Toca cada imagen para escuchar su nombre. Selecciona solo aquellas imágenes que representen cosas que empiecen con el sonido 'O'. Las respuestas correctas se marcarán en verde y las incorrectas en rojo."
             },
-            "img": "C1_S1_E43.png"
+            "img": "C1_S1_E43.png",
+            "case": 46
           },
           {
             "title": "Ejercicio 47",
@@ -414,7 +419,8 @@
               "subtitle": "Instrucciones",
               "content": "Toma tu lápiz café y busca las letras 'O' y 'o' en el dibujo. Ahora, traza un camino desde cada una de estas letras hasta llegar a la oruga. Sigue el sendero con cuidado para no perderte y di el sonido de la letra mientras haces el recorrido."
             },
-            "img": "C1_S1_E44.png"
+            "img": "C1_S1_E44.png",
+            "case": 47
           },
           {
             "title": "Ejercicio 48",
