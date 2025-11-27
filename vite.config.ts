@@ -68,7 +68,7 @@ export default defineConfig({
           },
           {
             urlPattern: ({ url }) => {
-              const u = url as URL;
+              const u = new URL(url as unknown as string);
               return u.pathname.startsWith("/stub_images/");
             },
 
