@@ -1,4 +1,3 @@
-import { label } from 'framer-motion/client';
 import { useState } from 'react';
 import { useLocation } from 'wouter';
 
