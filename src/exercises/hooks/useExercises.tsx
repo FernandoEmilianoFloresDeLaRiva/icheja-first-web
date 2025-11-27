@@ -1,8 +1,26 @@
 import { useEffect, useState } from "react";
 import exercises from "../../../exercises.json";
 
+
+// USO DE INTERFACES PARA LA DATA DEL JSON
+export interface ExerciseContent {
+  subtitle: string;
+  content: string;
+  audioContent?: string; // ← OPCIONAL
+}
+
+export interface ExerciseItem {
+  title: string;
+  img: string;
+  case?: number;
+  isAudioExercise?: boolean;
+  content: ExerciseContent;
+}
+
+
+
 export const useExercises = (subjectIdx = 0) => {
-  const exerciseList = exercises[0].content[subjectIdx]?.exercise;
+  const exerciseList: ExerciseItem[] = exercises[0].content[subjectIdx]?.exercise;
   const [currentIndex, setCurrentIndex] = useState(0);
   const [exercise, setExercise] = useState(exerciseList[currentIndex]);
   const [isLastExercise, setIsLastExercise] = useState(exerciseList.length <= 1);
@@ -40,5 +58,6 @@ export const useExercises = (subjectIdx = 0) => {
     nextExercise,
     isFirstExercise,
     isLastExercise,
+    currentIndex
   };
 };
