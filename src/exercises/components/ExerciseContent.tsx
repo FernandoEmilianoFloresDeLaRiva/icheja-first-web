@@ -17,7 +17,10 @@ import { parseTitleExercises } from "../utils/parseTitleExercise";
 import DrawingCanvas from "./DrawingCanvas/DrawingCanvas";
 import { useState } from "react";
 import { useSpeech } from "../hooks/useSpeech";
-import DragVowelExercise from './DragVowelExercise/DragVowelExcercise';
+import VowelCarouselGame from "./ExerciseTwentyFour/VowelCarouselGame";
+import DragVowelExercise from "./DragVowelExercise/DragVowelExcercise";
+import LetterSelectionGame from "./Select-letter/SelectLetter";
+import LetterIdentificationGame from "./LetterIdentificationGame/LetterIdentificationGame";
 
 interface ExerciseContentProps {
   unitId: number;
@@ -84,32 +87,32 @@ export default function ExerciseContent({ unitId }: ExerciseContentProps) {
 
           {/* Imagen con canvas de dibujo */}
           <div className="relative bg-[#EEE] shadow-2xs shadow-gray-300 rounded-xl p-8 mb-6 max-h-72 flex justify-center items-center">
-
-             {/*SWICH CASE POR EJERCICIOS COPIADOS DE LA APP MOVIL*/}
+            {/*SWICH CASE POR EJERCICIOS COPIADOS DE LA APP MOVIL*/}
             {(() => {
               const caseNumber = exercise?.case ?? null;
 
               switch (caseNumber) {
                 case 24:
-                  return <h1>Caso 24 activado</h1>;
+                  return <VowelCarouselGame />;
 
                 case 25:
-                 return <div className="w-full h-screen flex items-center justify-center overflow-hidden">
-                        <DragVowelExercise targetVowel="a" wordsPerRound={5} />
-                      </div>
-                  return 
+                  return (
+                    <div className="w-full h-screen flex items-center justify-center overflow-hidden">
+                      <DragVowelExercise targetVowel="a" wordsPerRound={5} />
+                    </div>
+                  );
 
                 case 26:
                   return <LetterIdentificationGame />;
 
                 case 27:
-                  return <LetterSelectionGame></LetterSelectionGame>
+                  return <LetterSelectionGame></LetterSelectionGame>;
 
                 case 46:
                   return <ExerciseSelectImageO />;
 
                 case 47:
-                  return <ExerciseSelectImageU />
+                  return <ExerciseSelectImageU />;
 
                 default:
                   return (

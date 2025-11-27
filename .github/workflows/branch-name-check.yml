@@ -19,7 +19,10 @@ jobs:
               /^feature\/[a-z0-9._-]+$/,
               /^bugfix\/[a-z0-9._-]+$/,
               /^hotfix\/[a-z0-9._-]+$/,
-              /^release\/\d+\.\d+\.\d+$/
+              /^release\/\d+\.\d+\.\d+$/,
+              /^development$/,
+              /^QA$/,
+              /^master$/
             ];
 
             const isAllowed = allowed.some(regex => regex.test(branch));
