@@ -1,6 +1,3 @@
-// LetterBox.tsx
-import React from "react";
-
 interface Props {
   letter: string;
   state: "neutral" | "correct" | "wrong";

@@ -89,34 +89,7 @@ export default function ExerciseContent({ unitId }: ExerciseContentProps) {
               switch (caseNumber) {
                 case 24:
                   return (
-                    <VowelCarouselGame
-                      words={[
-                        "agua",
-                        "ala",
-                        "ama",
-                        "alto",
-                        "avena",
-                        "aroma",
-                        "aire",
-                        "ala",
-                        "amar",
-                        "avión",
-                        "árbol",
-                        "amiga",
-                        "araña",
-                        "amar",
-                        "auto",
-                        "apodo",
-                        "alpaca",
-                        "avellana",
-                        "amparo",
-                        "alumno",
-                        "arena",
-                        "amado",
-                        "ángel",
-                        "anticucho",
-                      ]}
-                    />
+                    <VowelCarouselGame/>
                   );
 
                 case 25:

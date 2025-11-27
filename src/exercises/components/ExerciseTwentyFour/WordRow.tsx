@@ -1,56 +1,66 @@
 import { Volume2 } from "lucide-react";
 import { useSpeech } from "../../hooks/useSpeech";
 
-interface WordCardProps {
+type Props = {
   word: string;
   targetVowel: string;
-  validated: boolean;
-  onValidate: (correct: boolean) => void;
+  selectedCorrectIndices: Set<number>;
+  selectedWrongIndices: Set<number>;
+  onLetterClick: (letterIndex: number, isTarget: boolean) => void;
+};
+
+function normalize(ch: string) {
+  return ch.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
 }
 
 export default function WordCard({
   word,
   targetVowel,
-  validated,
-  onValidate,
-}: WordCardProps) {
+  selectedCorrectIndices,
+  selectedWrongIndices,
+  onLetterClick,
+}: Props) {
   const { speak } = useSpeech();
 
-  const handleLetterClick = (letter: string, index: number) => {
-    const isCorrect = letter.toLowerCase() === targetVowel.toLowerCase();
-    onValidate(isCorrect);
-  };
+  const letters = Array.from(word);
 
   return (
-    <div className="flex flex-col items-center gap-3 p-4 bg-white shadow-md rounded-xl">
+    <div className="flex flex-col items-center gap-4 p-4 bg-white rounded-xl shadow-md min-w-[220px]">
+      {/* fila de letras */}
+      <div className="flex gap-3">
+        {letters.map((letter, idx) => {
+          const isSelectedCorrect = selectedCorrectIndices.has(idx);
+          const isSelectedWrong = selectedWrongIndices.has(idx);
 
-      {/* Fila de letras */}
-      <div className="flex flex-row gap-3">
-        {word.split("").map((letter, i) => (
-          <button
-            key={i}
-            onClick={() => handleLetterClick(letter, i)}
-            className={`
-              w-12 h-12 flex items-center justify-center text-xl font-semibold rounded-md border
-              ${validated
-                ? letter.toLowerCase() === targetVowel
-                  ? "border-green-500 text-green-600"
-                  : "border-red-500 text-red-500"
-                : "border-gray-300"}
-            `}
-          >
-            {letter}
-          </button>
-        ))}
+          // clases visuales
+          const base = "w-14 h-16 rounded-md flex items-center justify-center text-2xl font-semibold border transition";
+          const stateClass = isSelectedCorrect
+            ? "border-green-500 bg-green-50 text-green-700"
+            : isSelectedWrong
+            ? "border-red-500 bg-red-50 text-red-700"
+            : "border-gray-200 bg-white text-black";
+
+          return (
+            <button
+              key={idx}
+              onClick={() => onLetterClick(idx, normalize(letter) === targetVowel.toLowerCase())}
+              className={`${base} ${stateClass}`}
+              aria-label={`Letra ${letter}`}
+            >
+              {letter}
+            </button>
+          );
+        })}
       </div>
 
-      {/* Audio + texto */}
+      {/* audio abajo con texto */}
       <button
         onClick={() => speak(word)}
-        className="flex items-center gap-2 text-teal-700 hover:opacity-80 transition"
+        className="mt-1 flex items-center gap-2 text-teal-700 hover:opacity-90 transition"
+        aria-label={`Escuchar palabra ${word}`}
       >
-        <Volume2 size={20} />
-        <span className="font-medium">Escuchar palabra</span>
+        <Volume2 size={18} />
+        <span className="font-medium text-sm">Escuchar palabra</span>
       </button>
     </div>
   );
