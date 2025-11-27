@@ -67,7 +67,10 @@ export default defineConfig({
             },
           },
           {
-            urlPattern: ({ url }) => url.pathname.startsWith("/stub_images/"),
+            urlPattern: ({ url }) => {
+              const u = url as URL;
+              return u.pathname.startsWith("/stub_images/");
+            },
 
             handler: "StaleWhileRevalidate",
 
