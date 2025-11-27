@@ -15,6 +15,8 @@ import { parseTitleExercises } from "../utils/parseTitleExercise";
 import DrawingCanvas from "./DrawingCanvas/DrawingCanvas";
 import { useState } from "react";
 import { useSpeech } from "../hooks/useSpeech";
+import DragVowelExercise from "./DragVowelExercise/DragVowelExcercise";
+
 
 interface ExerciseContentProps {
   unitId: number;
@@ -91,7 +93,7 @@ export default function ExerciseContent({ unitId }: ExerciseContentProps) {
                   return <h1>Caso 24 activado</h1>;
 
                 case 25:
-                  return <h1>Caso 25 activado</h1>;
+                  return <DragVowelExercise targetVowel="a" wordsPerRound={5} />
 
                 case 26:
                   return <h1>Caso 26 activado</h1>;
