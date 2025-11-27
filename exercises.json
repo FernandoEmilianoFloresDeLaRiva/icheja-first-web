@@ -231,7 +231,7 @@
             "title": "Ejercicio 26",
             "content": {
               "subtitle": "Instrucciones",
-              "content": "Mira cada dibujo y su palabra. Algunas letras se escondieron y necesitan tu ayuda. Escribe las letras que faltan en los espacios vacíos para completar cada palabra. Si no estás seguro, puedes decir la palabra en voz alta para escuchar qué letra falta."
+              "content": "Mira cada letra que aparece en la pantalla. Tu trabajo es identificar cuándo aparezca la vocal 'A' o 'a'. Presiona el botón 'Sí' si ves una A o a, y presiona 'No' si ves cualquier otra letra. ¡Necesitas encontrar 5 vocales A para ganar! Puedes equivocarte las veces que necesites, no te preocupes. ¡Tú puedes!."
             },
             "img": "C1_S1_E23.png",
             "case": 26
@@ -240,7 +240,7 @@
             "title": "Ejercicio 27",
             "content": {
               "subtitle": "Instrucciones",
-              "content": "Mira cada dibujo y su palabra. Algunas letras se escondieron y necesitan tu ayuda. Escribe las letras que faltan en los espacios vacíos para completar cada palabra. Si no estás seguro, puedes decir la palabra en voz alta para escuchar qué letra falta."
+              "content": "Observa bien la imagen y encuentra todas las letras 'a' en la palabra. Toca cada letra 'a' que veas para marcarlas. Si aciertas, se pondrá verde, si te equivocas, se pondrá roja."
             },
             "img": "C1_S1_E24.png",
             "case": 27
@@ -407,8 +407,8 @@
           {
             "title": "Ejercicio 46",
             "content": {
-              "subtitle": "Instrucciones",
-              "content": "Mira todos los dibujos con atención. Busca solo aquellos dibujos que representen cosas que empiecen con el sonido 'O'. Cuando encuentres uno, usa tu lápiz café para dibujar un círculo alrededor de todo el dibujo. Recuerda decir el nombre de cada cosa en voz alta para escuchar si empieza con 'O'."
+              "subtitle": "Encuentra las palabras que empiezan con 'O'",
+              "content": "Mira todas las imágenes con atención. Toca cada imagen para escuchar su nombre. Selecciona solo aquellas imágenes que representen cosas que empiecen con el sonido 'O'. Las respuestas correctas se marcarán en verde y las incorrectas en rojo."
             },
             "img": "C1_S1_E43.png",
             "case": 46
@@ -416,8 +416,8 @@
           {
             "title": "Ejercicio 47",
             "content": {
-              "subtitle": "Instrucciones",
-              "content": "Toma tu lápiz café y busca las letras 'O' y 'o' en el dibujo. Ahora, traza un camino desde cada una de estas letras hasta llegar a la oruga. Sigue el sendero con cuidado para no perderte y di el sonido de la letra mientras haces el recorrido."
+              "subtitle": "Encuentra las palabras que contienen la letra 'U'",
+              "content": "Mira todas las imágenes con atención. Toca cada imagen para escuchar su nombre. Selecciona solo aquellas imágenes que representen cosas que contengan la letra 'U'. Las respuestas correctas se marcarán en verde y las incorrectas en rojo."
             },
             "img": "C1_S1_E44.png",
             "case": 47

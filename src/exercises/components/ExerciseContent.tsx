@@ -5,6 +5,8 @@ import {
   Square,
   Volume2,
 } from "lucide-react";
+import ExerciseSelectImageO from "./ExcerciseSelectImageO/ExerciseSelectImageO";
+import ExerciseSelectImageU from "./ExcerciseSelectImageU/ExcerciseSelectImageU";
 import { theme } from "../../core/config/theme";
 import ExerciseHeader from "./ExerciseHeader/ExerciseHeader";
 import ExerciseInstructions from "./ExerciseInstructions/ExerciseInstructions";
@@ -15,8 +17,7 @@ import { parseTitleExercises } from "../utils/parseTitleExercise";
 import DrawingCanvas from "./DrawingCanvas/DrawingCanvas";
 import { useState } from "react";
 import { useSpeech } from "../hooks/useSpeech";
-import DragVowelExercise from "./DragVowelExercise/DragVowelExcercise";
-
+import DragVowelExercise from './DragVowelExercise/DragVowelExcercise';
 
 interface ExerciseContentProps {
   unitId: number;
@@ -93,19 +94,22 @@ export default function ExerciseContent({ unitId }: ExerciseContentProps) {
                   return <h1>Caso 24 activado</h1>;
 
                 case 25:
-                  return <DragVowelExercise targetVowel="a" wordsPerRound={5} />
+                 return <div className="w-full h-screen flex items-center justify-center overflow-hidden">
+                        <DragVowelExercise targetVowel="a" wordsPerRound={5} />
+                      </div>
+                  return 
 
                 case 26:
-                  return <h1>Caso 26 activado</h1>;
+                  return <LetterIdentificationGame />;
 
                 case 27:
-                  return <h1>Caso 27 activado</h1>;
+                  return <LetterSelectionGame></LetterSelectionGame>
 
                 case 46:
-                  return <h1>Caso 46 activado</h1>;
+                  return <ExerciseSelectImageO />;
 
                 case 47:
-                  return <h1>Caso 47 activado</h1>;
+                  return <ExerciseSelectImageU />
 
                 default:
                   return (
