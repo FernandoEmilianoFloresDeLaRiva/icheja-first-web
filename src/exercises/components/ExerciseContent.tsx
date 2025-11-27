@@ -6,6 +6,7 @@ import {
   Volume2,
 } from "lucide-react";
 import ExerciseSelectImageO from "./ExcerciseSelectImageO/ExerciseSelectImageO";
+import ExerciseSelectImageU from "./ExcerciseSelectImageU/ExcerciseSelectImageU";
 import { theme } from "../../core/config/theme";
 import ExerciseHeader from "./ExerciseHeader/ExerciseHeader";
 import ExerciseInstructions from "./ExerciseInstructions/ExerciseInstructions";
@@ -106,7 +107,7 @@ export default function ExerciseContent({ unitId }: ExerciseContentProps) {
                   return <ExerciseSelectImageO />;
 
                 case 47:
-                  return <h1>Caso 47 activado</h1>;
+                  return <ExerciseSelectImageU />
 
                 default:
                   return (
