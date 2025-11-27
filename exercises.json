@@ -407,8 +407,8 @@
           {
             "title": "Ejercicio 46",
             "content": {
-              "subtitle": "Instrucciones",
-              "content": "Mira todos los dibujos con atención. Busca solo aquellos dibujos que representen cosas que empiecen con el sonido 'O'. Cuando encuentres uno, usa tu lápiz café para dibujar un círculo alrededor de todo el dibujo. Recuerda decir el nombre de cada cosa en voz alta para escuchar si empieza con 'O'."
+              "subtitle": "Encuentra las palabras que empiezan con 'O'",
+              "content": "Mira todas las imágenes con atención. Toca cada imagen para escuchar su nombre. Selecciona solo aquellas imágenes que representen cosas que empiecen con el sonido 'O'. Las respuestas correctas se marcarán en verde y las incorrectas en rojo."
             },
             "img": "C1_S1_E43.png",
             "case": 46
