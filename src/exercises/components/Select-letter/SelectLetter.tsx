@@ -12,7 +12,7 @@ const exerciseOptions = [
     { id: 7, image: "/select-letters/azul.png", label: "azul", targetLetter: "a" },
     { id: 8, image: "/select-letters/avena.png", label: "avena", targetLetter: "a" },
     { id: 9, image: "https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?w=400&h=300&fit=crop", label: "animal", targetLetter: "a" },
-    {id :10, image: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=400&h=300&fit=crop", label: "alejandra", targetLetter: "a   "}
+    {id :10, image: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=400&h=300&fit=crop", label: "alejandra", targetLetter: "a"}
 ];
 
 export default function LetterSelectionGame() {
