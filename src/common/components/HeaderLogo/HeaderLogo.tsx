@@ -4,7 +4,9 @@ import secondaryLogo from "../../../assets/images/secondary-logo.png";
 
 export default function HeaderLogo() {
   return (
-      <Grid container spacing={2} direction={{ xs: 'column', sm: 'row' }}
+      <div data-tour="header">
+      <Grid 
+        container spacing={2} direction={{ xs: 'column', sm: 'row' }}
         sx={{
           justifyContent: "space-between",
           alignItems: "center",
@@ -30,5 +32,6 @@ export default function HeaderLogo() {
           />
         </Grid>
       </Grid>
+      </div>
   );
 }

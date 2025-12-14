@@ -30,6 +30,7 @@ function SideBar() {
   const [isCollapsed, setIsCollapsed] = useState(true);
   return (
     <div
+      data-tour="sidebar"
       className={`fixed left-5 top-4 bottom-4 z-50 text-white transition-all duration-300 ease-in-out  ${
         isCollapsed ? "w-18" : "w-64"
       } flex flex-col shadow-2xl rounded-xl`}

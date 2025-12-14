@@ -19,7 +19,7 @@ export default function ExerciseContent() {
   } = useExercises();
   const { parsedTitle, number } = parseTitleExercises(exercise.title);
   return (
-    <div className="rounded-xl">
+    <div data-tour="content" className="rounded-xl">
       <AnimatePresence mode="wait">
         <motion.div
           key={exercise.title}
