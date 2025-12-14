@@ -2,6 +2,9 @@ export function parseTitleExercises(title: string): {
   parsedTitle: string;
   number: number | null;
 } {
+  if (!title) {
+    return { parsedTitle: "", number: null };
+  }
   const match = title.match(/^(.+?)(?:\s+(\d+))?$/);
 
   if (match) {

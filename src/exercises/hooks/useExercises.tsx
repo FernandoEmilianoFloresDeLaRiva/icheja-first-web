@@ -1,11 +1,29 @@
 import { useEffect, useState } from "react";
 import exercises from "../../../exercises.json";
 
-export const useExercises = () => {
-  const exerciseList = exercises[0].exercise;
-  const [exercise, setExercise] = useState(exerciseList[0]);
+
+// USO DE INTERFACES PARA LA DATA DEL JSON
+export interface ExerciseContent {
+  subtitle: string;
+  content: string;
+  audioContent?: string; // ← OPCIONAL
+}
+
+export interface ExerciseItem {
+  title: string;
+  img: string;
+  case?: number;
+  isAudioExercise?: boolean;
+  content: ExerciseContent;
+}
+
+
+
+export const useExercises = (subjectIdx = 0) => {
+  const exerciseList: ExerciseItem[] = exercises[0].content[subjectIdx]?.exercise;
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [isLastExercise, setIsLastExercise] = useState(false);
+  const [exercise, setExercise] = useState(exerciseList[currentIndex]);
+  const [isLastExercise, setIsLastExercise] = useState(exerciseList.length <= 1);
   const [isFirstExercise, setIsFirstExercise] = useState(true);
 
   useEffect(() => {
@@ -33,12 +51,13 @@ export const useExercises = () => {
   };
 
   return {
-    chapter: exercises[0].chapter,
-    subject: exercises[0].subject,
+    chapter: exercises[0]?.chapter,
+    subject: exercises[0]?.content[subjectIdx]?.subject,
     exercise,
     previousExercise,
     nextExercise,
     isFirstExercise,
     isLastExercise,
+    currentIndex
   };
 };

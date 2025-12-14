@@ -1,19 +1,18 @@
 @import "tailwindcss";
 
 @font-face {
-  font-family: 'Montserrat';
-  src: url('/src/assets/fonts/Montserrat-VariableFont_wght.ttf');
+  font-family: "Montserrat";
+  src: url("/src/assets/fonts/Montserrat-VariableFont_wght.ttf");
   font-weight: normal 500;
   font-style: normal;
 }
 
 body {
   margin: 0;
-  width: 100vw;
   max-width: 100vw;
   min-height: 100vh;
   scroll-behavior: smooth;
-  font-family: 'Montserrat', sans-serif;
+  font-family: "Montserrat", sans-serif;
 }
 
 /* Animaciones globales mejoradas */

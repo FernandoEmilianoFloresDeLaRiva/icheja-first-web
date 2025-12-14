@@ -1,9 +1,11 @@
 import type { ReactNode } from "react";
 import { useState, useEffect } from "react";
 import { useLocation } from "wouter";
+import { AnimatePresence } from "framer-motion";
 import SideBar from "../../components/SideBar/SideBar";
 import HeaderLogo from "../../components/HeaderLogo/HeaderLogo";
 import TourGuiado from "../../components/TourGuiado/TourGuiado";
+import PageTransition from "../PageTransition/PageTransition";
 
 interface AppLayoutProps {
   children: ReactNode;
@@ -68,11 +70,13 @@ function AppLayout({ children }: AppLayoutProps) {
   };
 
   return (
-    <main className="flex max-w-screen h-screen bg-gray-50 py-4 px-5">
+    <main className="flex max-w-screen min-h-screen bg-gray-50 py-4 px-5">
       <SideBar />
       <div className="w-full ml-32 rounded-xl pr-12">
         <HeaderLogo />
-        {children}
+        <AnimatePresence mode="wait">
+          <PageTransition ease="easeInOut">{children}</PageTransition>
+        </AnimatePresence>
       </div>
       <TourGuiado
         isActive={showTour}

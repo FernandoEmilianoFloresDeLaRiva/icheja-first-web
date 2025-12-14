@@ -2,32 +2,27 @@ import { useState } from "react";
 import SideBarIcon from "./SideBarIcon";
 import { theme } from "../../../core/config/theme";
 import logo from "../../../assets/images/logo.png";
-import homeIcon from "../../../assets/images/home.png";
-import bagIcon from "../../../assets/images/bag-icon.png";
-import exerciseIcon from "../../../assets/images/exercise.png";
-import statisticsIcon from "../../../assets/images/statistics.png";
-import userIcon from "../../../assets/images/user-circle.png";
-import settingsIcon from "../../../assets/images/settings.png";
+import { ROUTER_CONFIG } from "../../../core/router/ui/config/router.config";
+import { NavigationItem } from "../../../core/router/domain/entities";
+import { useLocation } from "wouter";
 
 function SideBar() {
-  const navigationItems = [
-    { iconName: "home", label: "Inicio", active: true, icon: homeIcon },
-    { iconName: "user", label: "Perfil", active: false, icon: userIcon },
-    {
-      iconName: "book",
-      label: "Ejercicios",
-      active: false,
-      icon: exerciseIcon,
-    },
-    {
-      iconName: "file",
-      label: "Progreso",
-      active: false,
-      icon: statisticsIcon,
-    },
-    { iconName: "settings", label: "Mochila", active: false, icon: bagIcon },
-  ];
+  const navigationItems = ROUTER_CONFIG.routes.filter(
+    (i) => i instanceof NavigationItem
+  );
   const [isCollapsed, setIsCollapsed] = useState(true);
+  const [_, setLocation] = useLocation();
+
+  const onButtonClick = (
+    e: React.MouseEvent<HTMLButtonElement>,
+    item: NavigationItem
+  ) => {
+    e.preventDefault();
+    navigationItems.map((navItem) => (navItem.isActive = false));
+    item.isActive = true;
+    setLocation(item.path);
+  };
+
   return (
     <div
       data-tour="sidebar"
@@ -57,10 +52,11 @@ function SideBar() {
           <button
             key={index}
             className={`w-full flex items-center space-x-3 p-3 rounded-lg transition-all duration-200 hover:cursor-pointer ${
-              item.active
+              item.isActive
                 ? "bg-white/20 text-white shadow-lg"
                 : "hover:bg-white/10 text-pink-100 hover:text-white"
             }`}
+            onClick={(e) => onButtonClick(e, item)}
           >
             <SideBarIcon
               iconName={item.label}
@@ -71,16 +67,6 @@ function SideBar() {
           </button>
         ))}
       </nav>
-
-      {/* Bottom Section */}
-      <div className="p-4 mb-4 flex items-center justify-center">
-        <SideBarIcon
-          altText="settings"
-          size={20}
-          logoSrc={settingsIcon}
-          isCollapsed={isCollapsed}
-        />
-      </div>
     </div>
   );
 }

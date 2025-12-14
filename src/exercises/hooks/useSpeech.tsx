@@ -1,4 +1,5 @@
 import { useCallback, useState, useEffect } from "react";
+import { useLocation } from "wouter";
 
 interface SpeechOptions {
   lang?: string;
@@ -8,6 +9,7 @@ interface SpeechOptions {
 }
 
 export const useSpeech = () => {
+  const [location] = useLocation();
   const [voices, setVoices] = useState<SpeechSynthesisVoice[]>([]);
   const [isSpeaking, setIsSpeaking] = useState(false);
   const [isPaused, setIsPaused] = useState(false);
@@ -32,6 +34,14 @@ export const useSpeech = () => {
       }
     };
   }, []);
+
+  // Effect to cancel speech when location changes
+  useEffect(() => {
+    // Cancel any ongoing speech when the location changes
+    window.speechSynthesis.cancel();
+    setIsSpeaking(false);
+    setIsPaused(false);
+  }, [location]);
 
   const getSpanishVoice = useCallback(() => {
     // Prioridad: 1. es-MX (mexicano), 2. es-419 (latinoamericano), 3. cualquier es (español)
