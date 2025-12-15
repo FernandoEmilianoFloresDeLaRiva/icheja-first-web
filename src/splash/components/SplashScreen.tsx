@@ -23,6 +23,15 @@ export default function SplashScreen() {
     currentTourStepRef.current = currentTourStep;
   }, [currentTourStep]);
 
+  // Activar el tour automáticamente al cargar la página
+  useEffect(() => {
+    // Activar el tour después de un pequeño delay para que el DOM se renderice
+    const timer = setTimeout(() => {
+      setCurrentTourStep("alfi");
+    }, 1000);
+    return () => clearTimeout(timer);
+  }, []);
+
   const handleStart = (e?: React.MouseEvent<HTMLButtonElement>) => {
     e?.preventDefault();
     e?.stopPropagation();

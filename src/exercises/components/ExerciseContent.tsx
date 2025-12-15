@@ -101,29 +101,32 @@ export default function ExerciseContent({ unitId }: ExerciseContentProps) {
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: -10 }}
           transition={{ duration: 0.3, ease: "easeOut" }}
-          className="flex flex-col h-full"
+          className="flex flex-col h-full min-h-0 overflow-hidden"
         >
           {/* Indicador de progreso - Ultra compacto */}
-          <div data-tour="progress-indicator" className="flex items-center gap-1.5 mb-1 flex-shrink-0">
-            <div className="px-2 py-0.5 bg-gradient-to-r from-[#009887] to-[#00B8A9] text-white rounded-full text-[10px] font-semibold shadow-sm">
+          <div data-tour="progress-indicator" className="flex items-center gap-1.5 mb-1 flex-shrink-0 bg-white rounded-lg p-1.5 shadow-sm border border-gray-200">
+            <div className="px-3 py-1 bg-gradient-to-r from-[#009887] to-[#00B8A9] text-white rounded-lg text-sm font-bold shadow-md min-w-[60px] text-center">
               {exerciseNumber}/{totalExercises}
             </div>
-            <div className="flex-1 max-w-[150px] h-1 bg-gray-200 rounded-full overflow-hidden">
+            <div className="flex-1 max-w-[200px] h-2.5 bg-gray-200 rounded-full overflow-hidden shadow-inner">
               <motion.div
-                className="h-full bg-gradient-to-r from-[#009887] to-[#00B8A9] rounded-full"
+                className="h-full bg-gradient-to-r from-[#009887] to-[#00B8A9] rounded-full shadow-sm"
                 initial={{ width: 0 }}
                 animate={{ width: `${(exerciseNumber / totalExercises) * 100}%` }}
                 transition={{ duration: 0.4, ease: "easeOut" }}
               />
             </div>
+            <span className="text-xs font-semibold text-gray-600 whitespace-nowrap hidden lg:inline">
+              Ejercicio {exerciseNumber} de {totalExercises}
+            </span>
           </div>
 
           {/* Layout principal: Header e Instrucciones a la izquierda, Contenido a la derecha */}
-          <div className="flex-1 grid grid-cols-12 gap-2 min-h-0 overflow-hidden">
+          <div className="flex-1 grid grid-cols-12 gap-1.5 min-h-0 overflow-hidden">
             {/* Columna izquierda: Header e Instrucciones */}
-            <div className="col-span-12 md:col-span-5 flex flex-col gap-1.5 min-h-0">
-              {/* Header del ejercicio - Ultra compacto */}
-              <div data-tour="exercise-header" className="bg-white rounded-lg shadow-sm p-2 border border-gray-100 flex-shrink-0">
+            <div className="col-span-12 md:col-span-5 flex flex-col gap-1 min-h-0">
+              {/* Header del ejercicio - Grande y claro */}
+              <div data-tour="exercise-header" className="bg-white rounded-xl shadow-md p-2 border-2 border-gray-200 flex-shrink-0">
                 <ExerciseHeader
                   chapter={chapter}
                   subject={subject}
@@ -132,18 +135,19 @@ export default function ExerciseContent({ unitId }: ExerciseContentProps) {
                 />
               </div>
 
-              {/* Instrucciones - Ultra compacto */}
-              <div data-tour="exercise-instructions" className="bg-gradient-to-br from-white to-gray-50 rounded-lg shadow-sm p-2 border border-gray-100 flex-1 min-h-0 overflow-y-auto relative">
-                {/* Botón de pantalla completa para audio */}
+              {/* Instrucciones - Grande y clara para accesibilidad */}
+              <div data-tour="exercise-instructions" className="bg-gradient-to-br from-white to-gray-50 rounded-xl shadow-md p-2.5 border-2 border-gray-200 flex-1 min-h-0 overflow-y-auto relative">
+                {/* Botón de pantalla completa para audio - Grande para accesibilidad */}
                 <motion.button
                   data-tour="fullscreen-audio-button"
                   onClick={() => setIsFullscreenAudio(true)}
-                  className="absolute top-1 right-1 p-1.5 bg-gradient-to-br from-[#009887] to-[#00B8A9] text-white rounded-md shadow-sm hover:shadow-md transition-all z-10"
+                  className="absolute top-3 right-3 w-16 h-16 bg-gradient-to-br from-[#009887] to-[#00B8A9] text-white rounded-2xl shadow-xl hover:shadow-2xl transition-all z-10 flex items-center justify-center border-2 border-white"
                   title="Escuchar instrucciones en pantalla completa"
+                  aria-label="Abrir instrucciones en pantalla completa"
                   whileHover={{ scale: 1.1 }}
                   whileTap={{ scale: 0.95 }}
                 >
-                  <Maximize2 size={14} />
+                  <Maximize2 size={28} />
                 </motion.button>
                 <ExerciseInstructions
                   voiceContent={`${exercise?.title}. ${exercise?.content.content}`}
@@ -153,9 +157,9 @@ export default function ExerciseContent({ unitId }: ExerciseContentProps) {
               </div>
             </div>
 
-            {/* Columna derecha: Área de contenido/imagen - Más pequeña */}
+            {/* Columna derecha: Área de contenido/imagen - Misma altura que instrucciones */}
             <div className="col-span-12 md:col-span-7 flex flex-col min-h-0">
-              <div data-tour="exercise-content-area" className="relative bg-gradient-to-br from-gray-50 to-gray-100 shadow-md rounded-lg p-1.5 flex-1 flex justify-center items-center border border-gray-200 min-h-0">
+              <div data-tour="exercise-content-area" className="relative bg-gradient-to-br from-gray-50 to-gray-100 shadow-md rounded-xl p-2 flex-1 flex justify-center items-center border-2 border-gray-200 min-h-0">
             {/*SWICH CASE POR EJERCICIOS COPIADOS DE LA APP MOVIL*/}
             {(() => {
               const caseNumber = exercise?.case ?? null;
@@ -186,48 +190,50 @@ export default function ExerciseContent({ unitId }: ExerciseContentProps) {
                 default:
                   return (
                     <>
-                      {/* Botón de activar dibujo - arriba izquierda */}
+                      {/* Botón de activar dibujo - arriba izquierda - Grande para accesibilidad */}
                       {!exercise?.isAudioExercise && (
                         <motion.button
                           data-tour="drawing-button"
                           onClick={() => setIsDrawingMode(!isDrawingMode)}
-                          className={`absolute top-2 left-2 p-2 rounded-lg transition-all shadow-md z-50 ${
+                          className={`absolute top-4 left-4 w-16 h-16 rounded-2xl transition-all shadow-xl z-50 flex items-center justify-center border-2 ${
                             isDrawingMode
-                              ? "bg-red-500 text-white hover:bg-red-600"
-                              : "bg-white text-gray-700 hover:bg-gray-50 border border-gray-200"
+                              ? "bg-red-500 text-white hover:bg-red-600 border-red-600"
+                              : "bg-white text-gray-700 hover:bg-gray-50 border-gray-400"
                           } hover:cursor-pointer`}
                           style={{ zIndex: 100 }}
                           title={
                             isDrawingMode
-                              ? "Desactivar modo dibujo"
-                              : "Activar modo dibujo"
+                              ? "Desactivar modo dibujo - Toca para dejar de dibujar"
+                              : "Activar modo dibujo - Toca para dibujar"
                           }
+                          aria-label={isDrawingMode ? "Desactivar modo dibujo" : "Activar modo dibujo"}
                           whileHover={{ scale: 1.1 }}
                           whileTap={{ scale: 0.95 }}
                         >
-                          <Edit3 size={18} />
+                          <Edit3 size={32} />
                         </motion.button>
                       )}
 
-                      {/* Botón de pantalla completa para dibujar - abajo derecha */}
+                      {/* Botón de pantalla completa para dibujar - abajo derecha - Grande para accesibilidad */}
                       {!exercise?.isAudioExercise && (
                         <motion.button
                           data-tour="fullscreen-drawing-button"
                           onClick={() => setIsFullscreenDrawing(true)}
-                          className="absolute bottom-2 right-2 p-3 rounded-lg transition-all shadow-lg bg-gradient-to-br from-[#009887] to-[#00B8A9] text-white hover:from-[#008577] hover:to-[#009887] z-50"
-                          title="Dibujar en pantalla completa"
+                          className="absolute bottom-4 right-4 w-18 h-18 rounded-2xl transition-all shadow-2xl bg-gradient-to-br from-[#009887] to-[#00B8A9] text-white hover:from-[#008577] hover:to-[#009887] z-50 flex items-center justify-center border-2 border-white"
+                          title="Dibujar en pantalla completa - Toca para ver más grande"
+                          aria-label="Abrir dibujo en pantalla completa"
                           whileHover={{ scale: 1.1 }}
                           whileTap={{ scale: 0.95 }}
-                          style={{ zIndex: 100 }}
+                          style={{ zIndex: 100, width: '72px', height: '72px' }}
                         >
-                          <Maximize2 size={20} />
+                          <Maximize2 size={36} />
                         </motion.button>
                       )}
 
                       <img
                         src={`/stub_images/${exercise?.img}`}
-                        alt="ejercicio"
-                        className="max-h-[60%] max-w-[80%] w-auto h-auto object-contain rounded-lg"
+                        alt={`Imagen del ejercicio: ${parsedTitle || exercise?.title}`}
+                        className="max-h-[50%] max-w-[75%] w-auto h-auto object-contain rounded-xl shadow-lg"
                       />
 
                       {!exercise?.isAudioExercise ? (
@@ -244,14 +250,20 @@ export default function ExerciseContent({ unitId }: ExerciseContentProps) {
                       ) : (
                         <motion.button
                           onClick={handleSpeakClick}
-                          className="bg-white text-gray-700 hover:bg-gray-50 hover:cursor-pointer absolute top-2 left-2 p-2 rounded-lg transition-all z-50 shadow-md border border-gray-200"
+                          className={`absolute top-4 left-4 w-16 h-16 rounded-2xl transition-all z-50 shadow-xl border-2 flex items-center justify-center ${
+                            isSpeaking
+                              ? "bg-red-500 text-white hover:bg-red-600 border-red-600"
+                              : "bg-white text-[#009887] hover:bg-gray-50 border-gray-400"
+                          } hover:cursor-pointer`}
+                          title={isSpeaking ? "Detener audio - Toca para parar" : "Escuchar instrucciones - Toca para oír"}
+                          aria-label={isSpeaking ? "Detener audio" : "Escuchar instrucciones"}
                           whileHover={{ scale: 1.1 }}
                           whileTap={{ scale: 0.95 }}
                         >
                           {isSpeaking ? (
-                            <Square size={18} className="text-red-500" />
+                            <Square size={32} className="text-white" />
                           ) : (
-                            <Volume2 size={18} className="text-[#009887]" />
+                            <Volume2 size={32} className="text-[#009887]" />
                           )}
                         </motion.button>
                       )}
@@ -262,60 +274,66 @@ export default function ExerciseContent({ unitId }: ExerciseContentProps) {
               </div>
             </div>
           </div>
+
+          {/* Footer con botones de navegación - Extendido por toda la pantalla - Grande para accesibilidad */}
+          <div data-tour="navigation-buttons" className="bg-white rounded-2xl shadow-lg p-2 border-2 border-gray-200 flex-shrink-0 mt-1">
+            <div className="flex items-center justify-between gap-3 flex-wrap">
+              <motion.div 
+                className="flex items-center gap-2 flex-shrink-0"
+                initial={{ opacity: 0, x: -10 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ delay: 0.1 }}
+              >
+                <motion.span 
+                  className="text-2xl md:text-3xl"
+                  animate={{ 
+                    rotate: [0, 10, -10, 0],
+                    scale: [1, 1.1, 1]
+                  }}
+                  transition={{ 
+                    duration: 2,
+                    repeat: Infinity,
+                    repeatDelay: 3
+                  }}
+                >
+                  🎉
+                </motion.span>
+                <span className="font-bold text-base md:text-lg bg-gradient-to-r from-[#C90166] to-[#E91E63] bg-clip-text text-transparent whitespace-nowrap">
+                  ¡Excelente trabajo!
+                </span>
+              </motion.div>
+              <div className="flex items-center gap-2 flex-shrink-0">
+                <motion.button
+                  className="bg-gradient-to-r from-[#009887] to-[#00B8A9] hover:from-[#008577] hover:to-[#009887] disabled:from-gray-300 disabled:to-gray-400 hover:cursor-pointer disabled:cursor-not-allowed text-white px-6 py-3 rounded-2xl font-bold flex items-center justify-center gap-2 transition-all shadow-lg hover:shadow-xl disabled:shadow-none text-base md:text-lg min-w-[120px] md:min-w-[140px] border-2 border-transparent hover:border-white"
+                  disabled={isFirstExercise}
+                  onClick={previousExercise}
+                  title={isFirstExercise ? "No hay ejercicio anterior" : "Ir al ejercicio anterior"}
+                  aria-label="Ejercicio anterior"
+                  whileHover={!isFirstExercise ? { scale: 1.05 } : {}}
+                  whileTap={!isFirstExercise ? { scale: 0.95 } : {}}
+                >
+                  <ChevronLeft size={24} className="md:w-7 md:h-7" />
+                  <span className="hidden sm:inline">Anterior</span>
+                  <span className="sm:hidden">Ant.</span>
+                </motion.button>
+                <motion.button
+                  className="bg-gradient-to-r from-[#009887] to-[#00B8A9] hover:from-[#008577] hover:to-[#009887] disabled:from-gray-300 disabled:to-gray-400 hover:cursor-pointer disabled:cursor-not-allowed text-white px-6 py-3 rounded-2xl font-bold flex items-center justify-center gap-2 transition-all shadow-lg hover:shadow-xl disabled:shadow-none text-base md:text-lg min-w-[120px] md:min-w-[140px] border-2 border-transparent hover:border-white"
+                  disabled={isLastExercise}
+                  onClick={nextExercise}
+                  title={isLastExercise ? "No hay más ejercicios" : "Ir al siguiente ejercicio"}
+                  aria-label="Siguiente ejercicio"
+                  whileHover={!isLastExercise ? { scale: 1.05 } : {}}
+                  whileTap={!isLastExercise ? { scale: 0.95 } : {}}
+                >
+                  <span className="hidden sm:inline">Siguiente</span>
+                  <span className="sm:hidden">Sig.</span>
+                  <ChevronRight size={24} className="md:w-7 md:h-7" />
+                </motion.button>
+              </div>
+            </div>
+          </div>
         </motion.div>
       </AnimatePresence>
-
-      {/* Footer con botones de navegación - Ultra compacto */}
-      <div data-tour="navigation-buttons" className="bg-white rounded-lg shadow-sm p-2 border border-gray-100 mt-1 flex-shrink-0">
-        <div className="flex items-center justify-between gap-2">
-          <motion.div 
-            className="flex items-center gap-1.5 flex-shrink-0"
-            initial={{ opacity: 0, x: -10 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ delay: 0.1 }}
-          >
-            <motion.span 
-              className="text-lg"
-              animate={{ 
-                rotate: [0, 10, -10, 0],
-                scale: [1, 1.1, 1]
-              }}
-              transition={{ 
-                duration: 2,
-                repeat: Infinity,
-                repeatDelay: 3
-              }}
-            >
-              🎉
-            </motion.span>
-            <span className="font-bold text-sm md:text-base bg-gradient-to-r from-[#C90166] to-[#E91E63] bg-clip-text text-transparent whitespace-nowrap">
-              ¡Excelente trabajo!
-            </span>
-          </motion.div>
-          <div className="flex items-center gap-1.5 flex-shrink-0">
-            <motion.button
-              className="bg-gradient-to-r from-[#009887] to-[#00B8A9] hover:from-[#008577] hover:to-[#009887] disabled:from-gray-300 disabled:to-gray-400 hover:cursor-pointer disabled:cursor-not-allowed text-white px-3 py-1.5 rounded-md font-semibold flex items-center justify-center gap-1 transition-all shadow-sm hover:shadow-md disabled:shadow-none text-xs"
-              disabled={isFirstExercise}
-              onClick={previousExercise}
-              whileHover={!isFirstExercise ? { scale: 1.05 } : {}}
-              whileTap={!isFirstExercise ? { scale: 0.95 } : {}}
-            >
-              <ChevronLeft size={16} />
-              <span className="hidden md:inline">Anterior</span>
-            </motion.button>
-            <motion.button
-              className="bg-gradient-to-r from-[#009887] to-[#00B8A9] hover:from-[#008577] hover:to-[#009887] disabled:from-gray-300 disabled:to-gray-400 hover:cursor-pointer disabled:cursor-not-allowed text-white px-3 py-1.5 rounded-md font-semibold flex items-center justify-center gap-1 transition-all shadow-sm hover:shadow-md disabled:shadow-none text-xs"
-              disabled={isLastExercise}
-              onClick={nextExercise}
-              whileHover={!isLastExercise ? { scale: 1.05 } : {}}
-              whileTap={!isLastExercise ? { scale: 0.95 } : {}}
-            >
-              <span className="hidden md:inline">Siguiente</span>
-              <ChevronRight size={16} />
-            </motion.button>
-          </div>
-        </div>
-      </div>
 
       {/* Modal de pantalla completa para dibujo */}
       <AnimatePresence>
@@ -342,14 +360,51 @@ export default function ExerciseContent({ unitId }: ExerciseContentProps) {
               onClick={(e) => e.stopPropagation()}
               className="relative w-full h-full flex items-center justify-center p-4 z-10"
             >
-              {/* Botón de cerrar */}
+              {/* Botón de cerrar - Grande para accesibilidad */}
               <motion.button
                 onClick={() => setIsFullscreenDrawing(false)}
-                className="absolute top-4 right-4 p-3 bg-white bg-opacity-90 hover:bg-opacity-100 text-gray-800 rounded-full transition-all backdrop-blur-sm shadow-lg border border-gray-200 z-20"
+                className="absolute top-4 right-4 w-14 h-14 bg-white bg-opacity-90 hover:bg-opacity-100 text-gray-800 rounded-full transition-all backdrop-blur-sm shadow-xl border-2 border-gray-300 z-20 flex items-center justify-center"
                 whileHover={{ scale: 1.1, rotate: 90 }}
                 whileTap={{ scale: 0.9 }}
               >
-                <X size={24} />
+                <X size={28} />
+              </motion.button>
+
+              {/* Botón grande de audio - para tablets y accesibilidad */}
+              <motion.button
+                onClick={handleSpeakClick}
+                className={`absolute top-4 left-4 w-20 h-20 rounded-full flex items-center justify-center shadow-2xl transition-all z-20 ${
+                  isSpeaking
+                    ? "bg-red-500 hover:bg-red-600 text-white"
+                    : "bg-gradient-to-br from-[#009887] to-[#00B8A9] hover:from-[#008577] hover:to-[#009887] text-white"
+                }`}
+                whileHover={{ scale: 1.1 }}
+                whileTap={{ scale: 0.95 }}
+                initial={{ opacity: 0, scale: 0.8 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ delay: 0.2 }}
+                title={isSpeaking ? "Detener audio" : "Escuchar instrucciones"}
+              >
+                {isSpeaking ? (
+                  <>
+                    <Square size={40} />
+                    {/* Onda de sonido animada */}
+                    <motion.div
+                      className="absolute inset-0 rounded-full border-4 border-red-400"
+                      animate={{
+                        scale: [1, 1.3, 1],
+                        opacity: [0.8, 0, 0.8],
+                      }}
+                      transition={{
+                        duration: 1.5,
+                        repeat: Infinity,
+                        ease: "easeInOut",
+                      }}
+                    />
+                  </>
+                ) : (
+                  <Volume2 size={40} />
+                )}
               </motion.button>
 
               {/* Contenedor del canvas en pantalla completa */}

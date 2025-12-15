@@ -129,12 +129,12 @@ export default function UnitsView() {
             <motion.button
               data-tour="back-button"
               onClick={handleBackClick}
-              className="flex items-center gap-1.5 px-2 py-1 text-white text-xs font-semibold rounded-md shadow-sm hover:shadow-md transition-all duration-200 mb-1 bg-gradient-to-r from-[#009887] to-[#00B8A9] hover:from-[#008577] hover:to-[#009887] flex-shrink-0"
+              className="flex items-center justify-center w-10 h-10 text-white rounded-lg shadow-sm hover:shadow-md transition-all duration-200 mb-1 bg-gradient-to-r from-[#009887] to-[#00B8A9] hover:from-[#008577] hover:to-[#009887] flex-shrink-0"
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
+              title="Volver a unidades"
             >
-              <ArrowLeft size={14} />
-              <span className="hidden sm:inline">Volver</span>
+              <ArrowLeft size={18} />
             </motion.button>
             <div className="flex-1 min-h-0">
               <ExerciseContent unitId={selectedUnitId} />

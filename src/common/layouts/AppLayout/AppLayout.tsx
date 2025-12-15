@@ -29,170 +29,35 @@ function AppLayout({ children }: AppLayoutProps) {
       return;
     }
 
-    // Verificar si hay un parámetro de tour en la URL o en sessionStorage
-    const shouldShowTour = currentUrlParams.get("tour") === "true";
-    
-    // También verificar sessionStorage para tours iniciados desde splash, desde Alfi, o desde unidad 1
-    const tourFromStorage = sessionStorage.getItem("start-tour") === "true";
-    const continueTourExercises = sessionStorage.getItem("continue-tour-exercises") === "true";
-    
-    // Para /welcome, verificar si el tour ya fue completado
-    const tourCompleted = localStorage.getItem("tour-completed");
-    
-    // Determinar si debemos mostrar el tour
-    // Solo se activa si:
-    // 1. Viene del splash (tourFromStorage) - siempre mostrar
-    // 2. Se hace clic en Alfi (tourFromStorage) - siempre mostrar
-    // 3. Se hace clic en unidad 1 durante el tour (continueTourExercises) - siempre mostrar en ejercicios
-    // 4. Hay ?tour=true en la URL - verificar si no está completado
-    // NO se activa automáticamente solo por estar en /welcome
-    let shouldActivateTour = false;
-    let timer: ReturnType<typeof setTimeout> | null = null;
-    
-    if (tourFromStorage || continueTourExercises) {
-      // Tour iniciado desde splash, Alfi, o continuando desde unidad 1: mostrar siempre (ignorar localStorage)
-      shouldActivateTour = true;
-    } else if (shouldShowTour) {
-      // Tour iniciado desde URL: verificar localStorage
-      shouldActivateTour = tourCompleted !== "true";
-    }
-    
-    if (shouldActivateTour) {
-      // Esperar más tiempo para que el DOM se renderice completamente
-      timer = setTimeout(() => {
-        if (tourFromStorage || continueTourExercises) {
-          // Limpiar sessionStorage después de leerlo
-          sessionStorage.removeItem("start-tour");
-          sessionStorage.removeItem("continue-tour-exercises");
-        }
-        setShowTour(true);
-      }, 800);
-    } else {
-      // Si no hay indicador de tour, solo desactivar si el tour no está activo
-      // Esto evita que se desactive el tour si ya está activo y los flags fueron limpiados
-      if (!showTour && !tourFromStorage && !continueTourExercises) {
-        setShowTour(false);
-      }
-    }
-  }, [location]); // Remover showTour de las dependencias para evitar re-ejecuciones innecesarias
-
-  // Separar el listener del evento en un useEffect independiente
-  useEffect(() => {
-    const handleTourStart = () => {
-      // Verificar inmediatamente después del evento
-      // Recalcular la ruta actual porque puede haber cambiado
-      const currentUrlParamsCheck = new URLSearchParams(window.location.search);
-      const currentHasUnitIdCheck = currentUrlParamsCheck.has("unitId");
-      const currentLocationCheck = window.location.pathname;
-      const isWelcomeRouteCheck = currentLocationCheck === "/welcome";
-      const isExerciseRouteCheck = currentLocationCheck === "/exercises" || currentLocationCheck.startsWith("/exercise/") || (currentLocationCheck === "/units" && currentHasUnitIdCheck);
-      
-      if (isWelcomeRouteCheck) {
-        // Pequeño delay para asegurar que sessionStorage se haya actualizado
-        setTimeout(() => {
-          const hasTourFlag = sessionStorage.getItem("start-tour") === "true";
-          if (hasTourFlag) {
-            // Limpiar el flag y activar el tour
-            sessionStorage.removeItem("start-tour");
-            setTimeout(() => {
-              setShowTour(true);
-            }, 800);
-          }
-        }, 50);
-      } else if (isExerciseRouteCheck) {
-        // Si estamos en ejercicios, verificar si hay un flag de continuar tour o si Alfi fue clickeado
-        setTimeout(() => {
-          const hasContinueTour = sessionStorage.getItem("continue-tour-exercises") === "true";
-          const hasTourFlag = sessionStorage.getItem("start-tour") === "true";
-          if (hasContinueTour || hasTourFlag) {
-            // Limpiar los flags y activar el tour
-            sessionStorage.removeItem("continue-tour-exercises");
-            sessionStorage.removeItem("start-tour");
-            setTimeout(() => {
-              setShowTour(true);
-            }, 800);
-          }
-        }, 50);
-      }
-    };
-
-    window.addEventListener("start-tour", handleTourStart);
-    
-    return () => {
-      window.removeEventListener("start-tour", handleTourStart);
-    };
-  }, []); // Este useEffect solo se ejecuta una vez al montar
-
-  // Separar el intervalo en un useEffect independiente
-  useEffect(() => {
-    const interval = setInterval(() => {
-      const hasStartTour = sessionStorage.getItem("start-tour") === "true";
-      const hasContinueTour = sessionStorage.getItem("continue-tour-exercises") === "true";
-      
-      // Recalcular la ruta actual en cada iteración
-      const intervalUrlParams = new URLSearchParams(window.location.search);
-      const intervalHasUnitId = intervalUrlParams.has("unitId");
-      const intervalLocation = window.location.pathname;
-      const intervalIsWelcomeRoute = intervalLocation === "/welcome";
-      const intervalIsExerciseRoute = intervalLocation === "/exercises" || intervalLocation.startsWith("/exercise/") || (intervalLocation === "/units" && intervalHasUnitId);
-      
-      if (hasStartTour && intervalIsWelcomeRoute) {
-        sessionStorage.removeItem("start-tour");
-        setTimeout(() => {
-          setShowTour(true);
-        }, 800);
-      } else if ((hasContinueTour || hasStartTour) && intervalIsExerciseRoute) {
-        // Si viene de continuar el tour desde unidad 1 o si Alfi fue clickeado, activar en ejercicios
-        sessionStorage.removeItem("continue-tour-exercises");
-        sessionStorage.removeItem("start-tour");
-        setTimeout(() => {
-          setShowTour(true);
-        }, 800);
-      }
-    }, 100);
+    // Activar el tour automáticamente según la ruta
+    // Siempre se activa al entrar en /welcome o en rutas de ejercicios
+    const timer = setTimeout(() => {
+      // Limpiar sessionStorage si existe (por si viene de navegación previa)
+      sessionStorage.removeItem("start-tour");
+      sessionStorage.removeItem("continue-tour-exercises");
+      setShowTour(true);
+    }, 800);
 
     return () => {
-      clearInterval(interval);
+      clearTimeout(timer);
     };
-  }, []); // Este useEffect solo se ejecuta una vez al montar
+  }, [location]);
+
 
   const handleTourComplete = () => {
-    // Verificar si el tour debe continuar en ejercicios
-    const continueTourExercises = sessionStorage.getItem("continue-tour-exercises") === "true";
-    const urlParamsForComplete = new URLSearchParams(window.location.search);
-    const hasUnitIdForComplete = urlParamsForComplete.has("unitId");
-    const isExerciseRouteForComplete = location === "/exercises" || location.startsWith("/exercise/") || (location === "/units" && hasUnitIdForComplete);
-    
-    if (continueTourExercises && isExerciseRouteForComplete) {
-      // Si estamos en la página de ejercicios y el tour debe continuar, NO marcar como completado todavía
-      // El tour continuará en esta página - solo limpiar el flag de welcome
-      sessionStorage.removeItem("start-tour");
-      // Mantener continue-tour-exercises para que el tour se active
-      return;
-    }
-    
-    // Si no es el tour de ejercicios, marcar como completado normalmente
-    // Asegurarse de que el tour se marca como completado ANTES de ocultarlo
-    localStorage.setItem("tour-completed", "true");
+    // Simplemente ocultar el tour cuando se completa
     setShowTour(false);
     // Limpiar sessionStorage si existe
     sessionStorage.removeItem("start-tour");
     sessionStorage.removeItem("continue-tour-exercises");
-    // Limpiar parámetros de URL si existen
-    if (window.location.search.includes("tour=true")) {
-      window.history.replaceState({}, "", "/exercises");
-    }
   };
 
   const handleTourSkip = () => {
-    // Asegurarse de que el tour se marca como completado ANTES de ocultarlo
-    localStorage.setItem("tour-completed", "true");
+    // Simplemente ocultar el tour cuando se omite
     setShowTour(false);
     // Limpiar sessionStorage si existe
     sessionStorage.removeItem("start-tour");
-    if (window.location.search.includes("tour=true")) {
-      window.history.replaceState({}, "", "/exercises");
-    }
+    sessionStorage.removeItem("continue-tour-exercises");
   };
 
   return (

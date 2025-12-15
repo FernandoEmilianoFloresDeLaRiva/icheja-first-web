@@ -509,19 +509,10 @@ export default function TourGuiado({ isActive, onComplete, onSkip, currentRoute 
   };
 
   const handleComplete = useCallback(() => {
-    // Si estamos en el paso de unidad 1, NO marcar como completado todavía
-    // Dejar que continúe en la página de ejercicios
-    const step = TOUR_STEPS[currentStep] as TourStep & { audioText?: string };
-    if (step?.id === "unit-1") {
-      // No completar el tour todavía, el clic en unidad 1 ya guardó el flag para continuar
-      // Solo ocultar el tour de welcome, pero NO marcar como completado
-      // El tour continuará en la página de ejercicios
-      return;
-    }
-    // El localStorage se maneja en AppLayout para evitar duplicados
-    // Solo llamar al callback
+    // Simplemente llamar al callback para ocultar el tour
+    // El tour se activará automáticamente al navegar a otras páginas
     onComplete();
-  }, [onComplete, currentStep, TOUR_STEPS]);
+  }, [onComplete]);
 
   const handleSkip = () => {
     // El localStorage se maneja en AppLayout para evitar duplicados
@@ -571,25 +562,8 @@ export default function TourGuiado({ isActive, onComplete, onSkip, currentRoute 
     const step = TOUR_STEPS[currentStep] as TourStep & { audioText?: string };
     if (step?.id !== "unit-1") return;
 
-    const handleUnit1Click = () => {
-      // Activar el tour de ejercicios cuando se hace clic en la unidad 1
-      // NO marcar el tour como completado, solo guardar que debe continuar
-      sessionStorage.setItem("start-tour", "true");
-      sessionStorage.setItem("continue-tour-exercises", "true");
-      // NO llamar a handleComplete aquí - dejar que la navegación maneje el tour
-      // El tour se ocultará automáticamente cuando se navegue, pero se reactivará en la página de ejercicios
-    };
-
-    const unit1 = document.querySelector('[data-tour="unit-1"]');
-    if (unit1) {
-      unit1.addEventListener('click', handleUnit1Click);
-    }
-
-    return () => {
-      if (unit1) {
-        unit1.removeEventListener('click', handleUnit1Click);
-      }
-    };
+    // El tour se activará automáticamente al navegar a la página de ejercicios
+    // No necesitamos hacer nada especial aquí, solo permitir que la navegación ocurra normalmente
   }, [currentStep, isActive, isWelcomeTour, TOUR_STEPS]);
 
   // Escuchar eventos de navegación para los pasos de flechas
