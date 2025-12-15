@@ -4,17 +4,19 @@ import secondaryLogo from "../../../assets/images/secondary-logo.png";
 
 export default function HeaderLogo() {
   return (
-      <Grid container spacing={2} direction={{ xs: 'column', sm: 'row' }}
+      <div data-tour="header">
+      <Grid 
+        container spacing={0.5} direction={{ xs: 'column', sm: 'row' }}
         sx={{
           justifyContent: "space-between",
           alignItems: "center",
-          marginTop: "15px",
-          marginBottom: "75px"
+          marginTop: "2px",
+          marginBottom: "2px"
         }}>
         <Grid size={{ xs: 12, sm: 8, md: 8, lg : 10 }}>
           <img src={divider} 
                alt="Icon divider" 
-               className="h-10" 
+               className="h-4 md:h-5" 
                style={{
                   width: 'auto',
                   minWidth: '60px', 
@@ -30,5 +32,6 @@ export default function HeaderLogo() {
           />
         </Grid>
       </Grid>
+      </div>
   );
 }

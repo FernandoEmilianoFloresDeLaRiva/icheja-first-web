@@ -8,25 +8,32 @@ import exerciseIcon from "../../../../assets/images/exercise.png";
 import homeIcon from "../../../../assets/images/home.png";
 import UnitsView from "../../../../units/views/UnitsView";
 import AppLayout from "../../../../common/layouts/AppLayout/AppLayout";
-import HomeView from "../../../../home/views/HomeView";
 import ResultsView from "../../../../results/views/ResultsView";
 import SettingsPage from "../../../../settings/pages/WelcomePage";
 import WelcomePage from "../../../../welcome/pages/WelcomePage";
+import SplashView from "../../../../splash/views/SplashView";
+import VideoIntroView from "../../../../splash/views/VideoIntroView";
 
 export const ROUTER_CONFIG = {
   routes: [
-    new RouterItem("/", () => <HomeView />),
+    new RouterItem("/", () => <VideoIntroView />),
+    new RouterItem("/splash", () => <SplashView />),
+    new RouterItem("/exercises", () => (
+      <AppLayout>
+        <ExerciseViews />
+      </AppLayout>
+    )),
     new NavigationItem(
       "welcome",
       "Inicio",
-      true,
+      false, // Cambiar a false, se sincronizará con la ruta actual
       homeIcon,
       "/welcome",
       WelcomePage
     ),
     new NavigationItem(
       "units",
-      "Unidades",
+      "Ejercicios",
       false,
       exerciseIcon,
       "/units",
@@ -52,7 +59,11 @@ export const ROUTER_CONFIG = {
       "/settings",
       () => <SettingsPage />
     ),
-    new RouterItem("/exercise/:unitId", ExerciseViews),
+    new RouterItem("/exercise/:unitId", () => (
+      <AppLayout>
+        <ExerciseViews />
+      </AppLayout>
+    )),
     new RouterItem("*", () => <Redirect to="/" />),
   ],
 };
