@@ -20,18 +20,21 @@ export interface ExerciseItem {
 
 
 export const useExercises = (subjectIdx = 0) => {
-  const exerciseList: ExerciseItem[] = exercises[0].content[subjectIdx]?.exercise;
+  // Validar que el índice existe y obtener la lista de ejercicios de forma segura
+  const exerciseList: ExerciseItem[] = exercises[0]?.content?.[subjectIdx]?.exercise || [];
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [exercise, setExercise] = useState(exerciseList[currentIndex]);
+  const [exercise, setExercise] = useState<ExerciseItem | undefined>(exerciseList[currentIndex]);
   const [isLastExercise, setIsLastExercise] = useState(exerciseList.length <= 1);
   const [isFirstExercise, setIsFirstExercise] = useState(true);
 
   useEffect(() => {
-    setExercise(exerciseList[currentIndex]);
+    if (exerciseList && exerciseList.length > 0 && exerciseList[currentIndex]) {
+      setExercise(exerciseList[currentIndex]);
+    }
   }, [currentIndex, exerciseList]);
 
   const nextExercise = () => {
-    if (currentIndex < exerciseList.length - 1) {
+    if (exerciseList && exerciseList.length > 0 && currentIndex < exerciseList.length - 1) {
       setCurrentIndex(currentIndex + 1);
       setIsFirstExercise(false);
       setIsLastExercise(currentIndex + 1 === exerciseList.length - 1);
@@ -41,7 +44,7 @@ export const useExercises = (subjectIdx = 0) => {
   };
 
   const previousExercise = () => {
-    if (currentIndex > 0) {
+    if (exerciseList && exerciseList.length > 0 && currentIndex > 0) {
       setCurrentIndex(currentIndex - 1);
       setIsLastExercise(false);
       setIsFirstExercise(currentIndex - 1 === 0);

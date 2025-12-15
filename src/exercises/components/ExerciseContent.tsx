@@ -27,6 +27,9 @@ interface ExerciseContentProps {
 }
 
 export default function ExerciseContent({ unitId }: ExerciseContentProps) {
+  // Validar que unitId sea un número válido, usar 0 por defecto
+  const validUnitId = unitId !== undefined && !isNaN(unitId) ? unitId : 0;
+  
   const {
     exercise,
     nextExercise,
@@ -36,7 +39,7 @@ export default function ExerciseContent({ unitId }: ExerciseContentProps) {
     chapter,
     subject,
     currentIndex,
-  } = useExercises(unitId);
+  } = useExercises(validUnitId);
   console.log(currentIndex);
 
   const { speak, cancel, isSpeaking } = useSpeech();

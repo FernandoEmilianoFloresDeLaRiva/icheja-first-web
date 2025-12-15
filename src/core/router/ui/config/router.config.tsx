@@ -26,7 +26,7 @@ export const ROUTER_CONFIG = {
     new NavigationItem(
       "welcome",
       "Inicio",
-      true,
+      false, // Cambiar a false, se sincronizará con la ruta actual
       homeIcon,
       "/welcome",
       WelcomePage
@@ -59,7 +59,11 @@ export const ROUTER_CONFIG = {
       "/settings",
       () => <SettingsPage />
     ),
-    new RouterItem("/exercise/:unitId", ExerciseViews),
+    new RouterItem("/exercise/:unitId", () => (
+      <AppLayout>
+        <ExerciseViews />
+      </AppLayout>
+    )),
     new RouterItem("*", () => <Redirect to="/" />),
   ],
 };

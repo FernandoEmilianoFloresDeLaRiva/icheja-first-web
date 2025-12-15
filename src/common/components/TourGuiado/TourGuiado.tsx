@@ -48,6 +48,7 @@ export default function TourGuiado({ isActive, onComplete, onSkip }: TourGuiadoP
   const [elementPosition, setElementPosition] = useState<DOMRect | null>(null);
   const [tooltipPosition, setTooltipPosition] = useState({ top: 0, left: 0 });
   const overlayRef = useRef<HTMLDivElement>(null);
+  const retryCountRef = useRef<number>(0);
 
   useEffect(() => {
     if (!isActive) {
@@ -65,6 +66,7 @@ export default function TourGuiado({ isActive, onComplete, onSkip }: TourGuiadoP
         const rect = element.getBoundingClientRect();
         // Verificar que el elemento tenga dimensiones válidas
         if (rect.width > 0 && rect.height > 0) {
+          retryCountRef.current = 0; // Resetear contador cuando se encuentra el elemento
           setElementPosition(rect);
 
           // Calcular posición del tooltip según la posición especificada
@@ -107,15 +109,29 @@ export default function TourGuiado({ isActive, onComplete, onSkip }: TourGuiadoP
         }
       } else {
         // Si no se encuentra el elemento, intentar de nuevo después de un breve delay
-        console.warn(`Elemento no encontrado: ${step.selector}`);
-        setTimeout(updateElementPosition, 100);
+        // Intentar hasta 10 veces antes de dar por perdido
+        if (retryCountRef.current < 10) {
+          retryCountRef.current += 1;
+          setTimeout(updateElementPosition, 200);
+        } else {
+          console.warn(`Elemento no encontrado después de varios intentos: ${step.selector}`);
+          retryCountRef.current = 0; // Resetear para el siguiente paso
+          // Continuar con el siguiente paso si este elemento no se encuentra
+          if (currentStep < TOUR_STEPS.length - 1) {
+            setTimeout(() => setCurrentStep(currentStep + 1), 500);
+          }
+        }
       }
     };
+    
+    // Resetear contador de reintentos cuando cambia el paso
+    retryCountRef.current = 0;
 
     // Esperar un momento para que el DOM se renderice completamente
-    const timer = setTimeout(updateElementPosition, 200);
-    // También ejecutar inmediatamente
-    updateElementPosition();
+    // Aumentar el delay inicial para dar tiempo a que todos los componentes se rendericen
+    const timer = setTimeout(updateElementPosition, 500);
+    // También ejecutar después de un delay más corto
+    setTimeout(updateElementPosition, 200);
 
     window.addEventListener("resize", updateElementPosition);
     window.addEventListener("scroll", updateElementPosition, true);
@@ -142,16 +158,29 @@ export default function TourGuiado({ isActive, onComplete, onSkip }: TourGuiadoP
   };
 
   const handleComplete = () => {
-    localStorage.setItem("tour-completed", "true");
+    // El localStorage se maneja en AppLayout para evitar duplicados
+    // Solo llamar al callback
     onComplete();
   };
 
   const handleSkip = () => {
-    localStorage.setItem("tour-completed", "true");
+    // El localStorage se maneja en AppLayout para evitar duplicados
+    // Solo llamar al callback
     onSkip();
   };
 
-  if (!isActive) return null;
+  // Resetear el estado cuando el tour se desactiva
+  useEffect(() => {
+    if (!isActive) {
+      setCurrentStep(0);
+      retryCountRef.current = 0;
+      setElementPosition(null);
+    }
+  }, [isActive]);
+
+  if (!isActive) {
+    return null;
+  }
 
   const currentStepData = TOUR_STEPS[currentStep];
   const isFirstStep = currentStep === 0;

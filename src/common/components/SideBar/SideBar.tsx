@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect, useMemo } from "react";
 import SideBarIcon from "./SideBarIcon";
 import { theme } from "../../../core/config/theme";
 import logo from "../../../assets/images/logo.png";
@@ -7,19 +7,38 @@ import { NavigationItem } from "../../../core/router/domain/entities";
 import { useLocation } from "wouter";
 
 function SideBar() {
-  const navigationItems = ROUTER_CONFIG.routes.filter(
-    (i) => i instanceof NavigationItem
+  const navigationItems = useMemo(
+    () => ROUTER_CONFIG.routes.filter((i) => i instanceof NavigationItem),
+    []
   );
   const [isCollapsed, setIsCollapsed] = useState(true);
-  const [_, setLocation] = useLocation();
+  const [location, setLocation] = useLocation();
+  const [, forceUpdate] = useState({});
+
+  // Sincronizar el estado isActive con la ruta actual
+  useEffect(() => {
+    let hasChanges = false;
+    navigationItems.forEach((item) => {
+      // Marcar como activo si la ruta coincide exactamente
+      // También considerar rutas que empiezan con el path (para rutas con parámetros)
+      const isCurrentRoute = location === item.path || location.startsWith(item.path + "/");
+      if (item.isActive !== isCurrentRoute) {
+        item.isActive = isCurrentRoute;
+        hasChanges = true;
+      }
+    });
+    // Forzar re-render solo si hubo cambios
+    if (hasChanges) {
+      forceUpdate({});
+    }
+  }, [location, navigationItems]);
 
   const onButtonClick = (
     e: React.MouseEvent<HTMLButtonElement>,
     item: NavigationItem
   ) => {
     e.preventDefault();
-    navigationItems.map((navItem) => (navItem.isActive = false));
-    item.isActive = true;
+    // No necesitamos actualizar isActive manualmente, el useEffect lo hará
     setLocation(item.path);
   };
 

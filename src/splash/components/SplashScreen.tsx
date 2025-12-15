@@ -12,11 +12,15 @@ export default function SplashScreen() {
   const [isPlaying, setIsPlaying] = useState(false);
   const audioRef = useRef<HTMLAudioElement>(null);
 
-  const handleStart = () => {
+  const handleStart = (e?: React.MouseEvent<HTMLButtonElement>) => {
+    e?.preventDefault();
+    e?.stopPropagation();
     setLocation("/exercises");
   };
 
-  const handleStartTour = () => {
+  const handleStartTour = (e?: React.MouseEvent) => {
+    e?.preventDefault();
+    e?.stopPropagation();
     // Guardar en sessionStorage que se debe iniciar el tour
     sessionStorage.setItem("start-tour", "true");
     setLocation("/exercises");
@@ -192,7 +196,8 @@ export default function SplashScreen() {
 
               {/* Botón Iniciar con animaciones mejoradas */}
               <motion.button
-                onClick={handleStart}
+                onClick={(e) => handleStart(e)}
+                type="button"
                 className="font-semibold text-white whitespace-nowrap flex items-center justify-center relative overflow-hidden"
                 style={{
                   width: "401px",
@@ -284,13 +289,16 @@ export default function SplashScreen() {
                 </AnimatePresence>
 
                 <motion.button
-                  onClick={() => {
+                  onClick={(e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
                     // Doble funcionalidad: reproducir audio Y al hacer clic cuando no está reproduciendo, iniciar tour
                     if (!isPlaying) {
-                      handleStartTour();
+                      handleStartTour(e);
                     }
                     togglePlay();
                   }}
+                  type="button"
                   className="cursor-pointer relative z-10"
                   style={{
                     background: "none",
@@ -343,7 +351,11 @@ export default function SplashScreen() {
                   rotate: { duration: 0.8, delay: 0.6 },
                 }}
                 whileHover={{ scale: 1.05, rotate: 5 }}
-                onClick={handleStartTour}
+                onClick={(e) => {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  handleStartTour(e);
+                }}
               >
                 <img
                   src={alfiImage}
