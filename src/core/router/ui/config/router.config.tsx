@@ -13,10 +13,11 @@ import ResultsView from "../../../../results/views/ResultsView";
 import SettingsPage from "../../../../settings/pages/WelcomePage";
 import WelcomePage from "../../../../welcome/pages/WelcomePage";
 import SplashView from "../../../../splash/views/SplashView";
+import VideoIntroView from "../../../../splash/views/VideoIntroView";
 
 export const ROUTER_CONFIG = {
   routes: [
-    new RouterItem("/", () => <SplashView />),
+    new RouterItem("/", () => <VideoIntroView />),
     new RouterItem("/splash", () => <SplashView />),
     new RouterItem("/exercises", () => (
       <AppLayout>
@@ -33,7 +34,7 @@ export const ROUTER_CONFIG = {
     ),
     new NavigationItem(
       "units",
-      "Unidades",
+      "Ejercicios",
       false,
       exerciseIcon,
       "/units",

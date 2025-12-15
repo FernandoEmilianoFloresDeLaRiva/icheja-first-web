@@ -4,6 +4,9 @@ import {
   Edit3,
   Square,
   Volume2,
+  Maximize2,
+  X,
+  Minimize2,
 } from "lucide-react";
 import ExerciseSelectImageO from "./ExcerciseSelectImageO/ExerciseSelectImageO";
 import ExerciseSelectImageU from "./ExcerciseSelectImageU/ExcerciseSelectImageU";
@@ -15,12 +18,13 @@ import { motion, AnimatePresence } from "framer-motion";
 import Grid from "@mui/material/Grid";
 import { parseTitleExercises } from "../utils/parseTitleExercise";
 import DrawingCanvas from "./DrawingCanvas/DrawingCanvas";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useSpeech } from "../hooks/useSpeech";
 import VowelCarouselGame from "./ExerciseTwentyFour/VowelCarouselGame";
 import DragVowelExercise from "./DragVowelExercise/DragVowelExcercise";
 import LetterSelectionGame from "./Select-letter/SelectLetter";
 import LetterIdentificationGame from "./LetterIdentificationGame/LetterIdentificationGame";
+import exercises from "../../../exercises.json";
 
 interface ExerciseContentProps {
   unitId: number;
@@ -47,6 +51,14 @@ export default function ExerciseContent({ unitId }: ExerciseContentProps) {
   const { parsedTitle, number } = parseTitleExercises(exercise?.title);
 
   const [isDrawingMode, setIsDrawingMode] = useState(false);
+  const [isFullscreenAudio, setIsFullscreenAudio] = useState(false);
+  const [isFullscreenDrawing, setIsFullscreenDrawing] = useState(false);
+
+  // Cerrar modales cuando cambia el ejercicio
+  useEffect(() => {
+    setIsFullscreenAudio(false);
+    setIsFullscreenDrawing(false);
+  }, [exercise?.title]);
 
   const handleSaveDrawing = (imageData: string) => {
     console.log("Dibujo guardado:", imageData);
@@ -56,40 +68,94 @@ export default function ExerciseContent({ unitId }: ExerciseContentProps) {
     if (isSpeaking) {
       cancel();
     } else {
-      speak(exercise?.content?.audioContent ?? "", {
+      const voiceContent = `${exercise?.title}. ${exercise?.content.content}`;
+      speak(voiceContent, {
         lang: "es-MX",
-        rate: 0.5,
+        rate: 0.9,
       });
     }
   };
 
+  const handleFullscreenAudioClick = () => {
+    if (isSpeaking) {
+      cancel();
+    } else {
+      const voiceContent = `${exercise?.title}. ${exercise?.content.content}`;
+      speak(voiceContent, {
+        lang: "es-MX",
+        rate: 0.9,
+      });
+    }
+  };
+
+  // Calcular el total de ejercicios
+  const totalExercises = exercises[0]?.content?.[validUnitId]?.exercise?.length || 0;
+  const exerciseNumber = currentIndex + 1;
+
   return (
-    <div data-tour="content" className="rounded-xl">
+    <div data-tour="content" className="w-full h-full flex flex-col overflow-hidden">
       <AnimatePresence mode="wait">
         <motion.div
           key={exercise?.title}
-          initial={{ opacity: 0, x: 20 }}
-          animate={{ opacity: 1, x: 0 }}
-          exit={{ opacity: 0, x: -20 }}
-          transition={{ duration: 0.3 }}
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: -10 }}
+          transition={{ duration: 0.3, ease: "easeOut" }}
+          className="flex flex-col h-full"
         >
-          {/* Header del ejercicio */}
-          <ExerciseHeader
-            chapter={chapter}
-            subject={subject}
-            title={parsedTitle || ""}
-            number={number}
-          />
+          {/* Indicador de progreso - Ultra compacto */}
+          <div data-tour="progress-indicator" className="flex items-center gap-1.5 mb-1 flex-shrink-0">
+            <div className="px-2 py-0.5 bg-gradient-to-r from-[#009887] to-[#00B8A9] text-white rounded-full text-[10px] font-semibold shadow-sm">
+              {exerciseNumber}/{totalExercises}
+            </div>
+            <div className="flex-1 max-w-[150px] h-1 bg-gray-200 rounded-full overflow-hidden">
+              <motion.div
+                className="h-full bg-gradient-to-r from-[#009887] to-[#00B8A9] rounded-full"
+                initial={{ width: 0 }}
+                animate={{ width: `${(exerciseNumber / totalExercises) * 100}%` }}
+                transition={{ duration: 0.4, ease: "easeOut" }}
+              />
+            </div>
+          </div>
 
-          {/* Instrucciones */}
-          <ExerciseInstructions
-            voiceContent={`${exercise?.title}. ${exercise?.content.content}`}
-            subtitle={exercise?.content.subtitle}
-            content={exercise?.content.content}
-          />
+          {/* Layout principal: Header e Instrucciones a la izquierda, Contenido a la derecha */}
+          <div className="flex-1 grid grid-cols-12 gap-2 min-h-0 overflow-hidden">
+            {/* Columna izquierda: Header e Instrucciones */}
+            <div className="col-span-12 md:col-span-5 flex flex-col gap-1.5 min-h-0">
+              {/* Header del ejercicio - Ultra compacto */}
+              <div data-tour="exercise-header" className="bg-white rounded-lg shadow-sm p-2 border border-gray-100 flex-shrink-0">
+                <ExerciseHeader
+                  chapter={chapter}
+                  subject={subject}
+                  title={parsedTitle || ""}
+                  number={number}
+                />
+              </div>
 
-          {/* Imagen con canvas de dibujo */}
-          <div className="relative bg-[#EEE] shadow-2xs shadow-gray-300 rounded-xl p-8 mb-6 max-h-72 flex justify-center items-center">
+              {/* Instrucciones - Ultra compacto */}
+              <div data-tour="exercise-instructions" className="bg-gradient-to-br from-white to-gray-50 rounded-lg shadow-sm p-2 border border-gray-100 flex-1 min-h-0 overflow-y-auto relative">
+                {/* Botón de pantalla completa para audio */}
+                <motion.button
+                  data-tour="fullscreen-audio-button"
+                  onClick={() => setIsFullscreenAudio(true)}
+                  className="absolute top-1 right-1 p-1.5 bg-gradient-to-br from-[#009887] to-[#00B8A9] text-white rounded-md shadow-sm hover:shadow-md transition-all z-10"
+                  title="Escuchar instrucciones en pantalla completa"
+                  whileHover={{ scale: 1.1 }}
+                  whileTap={{ scale: 0.95 }}
+                >
+                  <Maximize2 size={14} />
+                </motion.button>
+                <ExerciseInstructions
+                  voiceContent={`${exercise?.title}. ${exercise?.content.content}`}
+                  subtitle={exercise?.content.subtitle}
+                  content={exercise?.content.content}
+                />
+              </div>
+            </div>
+
+            {/* Columna derecha: Área de contenido/imagen - Más pequeña */}
+            <div className="col-span-12 md:col-span-7 flex flex-col min-h-0">
+              <div data-tour="exercise-content-area" className="relative bg-gradient-to-br from-gray-50 to-gray-100 shadow-md rounded-lg p-1.5 flex-1 flex justify-center items-center border border-gray-200 min-h-0">
             {/*SWICH CASE POR EJERCICIOS COPIADOS DE LA APP MOVIL*/}
             {(() => {
               const caseNumber = exercise?.case ?? null;
@@ -100,7 +166,7 @@ export default function ExerciseContent({ unitId }: ExerciseContentProps) {
 
                 case 25:
                   return (
-                    <div className="w-full h-screen flex items-center justify-center overflow-hidden">
+                    <div className="w-full h-full flex items-center justify-center overflow-hidden">
                       <DragVowelExercise targetVowel="a" wordsPerRound={5} />
                     </div>
                   );
@@ -120,14 +186,15 @@ export default function ExerciseContent({ unitId }: ExerciseContentProps) {
                 default:
                   return (
                     <>
-                      {/* Botón para activar/desactivar modo dibujo */}
+                      {/* Botón de activar dibujo - arriba izquierda */}
                       {!exercise?.isAudioExercise && (
-                        <button
+                        <motion.button
+                          data-tour="drawing-button"
                           onClick={() => setIsDrawingMode(!isDrawingMode)}
-                          className={`absolute top-2 left-2 p-2 rounded-full transition-all z-50 ${
+                          className={`absolute top-2 left-2 p-2 rounded-lg transition-all shadow-md z-50 ${
                             isDrawingMode
-                              ? "bg-red-500 text-white shadow-lg"
-                              : "bg-white text-gray-600 hover:bg-gray-100"
+                              ? "bg-red-500 text-white hover:bg-red-600"
+                              : "bg-white text-gray-700 hover:bg-gray-50 border border-gray-200"
                           } hover:cursor-pointer`}
                           style={{ zIndex: 100 }}
                           title={
@@ -135,15 +202,32 @@ export default function ExerciseContent({ unitId }: ExerciseContentProps) {
                               ? "Desactivar modo dibujo"
                               : "Activar modo dibujo"
                           }
+                          whileHover={{ scale: 1.1 }}
+                          whileTap={{ scale: 0.95 }}
                         >
-                          <Edit3 size={20} />
-                        </button>
+                          <Edit3 size={18} />
+                        </motion.button>
+                      )}
+
+                      {/* Botón de pantalla completa para dibujar - abajo derecha */}
+                      {!exercise?.isAudioExercise && (
+                        <motion.button
+                          data-tour="fullscreen-drawing-button"
+                          onClick={() => setIsFullscreenDrawing(true)}
+                          className="absolute bottom-2 right-2 p-3 rounded-lg transition-all shadow-lg bg-gradient-to-br from-[#009887] to-[#00B8A9] text-white hover:from-[#008577] hover:to-[#009887] z-50"
+                          title="Dibujar en pantalla completa"
+                          whileHover={{ scale: 1.1 }}
+                          whileTap={{ scale: 0.95 }}
+                          style={{ zIndex: 100 }}
+                        >
+                          <Maximize2 size={20} />
+                        </motion.button>
                       )}
 
                       <img
                         src={`/stub_images/${exercise?.img}`}
                         alt="ejercicio"
-                        className="h-64 w-full object-contain rounded-xl"
+                        className="max-h-[60%] max-w-[80%] w-auto h-auto object-contain rounded-lg"
                       />
 
                       {!exercise?.isAudioExercise ? (
@@ -158,87 +242,255 @@ export default function ExerciseContent({ unitId }: ExerciseContentProps) {
                           onSave={handleSaveDrawing}
                         />
                       ) : (
-                        <button
+                        <motion.button
                           onClick={handleSpeakClick}
-                          className="bg-white text-gray-600 hover:bg-gray-100 hover:cursor-pointer absolute top-2 left-2 p-2 rounded-full transition-all z-50"
+                          className="bg-white text-gray-700 hover:bg-gray-50 hover:cursor-pointer absolute top-2 left-2 p-2 rounded-lg transition-all z-50 shadow-md border border-gray-200"
+                          whileHover={{ scale: 1.1 }}
+                          whileTap={{ scale: 0.95 }}
                         >
                           {isSpeaking ? (
-                            <Square size={24} />
+                            <Square size={18} className="text-red-500" />
                           ) : (
-                            <Volume2 size={24} />
+                            <Volume2 size={18} className="text-[#009887]" />
                           )}
-                        </button>
+                        </motion.button>
                       )}
                     </>
                   );
               }
             })()}
+              </div>
+            </div>
           </div>
         </motion.div>
       </AnimatePresence>
 
-      {/* Footer con botones de navegación */}
-
-      <Grid
-        container
-        spacing={2}
-        direction={{ xs: "column", sm: "row" }}
-        sx={{
-          justifyContent: "space-between",
-          alignItems: "center",
-          marginTop: "15px",
-          marginBottom: "15px",
-        }}
-      >
-        <Grid size={{ xs: 12, sm: 12, md: 6, lg: 6 }}>
-          <div className="flex items-center gap-1">
-            <span className="text-3xl">🎉</span>
-            <span
-              className="font-semibold text-2xl"
-              style={{ color: theme.colors.primary.pink }}
+      {/* Footer con botones de navegación - Ultra compacto */}
+      <div data-tour="navigation-buttons" className="bg-white rounded-lg shadow-sm p-2 border border-gray-100 mt-1 flex-shrink-0">
+        <div className="flex items-center justify-between gap-2">
+          <motion.div 
+            className="flex items-center gap-1.5 flex-shrink-0"
+            initial={{ opacity: 0, x: -10 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ delay: 0.1 }}
+          >
+            <motion.span 
+              className="text-lg"
+              animate={{ 
+                rotate: [0, 10, -10, 0],
+                scale: [1, 1.1, 1]
+              }}
+              transition={{ 
+                duration: 2,
+                repeat: Infinity,
+                repeatDelay: 3
+              }}
             >
-              ¡Estás haciendo un gran trabajo!
+              🎉
+            </motion.span>
+            <span className="font-bold text-sm md:text-base bg-gradient-to-r from-[#C90166] to-[#E91E63] bg-clip-text text-transparent whitespace-nowrap">
+              ¡Excelente trabajo!
             </span>
-          </div>
-        </Grid>
-        <Grid
-          container
-          spacing={2}
-          size={{ xs: 12, sm: 12, md: 6, lg: 6 }}
-          sx={{
-            justifyContent: "end",
-            alignItems: "center",
-            marginTop: "15px",
-            marginBottom: "15px",
-          }}
-        >
-          {/* <Grid size={{ xs: 12, sm: 12, md: 12, lg: 5 }}>
-            <button className="w-full bg-[#C90104] hover:bg-red-600 hover:cursor-pointer text-white px-6 py-2 rounded-2xl font-semibold transition-colors lg:mr-[55px]">
-              Terminar
-            </button>
-          </Grid> */}
-          <Grid size={{ xs: 6, sm: 6, md: 6, lg: 3 }}>
-            <button
-              className="w-full hover:bg-teal-700 hover:cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed text-white px-6 py-2 rounded-2xl font-semibold flex items-center gap-2 transition-colors bg-[#009887]"
+          </motion.div>
+          <div className="flex items-center gap-1.5 flex-shrink-0">
+            <motion.button
+              className="bg-gradient-to-r from-[#009887] to-[#00B8A9] hover:from-[#008577] hover:to-[#009887] disabled:from-gray-300 disabled:to-gray-400 hover:cursor-pointer disabled:cursor-not-allowed text-white px-3 py-1.5 rounded-md font-semibold flex items-center justify-center gap-1 transition-all shadow-sm hover:shadow-md disabled:shadow-none text-xs"
               disabled={isFirstExercise}
               onClick={previousExercise}
+              whileHover={!isFirstExercise ? { scale: 1.05 } : {}}
+              whileTap={!isFirstExercise ? { scale: 0.95 } : {}}
             >
-              <ChevronLeft size={20} />
-              Anterior
-            </button>
-          </Grid>
-          <Grid size={{ xs: 6, sm: 6, md: 6, lg: 3 }}>
-            <button
-              className="w-full hover:bg-teal-700 hover:cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed text-white px-6 py-2 rounded-2xl font-semibold flex items-center gap-2 transition-colors bg-[#009887] justify-end"
+              <ChevronLeft size={16} />
+              <span className="hidden md:inline">Anterior</span>
+            </motion.button>
+            <motion.button
+              className="bg-gradient-to-r from-[#009887] to-[#00B8A9] hover:from-[#008577] hover:to-[#009887] disabled:from-gray-300 disabled:to-gray-400 hover:cursor-pointer disabled:cursor-not-allowed text-white px-3 py-1.5 rounded-md font-semibold flex items-center justify-center gap-1 transition-all shadow-sm hover:shadow-md disabled:shadow-none text-xs"
               disabled={isLastExercise}
               onClick={nextExercise}
+              whileHover={!isLastExercise ? { scale: 1.05 } : {}}
+              whileTap={!isLastExercise ? { scale: 0.95 } : {}}
             >
-              Siguiente
-              <ChevronRight size={20} />
-            </button>
-          </Grid>
-        </Grid>
-      </Grid>
+              <span className="hidden md:inline">Siguiente</span>
+              <ChevronRight size={16} />
+            </motion.button>
+          </div>
+        </div>
+      </div>
+
+      {/* Modal de pantalla completa para dibujo */}
+      <AnimatePresence>
+        {isFullscreenDrawing && (
+          <div className="fixed inset-0 z-[9999] flex items-center justify-center">
+            {/* Backdrop con blur - clickeable para cerrar */}
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              onClick={() => setIsFullscreenDrawing(false)}
+              className="absolute inset-0 backdrop-blur-lg"
+              style={{
+                backgroundColor: 'rgba(0, 0, 0, 0.15)',
+              }}
+            />
+            
+            {/* Contenido del modal - Canvas en pantalla completa */}
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.95 }}
+              transition={{ type: "spring", duration: 0.3 }}
+              onClick={(e) => e.stopPropagation()}
+              className="relative w-full h-full flex items-center justify-center p-4 z-10"
+            >
+              {/* Botón de cerrar */}
+              <motion.button
+                onClick={() => setIsFullscreenDrawing(false)}
+                className="absolute top-4 right-4 p-3 bg-white bg-opacity-90 hover:bg-opacity-100 text-gray-800 rounded-full transition-all backdrop-blur-sm shadow-lg border border-gray-200 z-20"
+                whileHover={{ scale: 1.1, rotate: 90 }}
+                whileTap={{ scale: 0.9 }}
+              >
+                <X size={24} />
+              </motion.button>
+
+              {/* Contenedor del canvas en pantalla completa */}
+              <div className="relative w-full h-full max-w-[95vw] max-h-[95vh] bg-white rounded-xl shadow-2xl border border-gray-200 overflow-visible">
+                <div className="relative w-full h-full overflow-hidden">
+                  <img
+                    src={`/stub_images/${exercise?.img}`}
+                    alt="ejercicio"
+                    className="w-full h-full object-contain"
+                  />
+                  <DrawingCanvas
+                    isActive={true}
+                    backgroundImage={`/stub_images/${exercise?.img}`}
+                    exerciseId={exercise?.title || ""}
+                    exerciseTitle={parsedTitle || ""}
+                    chapter={chapter}
+                    subject={subject}
+                    exerciseNumber={number || undefined}
+                    onSave={handleSaveDrawing}
+                  />
+                </div>
+              </div>
+            </motion.div>
+          </div>
+        )}
+      </AnimatePresence>
+
+      {/* Modal de pantalla completa para audio */}
+      <AnimatePresence>
+        {isFullscreenAudio && (
+          <div className="fixed inset-0 z-[9999] flex items-center justify-center">
+            {/* Backdrop con blur - clickeable para cerrar */}
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              onClick={() => {
+                setIsFullscreenAudio(false);
+                if (isSpeaking) cancel();
+              }}
+              className="absolute inset-0 backdrop-blur-lg"
+              style={{
+                backgroundColor: 'rgba(0, 0, 0, 0.15)',
+              }}
+            />
+            
+            {/* Contenido del modal */}
+            <motion.div
+              initial={{ opacity: 0, scale: 0.8 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.8 }}
+              transition={{ type: "spring", duration: 0.5 }}
+              onClick={(e) => e.stopPropagation()}
+              className="relative flex flex-col items-center justify-center gap-6 p-8 z-10"
+            >
+              {/* Botón de cerrar */}
+              <motion.button
+                onClick={() => {
+                  setIsFullscreenAudio(false);
+                  if (isSpeaking) cancel();
+                }}
+                className="absolute top-4 right-4 p-3 bg-white bg-opacity-90 hover:bg-opacity-100 text-gray-800 rounded-full transition-all backdrop-blur-sm shadow-lg border border-gray-200"
+                whileHover={{ scale: 1.1, rotate: 90 }}
+                whileTap={{ scale: 0.9 }}
+              >
+                <X size={24} />
+              </motion.button>
+
+              {/* Título */}
+              <motion.h2
+                initial={{ y: -20, opacity: 0 }}
+                animate={{ y: 0, opacity: 1 }}
+                transition={{ delay: 0.2 }}
+                className="text-3xl md:text-4xl font-bold text-gray-900 text-center mb-4 drop-shadow-lg"
+              >
+                {exercise?.content.subtitle}
+              </motion.h2>
+
+              {/* Botón de audio grande */}
+              <motion.button
+                onClick={handleFullscreenAudioClick}
+                className={`relative w-32 h-32 md:w-40 md:h-40 rounded-full flex items-center justify-center shadow-2xl transition-all ${
+                  isSpeaking
+                    ? "bg-red-500 hover:bg-red-600"
+                    : "bg-white hover:bg-gray-50"
+                }`}
+                whileHover={{ scale: 1.1 }}
+                whileTap={{ scale: 0.95 }}
+                initial={{ scale: 0 }}
+                animate={{ scale: 1 }}
+                transition={{ type: "spring", delay: 0.3 }}
+              >
+                {isSpeaking ? (
+                  <>
+                    <Square size={64} className="text-red-600" />
+                    {/* Onda de sonido animada */}
+                    <motion.div
+                      className="absolute inset-0 rounded-full border-4 border-red-400"
+                      animate={{
+                        scale: [1, 1.5, 1],
+                        opacity: [0.8, 0, 0.8],
+                      }}
+                      transition={{
+                        duration: 1.5,
+                        repeat: Infinity,
+                        ease: "easeInOut",
+                      }}
+                    />
+                  </>
+                ) : (
+                  <Volume2 size={64} className="text-[#009887]" />
+                )}
+              </motion.button>
+
+              {/* Texto de instrucción */}
+              <motion.p
+                initial={{ y: 20, opacity: 0 }}
+                animate={{ y: 0, opacity: 1 }}
+                transition={{ delay: 0.4 }}
+                className="text-gray-800 text-lg md:text-xl text-center max-w-md px-4 font-semibold drop-shadow-md"
+              >
+                Toca el botón para escuchar las instrucciones
+              </motion.p>
+
+              {/* Instrucción completa (opcional, más pequeña) */}
+              {exercise?.content.content && (
+                <motion.div
+                  initial={{ y: 20, opacity: 0 }}
+                  animate={{ y: 0, opacity: 1 }}
+                  transition={{ delay: 0.5 }}
+                  className="mt-4 p-4 bg-white bg-opacity-95 backdrop-blur-sm rounded-xl max-w-2xl shadow-xl border border-gray-200"
+                >
+                  <p className="text-gray-800 text-sm md:text-base text-center leading-relaxed font-medium">
+                    {exercise.content.content}
+                  </p>
+                </motion.div>
+              )}
+            </motion.div>
+          </div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }

@@ -1,46 +1,98 @@
 import { useLocation } from "wouter";
-import { useState, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { theme } from "../../core/config/theme";
 import alfiImage from "../../assets/images/splash/Alfi.svg";
 import playIcon from "../../assets/images/splash/play.png";
-import alfiAudio from "../../assets/images/splash/play_alfi.mp3";
 import logosImage from "../../assets/images/splash/logos.png";
+import { useSpeech } from "../../exercises/hooks/useSpeech";
+
+type TourStep = "alfi" | "iniciar" | null;
 
 export default function SplashScreen() {
   const [, setLocation] = useLocation();
-  const [isPlaying, setIsPlaying] = useState(false);
-  const audioRef = useRef<HTMLAudioElement>(null);
+  const { speak, cancel, pause, isSpeaking } = useSpeech();
+  const hasInteractedWithAlfiRef = useRef(false);
+  const [currentTourStep, setCurrentTourStep] = useState<TourStep>(null);
+  const currentTourStepRef = useRef<TourStep>(null);
+  const alfiRef = useRef<HTMLDivElement>(null);
+  const iniciarButtonRef = useRef<HTMLButtonElement>(null);
+
+  // Sincronizar el ref con el estado
+  useEffect(() => {
+    currentTourStepRef.current = currentTourStep;
+  }, [currentTourStep]);
 
   const handleStart = (e?: React.MouseEvent<HTMLButtonElement>) => {
     e?.preventDefault();
     e?.stopPropagation();
-    setLocation("/exercises");
+    // Si estamos en el tour del botón iniciar, cerrar el tour y activar el tour completo
+    if (currentTourStep === "iniciar" && hasInteractedWithAlfiRef.current) {
+      setCurrentTourStep(null);
+      // Activar el tour completo cuando el usuario hace click en Iniciar después de escuchar a Alfi
+      handleStartTour();
+      return;
+    }
+    // Si estamos en el tour, cerrarlo
+    if (currentTourStep) {
+      setCurrentTourStep(null);
+    }
+    // El botón "Iniciar" navega normalmente a /welcome
+    setLocation("/welcome");
   };
 
-  const handleStartTour = (e?: React.MouseEvent) => {
-    e?.preventDefault();
-    e?.stopPropagation();
+  const handleStartTour = () => {
     // Guardar en sessionStorage que se debe iniciar el tour
     sessionStorage.setItem("start-tour", "true");
-    setLocation("/exercises");
+    // Navegar a /welcome para mostrar el tour guiado
+    setLocation("/welcome");
   };
 
   const togglePlay = () => {
-    if (audioRef.current) {
-      if (isPlaying) {
-        audioRef.current.pause();
-        setIsPlaying(false);
-      } else {
-        audioRef.current.play();
-        setIsPlaying(true);
-      }
+    if (isSpeaking) {
+      pause();
+      // Si se pausa, no avanzar al siguiente paso
+      return;
+    } else {
+      // Marcar que hubo interacción con Alfi/audio
+      hasInteractedWithAlfiRef.current = true;
+      speak("Hola soy Alfi, te acompañaré en tu proceso de alfabetización", {
+        onEnd: () => {
+          // Cuando el audio termine completamente, avanzar automáticamente al paso 2 (botón Iniciar)
+          if (hasInteractedWithAlfiRef.current) {
+            // Usar función de actualización de estado para acceder al valor más reciente
+            setCurrentTourStep((prevStep) => {
+              if (prevStep === "alfi") {
+                return "iniciar";
+              }
+              return prevStep;
+            });
+          }
+          // NO navegar automáticamente, esperar a que el usuario haga click en "Iniciar"
+        },
+      });
     }
   };
 
-  const handleAudioEnded = () => {
-    setIsPlaying(false);
+  // Limpiar el audio cuando el componente se desmonte
+  useEffect(() => {
+    return () => {
+      cancel();
+    };
+  }, [cancel]);
+
+  // Calcular posición del elemento para el spotlight
+  const getElementPosition = (step: TourStep): DOMRect | null => {
+    if (step === "alfi" && alfiRef.current) {
+      return alfiRef.current.getBoundingClientRect();
+    }
+    if (step === "iniciar" && iniciarButtonRef.current) {
+      return iniciarButtonRef.current.getBoundingClientRect();
+    }
+    return null;
   };
+
+  const elementPosition = currentTourStep ? getElementPosition(currentTourStep) : null;
 
   // Variantes de animación para el contenedor principal
   const containerVariants = {
@@ -86,6 +138,17 @@ export default function SplashScreen() {
       ease: "easeInOut",
     },
   };
+
+  // Calcular spotlight - hacerlo más grande para asegurar que cubra completamente el elemento
+  const spotlightRadius = elementPosition
+    ? Math.max(elementPosition.width, elementPosition.height) / 2 + 50
+    : 0;
+  const spotlightX = elementPosition
+    ? elementPosition.left + elementPosition.width / 2
+    : 0;
+  const spotlightY = elementPosition
+    ? elementPosition.top + elementPosition.height / 2
+    : 0;
 
   return (
     <div className="flex flex-col min-h-screen bg-gradient-to-br from-gray-50 via-pink-50/30 to-gray-50 relative overflow-hidden">
@@ -196,8 +259,14 @@ export default function SplashScreen() {
 
               {/* Botón Iniciar con animaciones mejoradas */}
               <motion.button
-                onClick={(e) => handleStart(e)}
+                ref={iniciarButtonRef}
+                onClick={(e) => {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  handleStart(e);
+                }}
                 type="button"
+                disabled={isSpeaking}
                 className="font-semibold text-white whitespace-nowrap flex items-center justify-center relative overflow-hidden"
                 style={{
                   width: "401px",
@@ -205,23 +274,35 @@ export default function SplashScreen() {
                   borderRadius: "37px",
                   padding: "0 32px",
                   gap: "8px",
-                  backgroundColor: theme.colors.primary.pink,
+                  backgroundColor: isSpeaking
+                    ? theme.colors.primary.pink + "80"
+                    : theme.colors.primary.pink,
                   fontSize: "32px",
                   fontFamily: "Poppins",
                   fontWeight: 600,
                   letterSpacing: "0.5px",
+                  cursor: isSpeaking ? "not-allowed" : "pointer",
+                  opacity: isSpeaking ? 0.6 : 1,
+                  zIndex: currentTourStep === "iniciar" ? 10002 : "auto",
+                  position: currentTourStep === "iniciar" ? "relative" : "static",
+                  isolation: currentTourStep === "iniciar" ? "isolate" : "auto",
+                  pointerEvents: "auto",
                 }}
                 initial={{ opacity: 0, y: 30 }}
-                animate={{ opacity: 1, y: 0 }}
+                animate={{ opacity: isSpeaking ? 0.6 : 1, y: 0 }}
                 transition={{
                   duration: 0.6,
                   delay: 0.5,
                 }}
-                whileHover={{
-                  scale: 1.05,
-                  boxShadow: "0 20px 40px rgba(201, 1, 102, 0.3)",
-                }}
-                whileTap={{ scale: 0.98 }}
+                whileHover={
+                  !isSpeaking
+                    ? {
+                        scale: 1.05,
+                        boxShadow: "0 20px 40px rgba(201, 1, 102, 0.3)",
+                      }
+                    : {}
+                }
+                whileTap={!isSpeaking ? { scale: 0.98 } : {}}
               >
                 {/* Efecto de brillo al hacer hover */}
                 <motion.div
@@ -243,6 +324,8 @@ export default function SplashScreen() {
                 height: "120px",
                 flexShrink: 0,
                 position: "relative",
+                zIndex: currentTourStep === "alfi" ? 10001 : "auto",
+                isolation: currentTourStep === "alfi" ? "isolate" : "auto",
               }}
               initial={{ opacity: 0, scale: 0.8 }}
               animate={{ opacity: 1, scale: 1 }}
@@ -253,7 +336,7 @@ export default function SplashScreen() {
             >
                 {/* Ondas animadas cuando está reproduciendo - Perfectamente centradas */}
                 <AnimatePresence>
-                  {isPlaying &&
+                  {isSpeaking &&
                     [0, 1, 2].map((i) => (
                       <motion.div
                         key={`wave-${i}`}
@@ -292,9 +375,9 @@ export default function SplashScreen() {
                   onClick={(e) => {
                     e.preventDefault();
                     e.stopPropagation();
-                    // Doble funcionalidad: reproducir audio Y al hacer clic cuando no está reproduciendo, iniciar tour
-                    if (!isPlaying) {
-                      handleStartTour(e);
+                    // Iniciar el tour guiado cuando se hace click en el botón de audio
+                    if (!currentTourStep) {
+                      setCurrentTourStep("alfi");
                     }
                     togglePlay();
                   }}
@@ -313,7 +396,7 @@ export default function SplashScreen() {
                   }}
                   whileHover={{ scale: 1.1 }}
                   whileTap={{ scale: 0.95 }}
-                  animate={isPlaying ? pulseAnimation : {}}
+                  animate={isSpeaking ? pulseAnimation : {}}
                 >
                   <img
                     src={playIcon}
@@ -325,23 +408,22 @@ export default function SplashScreen() {
                     }}
                   />
                 </motion.button>
-                <audio
-                  ref={audioRef}
-                  src={alfiAudio}
-                  onEnded={handleAudioEnded}
-                  onPause={() => setIsPlaying(false)}
-                  onPlay={() => setIsPlaying(true)}
-                />
               </motion.div>
 
               {/* Mascota Alfi con animación flotante */}
               <motion.div
-                className="flex justify-center items-center cursor-pointer"
+                ref={alfiRef}
+                className="flex justify-center items-center cursor-pointer relative"
+                style={{
+                  zIndex: currentTourStep === "alfi" ? 10001 : "auto",
+                  position: currentTourStep === "alfi" ? "relative" : "static",
+                  isolation: currentTourStep === "alfi" ? "isolate" : "auto",
+                }}
                 variants={itemVariants}
                 initial={{ opacity: 0, scale: 0.5, rotate: -10 }}
                 animate={{
                   opacity: 1,
-                  scale: 1,
+                  scale: currentTourStep === "alfi" ? 1.1 : 1,
                   rotate: 0,
                   ...floatingAnimation,
                 }}
@@ -354,7 +436,29 @@ export default function SplashScreen() {
                 onClick={(e) => {
                   e.preventDefault();
                   e.stopPropagation();
-                  handleStartTour(e);
+                  // Iniciar el tour guiado cuando se hace click en Alfi
+                  if (!currentTourStep) {
+                    setCurrentTourStep("alfi");
+                  }
+                  // Marcar interacción y reproducir audio
+                  hasInteractedWithAlfiRef.current = true;
+                  if (!isSpeaking) {
+                    speak("Hola soy Alfi, te acompañaré en tu proceso de alfabetización", {
+                      onEnd: () => {
+                        // Cuando el audio termine completamente, avanzar automáticamente al paso 2 (botón Iniciar)
+                        if (hasInteractedWithAlfiRef.current) {
+                          // Usar función de actualización de estado para acceder al valor más reciente
+                          setCurrentTourStep((prevStep) => {
+                            if (prevStep === "alfi") {
+                              return "iniciar";
+                            }
+                            return prevStep;
+                          });
+                        }
+                        // NO navegar automáticamente, esperar a que el usuario haga click en "Iniciar"
+                      },
+                    });
+                  }
                 }}
               >
                 <img
@@ -409,6 +513,168 @@ export default function SplashScreen() {
           overflow: "hidden",
         }}
       />
+
+      {/* Tour Guiado Overlay - Focus inverso: elemento resaltado se ve normal, resto sombreado */}
+      <AnimatePresence>
+        {currentTourStep && (
+          <>
+            {/* Overlay oscuro que cubre todo excepto el elemento resaltado */}
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="fixed inset-0 z-[9997]"
+              style={{ 
+                pointerEvents: "none",
+                backgroundColor: "transparent",
+                mixBlendMode: "normal"
+              }}
+            >
+              {/* SVG con máscara para crear el agujero (spotlight) */}
+              <svg
+                className="absolute inset-0 w-full h-full"
+                style={{ 
+                  pointerEvents: "none",
+                  mixBlendMode: "normal"
+                }}
+              >
+                <defs>
+                  <mask id={`splash-spotlight-mask-${currentTourStep}`}>
+                    {/* Todo el fondo es blanco (visible) */}
+                    <rect width="100%" height="100%" fill="white" />
+                    {/* El círculo del spotlight es negro (transparente/invisible) */}
+                    {elementPosition && spotlightRadius > 0 && (
+                      <circle
+                        cx={spotlightX}
+                        cy={spotlightY}
+                        r={spotlightRadius}
+                        fill="black"
+                      />
+                    )}
+                  </mask>
+                </defs>
+                {/* Rectángulo oscuro que se aplica con la máscara */}
+                <rect
+                  width="100%"
+                  height="100%"
+                  fill="rgba(0, 0, 0, 0.85)"
+                  mask={`url(#splash-spotlight-mask-${currentTourStep})`}
+                  style={{ mixBlendMode: "normal" }}
+                />
+              </svg>
+            </motion.div>
+
+            {/* Tooltip con instrucciones */}
+            {elementPosition && (
+              <motion.div
+                key={currentTourStep}
+                initial={{ opacity: 0, scale: 0.9, y: 20 }}
+                animate={{ opacity: 1, scale: 1, y: 0 }}
+                exit={{ opacity: 0, scale: 0.9, y: -20 }}
+                className="fixed z-[9999]"
+                style={{
+                  pointerEvents: "auto",
+                  top:
+                    currentTourStep === "alfi"
+                      ? `${elementPosition.top + elementPosition.height + 30}px`
+                      : `${elementPosition.bottom + 30}px`,
+                  left:
+                    currentTourStep === "alfi"
+                      ? `${elementPosition.left + elementPosition.width / 2}px`
+                      : `${elementPosition.left + elementPosition.width / 2}px`,
+                  transform: "translateX(-50%)",
+                  maxWidth: "400px",
+                  minWidth: "320px",
+                }}
+              >
+                <div
+                  className="bg-white rounded-2xl shadow-2xl p-6 relative"
+                  style={{
+                    boxShadow: "0 20px 60px rgba(0, 0, 0, 0.3)",
+                  }}
+                >
+                  {/* Indicador de paso */}
+                  <div className="flex items-center justify-between mb-4">
+                    <div className="flex items-center gap-2">
+                      <div
+                        className="w-8 h-8 rounded-full flex items-center justify-center text-white font-semibold text-sm"
+                        style={{ backgroundColor: theme.colors.primary.pink }}
+                      >
+                        {currentTourStep === "alfi" ? 1 : 2}
+                      </div>
+                      <span className="text-sm text-gray-500 font-medium">
+                        {currentTourStep === "alfi" ? "1 de 2" : "2 de 2"}
+                      </span>
+                    </div>
+                    <button
+                      onClick={() => setCurrentTourStep(null)}
+                      className="text-gray-400 hover:text-gray-600 transition-colors text-xl font-bold"
+                      aria-label="Cerrar tour"
+                    >
+                      ×
+                    </button>
+                  </div>
+
+                  {/* Título y descripción */}
+                  <h3
+                    className="text-2xl font-bold mb-3"
+                    style={{ color: theme.colors.primary.pink }}
+                  >
+                    {currentTourStep === "alfi"
+                      ? "¡Hola! Soy Alfi"
+                      : "Botón Iniciar"}
+                  </h3>
+                  <p className="text-gray-700 text-base leading-relaxed mb-6">
+                    {currentTourStep === "alfi"
+                      ? "Haz clic en mí o en el botón de audio para escuchar mi presentación. Te guiaré en tu proceso de alfabetización."
+                      : "Presiona este botón para comenzar tu aprendizaje. Si ya escuchaste a Alfi, verás un tour guiado de la aplicación."}
+                  </p>
+
+                  {/* Botón de acción */}
+                  <div className="flex justify-end">
+                    <button
+                      onClick={() => {
+                        if (currentTourStep === "alfi") {
+                          setCurrentTourStep("iniciar");
+                        } else {
+                          setCurrentTourStep(null);
+                        }
+                      }}
+                      className="px-6 py-2.5 rounded-lg font-semibold text-white transition-all hover:opacity-90"
+                      style={{ backgroundColor: theme.colors.primary.pink }}
+                    >
+                      {currentTourStep === "alfi" ? "Siguiente" : "Entendido"}
+                    </button>
+                  </div>
+
+                  {/* Flecha apuntando al elemento */}
+                  <motion.div
+                    className="absolute"
+                    style={{
+                      top: currentTourStep === "alfi" ? "-10px" : "-10px",
+                      left: "50%",
+                      transform: "translateX(-50%)",
+                    }}
+                    initial={{ scale: 0 }}
+                    animate={{ scale: 1 }}
+                    transition={{ delay: 0.2 }}
+                  >
+                    <div
+                      className="w-0 h-0"
+                      style={{
+                        borderLeft: "10px solid transparent",
+                        borderRight: "10px solid transparent",
+                        borderBottom: "10px solid white",
+                        borderTop: "none",
+                      }}
+                    />
+                  </motion.div>
+                </div>
+              </motion.div>
+            )}
+          </>
+        )}
+      </AnimatePresence>
     </div>
   );
 }
