@@ -6,16 +6,13 @@ import {
   Volume2,
   Maximize2,
   X,
-  Minimize2,
 } from "lucide-react";
 import ExerciseSelectImageO from "./ExcerciseSelectImageO/ExerciseSelectImageO";
 import ExerciseSelectImageU from "./ExcerciseSelectImageU/ExcerciseSelectImageU";
-import { theme } from "../../core/config/theme";
 import ExerciseHeader from "./ExerciseHeader/ExerciseHeader";
 import ExerciseInstructions from "./ExerciseInstructions/ExerciseInstructions";
 import { useExercises } from "../hooks/useExercises";
 import { motion, AnimatePresence } from "framer-motion";
-import Grid from "@mui/material/Grid";
 import { parseTitleExercises } from "../utils/parseTitleExercise";
 import DrawingCanvas from "./DrawingCanvas/DrawingCanvas";
 import { useState, useEffect } from "react";
@@ -48,7 +45,7 @@ export default function ExerciseContent({ unitId }: ExerciseContentProps) {
 
   const { speak, cancel, isSpeaking } = useSpeech();
 
-  const { parsedTitle, number } = parseTitleExercises(exercise?.title);
+  const { parsedTitle, number } = parseTitleExercises(exercise?.title || "");
 
   const [isDrawingMode, setIsDrawingMode] = useState(false);
   const [isFullscreenAudio, setIsFullscreenAudio] = useState(false);
@@ -150,9 +147,9 @@ export default function ExerciseContent({ unitId }: ExerciseContentProps) {
                   <Maximize2 size={28} />
                 </motion.button>
                 <ExerciseInstructions
-                  voiceContent={`${exercise?.title}. ${exercise?.content.content}`}
-                  subtitle={exercise?.content.subtitle}
-                  content={exercise?.content.content}
+                  voiceContent={`${exercise?.title || ""}. ${exercise?.content?.content || ""}`}
+                  subtitle={exercise?.content?.subtitle || ""}
+                  content={exercise?.content?.content || ""}
                 />
               </div>
             </div>

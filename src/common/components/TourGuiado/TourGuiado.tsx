@@ -151,7 +151,7 @@ export default function TourGuiado({ isActive, onComplete, onSkip, currentRoute 
   const urlParams = new URLSearchParams(window.location.search);
   const hasUnitId = urlParams.has("unitId");
   const isWelcomeTour = currentRoute === "/welcome";
-  const isExerciseTour = currentRoute === "/units" || currentRoute.startsWith("/exercise") || (currentRoute === "/units" && hasUnitId);
+  const isExerciseTour = currentRoute === "/units" || (currentRoute?.startsWith("/exercise") ?? false) || (currentRoute === "/units" && hasUnitId);
 
   // Construir los pasos del tour dinámicamente según si hay más de 6 unidades
   const TOUR_STEPS = useMemo(() => {

@@ -75,7 +75,7 @@ function AppLayout({ children }: AppLayoutProps) {
         isActive={showTour}
         onComplete={handleTourComplete}
         onSkip={handleTourSkip}
-        currentRoute={location}
+        currentRoute={location || ""}
       />
     </main>
   );

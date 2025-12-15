@@ -8,7 +8,6 @@ import exerciseIcon from "../../../../assets/images/exercise.png";
 import homeIcon from "../../../../assets/images/home.png";
 import UnitsView from "../../../../units/views/UnitsView";
 import AppLayout from "../../../../common/layouts/AppLayout/AppLayout";
-import HomeView from "../../../../home/views/HomeView";
 import ResultsView from "../../../../results/views/ResultsView";
 import SettingsPage from "../../../../settings/pages/WelcomePage";
 import WelcomePage from "../../../../welcome/pages/WelcomePage";
