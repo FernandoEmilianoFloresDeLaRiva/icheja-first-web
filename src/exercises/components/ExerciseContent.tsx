@@ -47,7 +47,6 @@ export default function ExerciseContent({ unitId }: ExerciseContentProps) {
 
   const { parsedTitle, number } = parseTitleExercises(exercise?.title || "");
 
-  const [isDrawingMode, setIsDrawingMode] = useState(false);
   const [isFullscreenAudio, setIsFullscreenAudio] = useState(false);
   const [isFullscreenDrawing, setIsFullscreenDrawing] = useState(false);
 
@@ -187,43 +186,19 @@ export default function ExerciseContent({ unitId }: ExerciseContentProps) {
                 default:
                   return (
                     <>
-                      {/* Botón de activar dibujo - arriba izquierda - Grande para accesibilidad */}
-                      {!exercise?.isAudioExercise && (
-                        <motion.button
-                          data-tour="drawing-button"
-                          onClick={() => setIsDrawingMode(!isDrawingMode)}
-                          className={`absolute top-4 left-4 w-16 h-16 rounded-2xl transition-all shadow-xl z-50 flex items-center justify-center border-2 ${
-                            isDrawingMode
-                              ? "bg-red-500 text-white hover:bg-red-600 border-red-600"
-                              : "bg-white text-gray-700 hover:bg-gray-50 border-gray-400"
-                          } hover:cursor-pointer`}
-                          style={{ zIndex: 100 }}
-                          title={
-                            isDrawingMode
-                              ? "Desactivar modo dibujo - Toca para dejar de dibujar"
-                              : "Activar modo dibujo - Toca para dibujar"
-                          }
-                          aria-label={isDrawingMode ? "Desactivar modo dibujo" : "Activar modo dibujo"}
-                          whileHover={{ scale: 1.1 }}
-                          whileTap={{ scale: 0.95 }}
-                        >
-                          <Edit3 size={32} />
-                        </motion.button>
-                      )}
-
-                      {/* Botón de pantalla completa para dibujar - abajo derecha - Grande para accesibilidad */}
+                      {/* Botón para abrir dibujo en pantalla completa - arriba derecha */}
                       {!exercise?.isAudioExercise && (
                         <motion.button
                           data-tour="fullscreen-drawing-button"
                           onClick={() => setIsFullscreenDrawing(true)}
-                          className="absolute bottom-4 right-4 w-18 h-18 rounded-2xl transition-all shadow-2xl bg-gradient-to-br from-[#009887] to-[#00B8A9] text-white hover:from-[#008577] hover:to-[#009887] z-50 flex items-center justify-center border-2 border-white"
+                          className="absolute top-4 right-4 w-16 h-16 rounded-2xl transition-all shadow-2xl bg-gradient-to-br from-[#009887] to-[#00B8A9] text-white hover:from-[#008577] hover:to-[#009887] z-50 flex items-center justify-center border-2 border-white"
                           title="Dibujar en pantalla completa - Toca para ver más grande"
                           aria-label="Abrir dibujo en pantalla completa"
                           whileHover={{ scale: 1.1 }}
                           whileTap={{ scale: 0.95 }}
-                          style={{ zIndex: 100, width: '72px', height: '72px' }}
+                          style={{ zIndex: 100, width: '64px', height: '64px' }}
                         >
-                          <Maximize2 size={36} />
+                          <Edit3 size={32} />
                         </motion.button>
                       )}
 
@@ -233,18 +208,7 @@ export default function ExerciseContent({ unitId }: ExerciseContentProps) {
                         className="max-h-[50%] max-w-[75%] w-auto h-auto object-contain rounded-xl shadow-lg"
                       />
 
-                      {!exercise?.isAudioExercise ? (
-                        <DrawingCanvas
-                          isActive={isDrawingMode}
-                          backgroundImage={`/stub_images/${exercise?.img}`}
-                          exerciseId={exercise?.title || ""}
-                          exerciseTitle={parsedTitle || ""}
-                          chapter={chapter}
-                          subject={subject}
-                          exerciseNumber={number || undefined}
-                          onSave={handleSaveDrawing}
-                        />
-                      ) : (
+                      {exercise?.isAudioExercise && (
                         <motion.button
                           onClick={handleSpeakClick}
                           className={`absolute top-4 left-4 w-16 h-16 rounded-2xl transition-all z-50 shadow-xl border-2 flex items-center justify-center ${
@@ -273,7 +237,7 @@ export default function ExerciseContent({ unitId }: ExerciseContentProps) {
           </div>
 
           {/* Footer con botones de navegación - Extendido por toda la pantalla - Grande para accesibilidad */}
-          <div data-tour="navigation-buttons" className="bg-white rounded-2xl shadow-lg p-2 border-2 border-gray-200 flex-shrink-0 mt-1">
+          <div className="bg-white rounded-2xl shadow-lg p-2 border-2 border-gray-200 flex-shrink-0 mt-1">
             <div className="flex items-center justify-between gap-3 flex-wrap">
               <motion.div 
                 className="flex items-center gap-2 flex-shrink-0"
@@ -301,6 +265,7 @@ export default function ExerciseContent({ unitId }: ExerciseContentProps) {
               </motion.div>
               <div className="flex items-center gap-2 flex-shrink-0">
                 <motion.button
+                  data-tour="nav-previous-button"
                   className="bg-gradient-to-r from-[#009887] to-[#00B8A9] hover:from-[#008577] hover:to-[#009887] disabled:from-gray-300 disabled:to-gray-400 hover:cursor-pointer disabled:cursor-not-allowed text-white px-6 py-3 rounded-2xl font-bold flex items-center justify-center gap-2 transition-all shadow-lg hover:shadow-xl disabled:shadow-none text-base md:text-lg min-w-[120px] md:min-w-[140px] border-2 border-transparent hover:border-white"
                   disabled={isFirstExercise}
                   onClick={previousExercise}
@@ -314,6 +279,7 @@ export default function ExerciseContent({ unitId }: ExerciseContentProps) {
                   <span className="sm:hidden">Ant.</span>
                 </motion.button>
                 <motion.button
+                  data-tour="nav-next-button"
                   className="bg-gradient-to-r from-[#009887] to-[#00B8A9] hover:from-[#008577] hover:to-[#009887] disabled:from-gray-300 disabled:to-gray-400 hover:cursor-pointer disabled:cursor-not-allowed text-white px-6 py-3 rounded-2xl font-bold flex items-center justify-center gap-2 transition-all shadow-lg hover:shadow-xl disabled:shadow-none text-base md:text-lg min-w-[120px] md:min-w-[140px] border-2 border-transparent hover:border-white"
                   disabled={isLastExercise}
                   onClick={nextExercise}
