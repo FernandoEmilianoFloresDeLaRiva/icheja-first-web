@@ -24,25 +24,31 @@ export default function ExerciseInstructions({
   }, [voiceContent, speak, cancel, isSpeaking]);
 
   return (
-    <div className="mb-4">
-      <h3 className="text-3xl font-bold text-gray-900 mb-4 flex items-center gap-2">
-        <span className="text-2xl">
-          <NotebookText size={32} />
-        </span>{" "}
-        {subtitle}
-      </h3>
-      <div className="text-gray-900 leading-6 space-y-2 text-balance">
-        <div className="flex items-start gap-2">
-          <button
-            onClick={handleSpeakClick}
-            className="flex items-center justify-center text-sm font-normal bg-[#009887] hover:bg-[#009887]/70 hover:cursor-pointer text-white px-3 py-1.5 rounded-lg transition-colors"
-            aria-label={isSpeaking ? "Detener audio" : "Escuchar instrucciones"}
-            title={isSpeaking ? "Detener audio" : "Escuchar instrucciones"}
-          >
-            {isSpeaking ? <Square size={24} /> : <Volume2 size={24} />}
-          </button>
-          <p className="font-medium pt-1 flex-1">{content}</p>
+    <div className="flex flex-col h-full min-h-0">
+      <div className="flex items-center gap-3 mb-3 flex-shrink-0">
+        <div className="p-3 bg-gradient-to-br from-[#009887] to-[#00B8A9] rounded-xl shadow-lg">
+          <NotebookText size={24} className="text-white" />
         </div>
+        <h3 className="text-lg md:text-xl font-bold text-gray-900">
+          {subtitle}
+        </h3>
+      </div>
+      <div className="flex items-start gap-4 flex-1 min-h-0 overflow-y-auto">
+        <button
+          onClick={handleSpeakClick}
+          className={`flex-shrink-0 flex items-center justify-center w-16 h-16 rounded-2xl transition-all shadow-xl hover:shadow-2xl border-2 ${
+            isSpeaking
+              ? "bg-red-500 hover:bg-red-600 text-white border-red-600"
+              : "bg-gradient-to-br from-[#009887] to-[#00B8A9] hover:from-[#008577] hover:to-[#009887] text-white border-white"
+          }`}
+          aria-label={isSpeaking ? "Detener audio - Toca para parar" : "Escuchar instrucciones - Toca para oír"}
+          title={isSpeaking ? "Detener audio - Toca para parar" : "Escuchar instrucciones - Toca para oír"}
+        >
+          {isSpeaking ? <Square size={28} /> : <Volume2 size={28} />}
+        </button>
+        <p className="text-gray-900 font-semibold text-base md:text-lg leading-relaxed flex-1">
+          {content}
+        </p>
       </div>
     </div>
   );

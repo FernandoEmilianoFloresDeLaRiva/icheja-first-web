@@ -1,24 +1,64 @@
-import AppLayout from "../../common/layouts/AppLayout/AppLayout";
+import UnitsView from "../../units/views/UnitsView";
+import { motion } from "framer-motion";
+import AlfiImg from "../../assets/images/alfi.png";
+
+// Animación flotante para Alfi
+const floatingAnimation = {
+  y: [0, -15, 0],
+  transition: {
+    duration: 3,
+    repeat: Infinity,
+    ease: "easeInOut",
+  },
+};
 
 export default function WelcomePage() {
+  const handleAlfiClick = () => {
+    // Activar el tour guardando en sessionStorage
+    sessionStorage.setItem("start-tour", "true");
+    // Disparar evento personalizado para que AppLayout lo detecte
+    // Usar un pequeño delay para asegurar que sessionStorage se actualice primero
+    setTimeout(() => {
+      window.dispatchEvent(new CustomEvent("start-tour"));
+    }, 10);
+  };
+
   return (
-    <AppLayout>
-      <div className="w-full flex justify-center">
-        <div className="relative bg-gradient-to-r from-pink-400 via-pink-500 to-rose-500 p-6 rounded-3xl shadow-2xl">
-          <div className="relative rounded-2xl overflow-hidden bg-black shadow-xl">
-            <iframe
-              width="570"
-              height="315"
-              src="https://www.youtube.com/embed/kX77h7EpPOk?si=xZuBT82EbpyRCN3z"
-              title="Presentación de AprendIA"
-              frameBorder="0"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-              referrerPolicy="strict-origin-when-cross-origin"
-              allowFullScreen
-            ></iframe>
-          </div>
-        </div>
-      </div>
-    </AppLayout>
+    <>
+      {/* Alfi arriba a la derecha - siempre visible */}
+      <motion.div
+        data-tour="alfi"
+        className="fixed cursor-pointer"
+        style={{
+          width: "120px",
+          height: "120px",
+          top: "120px",
+          right: "24px",
+          zIndex: 10002,
+          position: "fixed",
+        }}
+        initial={{ opacity: 0, scale: 0.5, rotate: -10 }}
+        animate={{
+          opacity: 1,
+          scale: 1,
+          rotate: 0,
+          ...floatingAnimation,
+        }}
+        transition={{
+          opacity: { duration: 0.8 },
+          scale: { duration: 0.8 },
+          rotate: { duration: 0.8 },
+        }}
+        whileHover={{ scale: 1.1, rotate: 5 }}
+        onClick={handleAlfiClick}
+      >
+        <img
+          src={AlfiImg}
+          alt="Alfi - Asistente virtual"
+          className="w-full h-full object-contain"
+        />
+      </motion.div>
+      <UnitsView />
+    </>
   );
 }
