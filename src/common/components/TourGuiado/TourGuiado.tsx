@@ -3,6 +3,31 @@ import { motion, AnimatePresence } from "framer-motion";
 import { theme } from "../../../core/config/theme";
 import { useSpeech } from "../../../exercises/hooks/useSpeech";
 
+// Función auxiliar para calcular dimensiones responsivas según viewport
+function getResponsiveDimensions() {
+  const viewportWidth = window.innerWidth;
+  const viewportHeight = window.innerHeight;
+  
+  // Detectar si está en landscape (ancho > alto)
+  const isLandscape = viewportWidth > viewportHeight;
+  
+  // Calcular tamaños dinámicos basados en viewport
+  // Para tablets landscape: tooltip más flexible
+  let tooltipWidth = Math.min(400, viewportWidth * 0.35);
+  let tooltipHeight = Math.min(280, viewportHeight * 0.6);
+  let tooltipOffset = Math.max(15, Math.min(30, viewportWidth * 0.02));
+  let padding = Math.max(10, Math.min(20, viewportWidth * 0.03));
+  
+  // Ajustes adicionales para landscape (menos altura, más ancho)
+  if (isLandscape && viewportHeight < 600) {
+    tooltipHeight = Math.min(240, viewportHeight * 0.5);
+    tooltipOffset = Math.max(12, tooltipOffset);
+    padding = Math.max(8, padding);
+  }
+  
+  return { tooltipWidth, tooltipHeight, tooltipOffset, padding, isLandscape };
+}
+
 interface TourStep {
   id: string;
   title: string;
@@ -105,8 +130,8 @@ const EXERCISE_TOUR_STEPS: (TourStep & { audioText?: string })[] = [
     title: "Navegación",
     description:
       "Usa estos botones para ir al ejercicio anterior o siguiente. El botón se desactiva cuando estás en el primer o último ejercicio.",
-    selector: '[data-tour="navigation-buttons"]',
-    position: "center",
+    selector: '[data-tour="nav-previous-button"], [data-tour="nav-next-button"]',
+    position: "top",
     audioText: "Usa estos botones para ir al ejercicio anterior o siguiente. El botón se desactiva cuando estás en el primer o último ejercicio.",
   },
 ];
@@ -137,6 +162,7 @@ export default function TourGuiado({ isActive, onComplete, onSkip, currentRoute 
   const [currentStep, setCurrentStep] = useState(0);
   const [elementPosition, setElementPosition] = useState<DOMRect | null>(null);
   const [tooltipPosition, setTooltipPosition] = useState({ top: 0, left: 0 });
+  const [tooltipDimensions, setTooltipDimensions] = useState(getResponsiveDimensions());
   const overlayRef = useRef<HTMLDivElement>(null);
   const retryCountRef = useRef<number>(0);
   const { speak, cancel, isSpeaking } = useSpeech();
@@ -145,6 +171,24 @@ export default function TourGuiado({ isActive, onComplete, onSkip, currentRoute 
   const [hasMoreThan6Units, setHasMoreThan6Units] = useState(false);
   const [hasNavigatedRight, setHasNavigatedRight] = useState(false);
   const [hasNavigatedLeft, setHasNavigatedLeft] = useState(false);
+
+  // Listener para cambios de orientación y resize para actualizar dimensiones responsivas
+  useEffect(() => {
+    const handleOrientationChange = () => {
+      // Retrasar el cálculo para que el navegador termine de cambiar las dimensiones
+      setTimeout(() => {
+        setTooltipDimensions(getResponsiveDimensions());
+      }, 100);
+    };
+
+    window.addEventListener('orientationchange', handleOrientationChange);
+    window.addEventListener('resize', handleOrientationChange);
+
+    return () => {
+      window.removeEventListener('orientationchange', handleOrientationChange);
+      window.removeEventListener('resize', handleOrientationChange);
+    };
+  }, []);
 
   // Determinar si es el tour de welcome o de ejercicios
   // Verificar también los query params para detectar /units?unitId=X
@@ -271,10 +315,7 @@ export default function TourGuiado({ isActive, onComplete, onSkip, currentRoute 
               retryCountRef.current = 0;
               setElementPosition(rect);
               // Calcular posición del tooltip con validación de límites
-              const tooltipOffset = 30;
-              const tooltipWidth = 400;
-              const tooltipHeight = 280;
-              const padding = 20;
+              const { tooltipOffset, tooltipWidth, tooltipHeight, padding } = tooltipDimensions;
               const viewportWidth = window.innerWidth;
               const viewportHeight = window.innerHeight;
               
@@ -359,110 +400,141 @@ export default function TourGuiado({ isActive, onComplete, onSkip, currentRoute 
       }
 
       // Intentar encontrar el elemento con un pequeño retraso para asegurar que el DOM esté listo
-      const element = document.querySelector(step.selector);
-      if (element) {
-        const rect = element.getBoundingClientRect();
-        // Verificar que el elemento tenga dimensiones válidas
-        if (rect.width > 0 && rect.height > 0) {
-          retryCountRef.current = 0; // Resetear contador cuando se encuentra el elemento
-          setElementPosition(rect);
-
-          // Calcular posición del tooltip según la posición especificada
-          const tooltipOffset = 30;
-          const tooltipWidth = 400;
-          const tooltipHeight = 280; // Aumentado para acomodar botones
-          const padding = 20; // Padding mínimo desde los bordes
-          const viewportWidth = window.innerWidth;
-          const viewportHeight = window.innerHeight;
+      // Soportar múltiples selectores (ej: '[data-tour="btn1"], [data-tour="btn2"]') para abarcar ambos
+      let rect: DOMRect;
+      
+      if (step.selector.includes(',')) {
+        // Si hay múltiples selectores, encontrar todos y calcular bounding box combinado
+        const selectors = step.selector.split(',').map(s => s.trim());
+        const elements = selectors.map(sel => document.querySelector(sel)).filter(el => el !== null) as Element[];
+        
+        if (elements.length > 0) {
+          const rects = elements.map(el => el.getBoundingClientRect());
+          // Calcular bounding box que abarque todos los elementos
+          const minTop = Math.min(...rects.map(r => r.top));
+          const minLeft = Math.min(...rects.map(r => r.left));
+          const maxBottom = Math.max(...rects.map(r => r.bottom));
+          const maxRight = Math.max(...rects.map(r => r.right));
           
-          let top = 0;
-          let left = 0;
-
-          switch (step.position) {
-            case "top":
-              top = Math.max(padding, rect.top - tooltipHeight - tooltipOffset);
-              left = rect.left + rect.width / 2;
-              // Asegurar que no se salga por la izquierda
-              left = Math.max(padding + tooltipWidth / 2, left);
-              // Asegurar que no se salga por la derecha
-              left = Math.min(viewportWidth - tooltipWidth / 2 - padding, left);
-              break;
-            case "bottom":
-              top = rect.bottom + tooltipOffset;
-              // Si se sale por abajo, ponerlo arriba del elemento
-              if (top + tooltipHeight > viewportHeight - padding) {
-                top = Math.max(padding, rect.top - tooltipHeight - tooltipOffset);
-              }
-              left = rect.left + rect.width / 2;
-              // Asegurar que no se salga por los lados
-              left = Math.max(padding + tooltipWidth / 2, left);
-              left = Math.min(viewportWidth - tooltipWidth / 2 - padding, left);
-              break;
-            case "left":
-              top = rect.top + rect.height / 2;
-              left = Math.max(padding, rect.left - tooltipWidth - tooltipOffset);
-              // Si se sale por la izquierda, ponerlo a la derecha
-              if (left < padding) {
-                left = Math.min(viewportWidth - tooltipWidth - padding, rect.right + tooltipOffset);
-              }
-              // Asegurar que no se salga por arriba/abajo
-              if (top - tooltipHeight / 2 < padding) {
-                top = padding + tooltipHeight / 2;
-              }
-              if (top + tooltipHeight / 2 > viewportHeight - padding) {
-                top = viewportHeight - tooltipHeight / 2 - padding;
-              }
-              break;
-            case "right":
-              top = rect.top + rect.height / 2;
-              left = Math.min(
-                viewportWidth - tooltipWidth - padding,
-                rect.right + tooltipOffset
-              );
-              // Si se sale por la derecha, ponerlo a la izquierda
-              if (left + tooltipWidth > viewportWidth - padding) {
-                left = Math.max(padding, rect.left - tooltipWidth - tooltipOffset);
-              }
-              // Asegurar que no se salga por arriba/abajo
-              if (top - tooltipHeight / 2 < padding) {
-                top = padding + tooltipHeight / 2;
-              }
-              if (top + tooltipHeight / 2 > viewportHeight - padding) {
-                top = viewportHeight - tooltipHeight / 2 - padding;
-              }
-              break;
-            case "center":
-              // Para el paso de navegación, colocar el tooltip en la parte inferior central
-              // pero asegurar que quede dentro de la pantalla
-              top = Math.min(
-                viewportHeight - tooltipHeight - padding,
-                Math.max(padding, viewportHeight - 300)
-              );
-              left = Math.max(
-                padding + tooltipWidth / 2,
-                Math.min(viewportWidth - tooltipWidth / 2 - padding, viewportWidth / 2)
-              );
-              break;
-          }
-
-          setTooltipPosition({ top, left });
+          rect = {
+            top: minTop,
+            left: minLeft,
+            bottom: maxBottom,
+            right: maxRight,
+            width: maxRight - minLeft,
+            height: maxBottom - minTop,
+            x: minLeft,
+            y: minTop,
+            toJSON: () => ({})
+          } as DOMRect;
         } else {
-          // Si no tiene dimensiones, intentar de nuevo en el siguiente frame
-          requestAnimationFrame(updateElementPosition);
+          // Si no se encuentran elementos, intentar de nuevo
+          const maxRetries = 20;
+          if (retryCountRef.current < maxRetries) {
+            retryCountRef.current += 1;
+            setTimeout(updateElementPosition, 200);
+          }
+          return;
         }
       } else {
-        // Si no se encuentra el elemento, intentar de nuevo después de un breve delay
-        // Para el grid de unidades, intentar más veces ya que puede tardar en aparecer
-        const maxRetries = step.id === "units-grid" ? 20 : 10;
-        if (retryCountRef.current < maxRetries) {
-          retryCountRef.current += 1;
-          setTimeout(updateElementPosition, 200);
-        } else {
-          console.warn(`Elemento no encontrado después de varios intentos: ${step.selector}`);
-          retryCountRef.current = 0; // Resetear para el siguiente paso
-          // NO avanzar automáticamente - esperar a que el usuario avance manualmente o que el audio termine
-          // Esto evita que se salten pasos
+        // Si es un único selector, usar querySelector normalmente
+        const element = document.querySelector(step.selector);
+        if (!element) {
+          // Si no se encuentra, intentar de nuevo
+          const maxRetries = 20;
+          if (retryCountRef.current < maxRetries) {
+            retryCountRef.current += 1;
+            setTimeout(updateElementPosition, 200);
+          }
+          return;
         }
+        rect = element.getBoundingClientRect();
+      }
+      
+      // Verificar que el elemento tenga dimensiones válidas
+      if (rect.width > 0 && rect.height > 0) {
+        retryCountRef.current = 0; // Resetear contador cuando se encuentra el elemento
+        setElementPosition(rect);
+
+        // Calcular posición del tooltip según la posición especificada
+        const { tooltipOffset, tooltipWidth, tooltipHeight, padding } = tooltipDimensions;
+        const viewportWidth = window.innerWidth;
+        const viewportHeight = window.innerHeight;
+        
+        let top = 0;
+        let left = 0;
+
+        switch (step.position) {
+          case "top":
+            top = Math.max(padding, rect.top - tooltipHeight - tooltipOffset);
+            left = rect.left + rect.width / 2;
+            // Asegurar que no se salga por la izquierda
+            left = Math.max(padding + tooltipWidth / 2, left);
+            // Asegurar que no se salga por la derecha
+            left = Math.min(viewportWidth - tooltipWidth / 2 - padding, left);
+            break;
+          case "bottom":
+            top = rect.bottom + tooltipOffset;
+            // Si se sale por abajo, ponerlo arriba del elemento
+            if (top + tooltipHeight > viewportHeight - padding) {
+              top = Math.max(padding, rect.top - tooltipHeight - tooltipOffset);
+            }
+            left = rect.left + rect.width / 2;
+            // Asegurar que no se salga por los lados
+            left = Math.max(padding + tooltipWidth / 2, left);
+            left = Math.min(viewportWidth - tooltipWidth / 2 - padding, left);
+            break;
+          case "left":
+            top = rect.top + rect.height / 2;
+            left = Math.max(padding, rect.left - tooltipWidth - tooltipOffset);
+            // Si se sale por la izquierda, ponerlo a la derecha
+            if (left < padding) {
+              left = Math.min(viewportWidth - tooltipWidth - padding, rect.right + tooltipOffset);
+            }
+            // Asegurar que no se salga por arriba/abajo
+            if (top - tooltipHeight / 2 < padding) {
+              top = padding + tooltipHeight / 2;
+            }
+            if (top + tooltipHeight / 2 > viewportHeight - padding) {
+              top = viewportHeight - tooltipHeight / 2 - padding;
+            }
+            break;
+          case "right":
+            top = rect.top + rect.height / 2;
+            left = Math.min(
+              viewportWidth - tooltipWidth - padding,
+              rect.right + tooltipOffset
+            );
+            // Si se sale por la derecha, ponerlo a la izquierda
+            if (left + tooltipWidth > viewportWidth - padding) {
+              left = Math.max(padding, rect.left - tooltipWidth - tooltipOffset);
+            }
+            // Asegurar que no se salga por arriba/abajo
+            if (top - tooltipHeight / 2 < padding) {
+              top = padding + tooltipHeight / 2;
+            }
+            if (top + tooltipHeight / 2 > viewportHeight - padding) {
+              top = viewportHeight - tooltipHeight / 2 - padding;
+            }
+            break;
+          case "center":
+            // Para el paso de navegación, colocar el tooltip en la parte inferior central
+            // pero asegurar que quede dentro de la pantalla
+            top = Math.min(
+              viewportHeight - tooltipHeight - padding,
+              Math.max(padding, viewportHeight - 300)
+            );
+            left = Math.max(
+              padding + tooltipWidth / 2,
+              Math.min(viewportWidth - tooltipWidth / 2 - padding, viewportWidth / 2)
+            );
+            break;
+        }
+
+        setTooltipPosition({ top, left });
+      } else {
+        // Si no tiene dimensiones, intentar de nuevo en el siguiente frame
+        requestAnimationFrame(updateElementPosition);
       }
     };
     
@@ -488,7 +560,7 @@ export default function TourGuiado({ isActive, onComplete, onSkip, currentRoute 
       window.removeEventListener("resize", updateElementPosition);
       window.removeEventListener("scroll", updateElementPosition, true);
     };
-  }, [currentStep, isActive]);
+  }, [currentStep, isActive, tooltipDimensions]);
 
   const handleNext = () => {
     // Cancelar el audio si está reproduciéndose
@@ -814,8 +886,8 @@ export default function TourGuiado({ isActive, onComplete, onSkip, currentRoute 
                 currentStepData.position === "right"
                   ? "translateY(-50%)"
                   : "translateX(-50%)",
-              maxWidth: "400px",
-              minWidth: "320px",
+              maxWidth: `${Math.min(400, tooltipDimensions.tooltipWidth + 40)}px`,
+              minWidth: "280px",
               maxHeight: "calc(100vh - 40px)", // Asegurar que no se salga de la pantalla
             }}
           >
