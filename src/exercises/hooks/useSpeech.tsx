@@ -6,6 +6,7 @@ interface SpeechOptions {
   rate?: number;
   pitch?: number;
   volume?: number;
+  onEnd?: () => void;
 }
 
 export const useSpeech = () => {
@@ -83,7 +84,12 @@ export const useSpeech = () => {
       }
 
       utterance.onstart = () => setIsSpeaking(true);
-      utterance.onend = () => setIsSpeaking(false);
+      utterance.onend = () => {
+        setIsSpeaking(false);
+        if (options.onEnd) {
+          options.onEnd();
+        }
+      };
       utterance.onpause = () => setIsPaused(true);
       utterance.onresume = () => setIsPaused(false);
 
